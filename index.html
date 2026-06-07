@@ -808,7 +808,7 @@ body {
   border-radius: 20px;
   padding: 40px 36px;
   box-shadow: var(--sh-lg), 0 0 0 1px rgba(255,255,255,.06);
-  text-align: left;
+  text-align: center;
 }
 .preco-tag-lancamento {
   display: inline-flex;
@@ -826,11 +826,34 @@ body {
   margin-bottom: 16px;
 }
 .preco-de-card {
-  font-size: 17px;
-  color: var(--text3);
-  text-decoration: line-through;
-  margin-bottom: 4px;
-  font-weight: 300;
+  font-size: 18px;
+  color: #6B7280;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: inline-block;
+  text-decoration: none;
+  background-image: linear-gradient(var(--red), var(--red));
+  background-size: 100% 2px;
+  background-position: 0 60%;
+  background-repeat: no-repeat;
+}
+/* badge de desconto ao lado do preço riscado */
+.preco-de-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.preco-off-badge {
+  background: var(--red);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 5px;
+  padding: 3px 8px;
+  letter-spacing: .04em;
+  white-space: nowrap;
 }
 .preco-por-card {
   font-family: 'Plus Jakarta Sans', sans-serif;
@@ -839,13 +862,13 @@ body {
   color: var(--text);
   line-height: 1;
   letter-spacing: -.04em;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 .preco-por-card sup { font-size: 26px; vertical-align: super; }
 .preco-por-card span { font-size: 18px; font-weight: 400; color: var(--text2); }
 .preco-dia { font-size: 12.5px; color: var(--green); font-weight: 500; margin-bottom: 24px; }
-.preco-div { height: 1px; background: var(--border); margin: 24px 0; }
-.preco-inclui { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.preco-div { height: 1px; background: #D1D9E6; margin: 24px 0; }
+.preco-inclui { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; text-align: left; }
 .preco-inclui li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--text2); font-weight: 300; line-height: 1.5; }
 .preco-inclui .chk { color: var(--green); font-size: 14px; font-weight: 600; flex-shrink: 0; margin-top: 1px; }
 
@@ -1604,7 +1627,10 @@ body {
 
       <div class="preco-card">
         <div class="preco-tag-lancamento"><i class="ti ti-bolt" style="font-size:12px;"></i> Lançamento · 50% off</div>
-        <div class="preco-de-card">De R$ 397/ano</div>
+        <div class="preco-de-wrap">
+          <div class="preco-de-card">De R$ 397/ano</div>
+          <div class="preco-off-badge">−50%</div>
+        </div>
         <div class="preco-por-card"><sup>R$</sup>197<span>/ano</span></div>
         <div class="preco-dia">= R$ 0,54 por dia. Menos que um café.</div>
         <div class="preco-div"></div>
