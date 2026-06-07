@@ -113,7 +113,7 @@ body {
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 9px 18px;
+  padding: 9px 16px;
   font-size: 13px;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
@@ -124,6 +124,7 @@ body {
   gap: 5px;
   transition: background .15s, transform .1s;
   letter-spacing: -.1px;
+  white-space: nowrap;
 }
 .btn-header:hover { background: var(--blue-h); transform: translateY(-1px); }
 
@@ -748,19 +749,21 @@ body {
   border: 1px solid var(--border);
   box-shadow: var(--sh-md);
 }
-.comp-table { width: 100%; border-collapse: collapse; background: var(--surface); }
+.comp-table { width: 100%; border-collapse: collapse; background: var(--surface); table-layout: fixed; }
 .comp-table th {
-  padding: 14px 20px; text-align: center;
+  padding: 14px 12px; text-align: center;
   font-size: 12.5px; font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700; letter-spacing: -.1px;
+  width: 28%;
 }
-.comp-table th:first-child { text-align: left; background: var(--bg); color: var(--text2); }
+.comp-table th:first-child { text-align: left; background: var(--bg); color: var(--text2); width: 44%; }
 .th-simpp { background: var(--blue); color: #fff; }
 .th-outros { background: var(--bg); color: var(--text2); }
 .comp-table td {
-  padding: 12px 20px; font-size: 13.5px; color: var(--text2);
+  padding: 12px 12px; font-size: 13px; color: var(--text2);
   border-top: 1px solid var(--border);
   text-align: center; font-weight: 300;
+  word-break: keep-all;
 }
 .comp-table td:first-child { text-align: left; color: var(--text); }
 .td-simpp { background: rgba(79,110,247,.04); }
@@ -843,24 +846,25 @@ body {
 .preco-dia { font-size: 12.5px; color: var(--green); font-weight: 500; margin-bottom: 24px; }
 .preco-div { height: 1px; background: var(--border); margin: 24px 0; }
 .preco-inclui { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-.preco-inclui li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text2); font-weight: 300; }
-.preco-inclui .chk { color: var(--green); font-size: 14px; font-weight: 600; flex-shrink: 0; }
+.preco-inclui li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--text2); font-weight: 300; line-height: 1.5; }
+.preco-inclui .chk { color: var(--green); font-size: 14px; font-weight: 600; flex-shrink: 0; margin-top: 1px; }
 
 .btn-cta-preco {
   display: block; width: 100%;
   background: var(--blue);
   color: #fff; border: none;
   border-radius: 10px;
-  padding: 16px;
-  font-size: 15px;
+  padding: 16px 12px;
+  font-size: 14.5px;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
   text-align: center;
-  letter-spacing: -.1px;
+  letter-spacing: -.2px;
   transition: background .15s, transform .15s;
   margin-bottom: 12px;
+  line-height: 1.3;
 }
 .btn-cta-preco:hover { background: var(--blue-h); transform: translateY(-1px); }
 .preco-garantia { font-size: 11.5px; color: var(--text3); text-align: center; }
@@ -1064,6 +1068,10 @@ body {
 @media (max-width: 768px) {
   .container { padding: 0 16px; }
 
+  /* Header mobile */
+  .btn-header { font-size: 12px; padding: 9px 13px; }
+  .logo-name { font-size: 15px; }
+
   /* Urgência */
   .urgencia { font-size: 11.5px; padding: 9px 16px; }
   .urg-tag { display: none; }
@@ -1122,6 +1130,20 @@ body {
   .feat-grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 28px; }
   .section-h2 { font-size: 22px; }
+
+  /* Tabela comparativa */
+  .comp-table th, .comp-table td { font-size: 12px; padding: 10px 8px; }
+  .comp-table th:first-child { width: 46%; }
+  .comp-table th { width: 27%; }
+
+  /* Card preço */
+  .preco-card { padding: 24px 18px; }
+  .preco-por-card { font-size: 44px; }
+  .preco-inclui li { font-size: 13px; }
+  .btn-cta-preco { font-size: 13.5px; padding: 15px 10px; }
+
+  /* Header */
+  .btn-header { font-size: 11.5px; padding: 8px 11px; }
 }
 </style>
 </head>
@@ -1595,7 +1617,7 @@ body {
           <li><span class="chk"><i class="ti ti-check"></i></span> Acesso vitalício ao preço de hoje</li>
         </ul>
         <a href="https://simpp.com.br" class="btn-cta-preco">
-          Organizar minha carteira por R$197/ano →
+          Organizar minha carteira — R$197/ano →
         </a>
         <div class="preco-garantia">Pagamento seguro · Acesso imediato · Cancele quando quiser</div>
       </div>
