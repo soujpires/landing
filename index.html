@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simpp — O CRM mais simples e barato do Brasil para corretores</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 :root {
   --azul: #3D6FB0;
@@ -35,7 +35,7 @@ body {
 
 /* ── UTILITÁRIOS ── */
 .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-.syne { font-family: 'Syne', sans-serif; }
+.syne { font-family: 'Barlow Condensed', sans-serif; }
 
 /* ── BARRA DE URGÊNCIA ── */
 .urgencia-bar {
@@ -74,7 +74,7 @@ body {
 }
 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .logo-name {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: var(--azul-escuro);
@@ -143,7 +143,7 @@ body {
 @keyframes pulsar { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
 
 .hero h1 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: clamp(32px, 4vw, 52px);
   font-weight: 800;
   color: #fff;
@@ -177,7 +177,7 @@ body {
   border-radius: 12px;
   padding: 18px 32px;
   font-size: 16px;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
@@ -186,31 +186,56 @@ body {
 }
 .btn-cta-principal:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
 
-.preco-hero {
+.preco-hero-novo {
+  margin-top: 4px;
+}
+.preco-hero-linha {
   display: flex;
   align-items: center;
-  gap: 12px;
-  color: rgba(255,255,255,0.6);
-  font-size: 13px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
-.preco-de {
-  text-decoration: line-through;
-  color: rgba(255,255,255,0.35);
-  font-size: 14px;
-}
-.preco-por {
-  color: #fff;
-  font-size: 22px;
-  font-family: 'Syne', sans-serif;
+.preco-hero-de {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
   font-weight: 700;
+  color: rgba(255,255,255,0.35);
+  text-decoration: line-through;
+  text-decoration-color: rgba(220,38,38,0.7);
+  text-decoration-thickness: 2px;
+}
+.preco-hero-seta {
+  color: rgba(255,255,255,0.25);
+  font-size: 18px;
+}
+.preco-hero-por {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -.01em;
+}
+.preco-hero-por small {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
 }
 .preco-tag {
   background: #4ADE80;
   color: #0a2e1a;
   border-radius: 6px;
-  padding: 2px 8px;
-  font-size: 11px;
+  padding: 4px 10px;
+  font-size: 13px;
   font-weight: 700;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: .03em;
+  align-self: center;
+}
+.preco-hero-dia {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 6px;
 }
 
 .hero-visual {
@@ -257,7 +282,7 @@ body {
   width: 32px; height: 32px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 600; flex-shrink: 0;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
 }
 .mockup-name { font-size: 12px; color: #E8EEF8; font-weight: 400; }
 .mockup-seg { font-size: 10px; color: rgba(255,255,255,0.35); }
@@ -295,7 +320,7 @@ body {
   margin-bottom: 12px;
 }
 .section-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: clamp(26px, 3vw, 38px);
   font-weight: 700;
   color: var(--azul-escuro);
@@ -396,7 +421,7 @@ body {
   color: #fff;
 }
 .feat-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 16px;
   font-weight: 700;
   color: var(--azul-escuro);
@@ -430,7 +455,7 @@ body {
   width: 32px; height: 32px; border-radius: 50%;
   background: var(--azul);
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 13px; font-weight: 700; color: #fff;
   flex-shrink: 0;
 }
@@ -489,7 +514,7 @@ body {
 .depo-avatar {
   width: 36px; height: 36px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-family: 'Syne', sans-serif; font-weight: 700; color: #fff;
+  font-size: 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; color: #fff;
 }
 .depo-nome { font-size: 13px; color: var(--azul-escuro); font-weight: 500; }
 .depo-cargo { font-size: 11px; color: var(--texto3); }
@@ -510,7 +535,7 @@ body {
   padding: 16px 20px;
   text-align: center;
   font-size: 13px;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
 }
 .comp-table th:first-child { text-align: left; background: #F8FAFC; }
@@ -584,7 +609,7 @@ body {
   padding: 4px 16px;
   font-size: 11px;
   font-weight: 700;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   text-transform: uppercase;
   letter-spacing: .08em;
   white-space: nowrap;
@@ -597,7 +622,7 @@ body {
   margin-bottom: 4px;
 }
 .preco-por-card {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 64px;
   font-weight: 800;
   color: var(--azul-escuro);
@@ -627,7 +652,7 @@ body {
   border-radius: 12px;
   padding: 18px;
   font-size: 16px;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
@@ -718,7 +743,7 @@ body {
   border-radius: 12px;
   padding: 18px 36px;
   font-size: 17px;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
@@ -748,14 +773,28 @@ body {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
-  .hero-grid, .dor-grid, .ia-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .dor-grid, .ia-grid { grid-template-columns: 1fr; gap: 40px; }
   .features-grid { grid-template-columns: 1fr; }
   .depos-grid { grid-template-columns: 1fr; }
-  .hero-visual { display: none; }
-  .hero { padding: 60px 0 40px; }
-  .hero h1 { font-size: 32px; }
+  .comp-table-wrap { overflow-x: auto; }
+  /* Mostrar ilustração no mobile — menor e sem notificação lateral */
+  .hero-visual { display: block; }
+  .fluxo-notif { right: 0; bottom: 48px; }
+  .fluxo-layout { height: 280px; }
+  .hero { padding: 48px 0 0; }
+  .hero h1 { font-size: 38px; }
+  .hero-content { order: 1; }
+  .hero-visual { order: 2; }
   .preco-card { padding: 32px 24px; }
   .preco-por-card { font-size: 48px; }
+  .preco-hero-por { font-size: 34px; }
+  .preco-hero-de { font-size: 22px; }
+  .hero-badge { font-size: 10px; }
+  .btn-cta-principal { font-size: 15px; padding: 16px 24px; }
+  .feat-card { padding: 20px; }
+  .ia-grid .reveal { order: 2; }
+  .ia-grid .pdf-visual { order: 1; }
 }
 
 /* ── ILUSTRAÇÃO FLUXO HERO ── */
@@ -842,7 +881,7 @@ body {
   padding: 10px;
 }
 .fm-num {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Barlow Condensed', sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: #E8EEF8;
@@ -943,6 +982,140 @@ body {
 .fluxo-notif-title { font-size: 12px; color: #0D1A2E; font-weight: 500; }
 .fluxo-notif-sub { font-size: 10px; color: #8896A8; }
 
+
+/* ── SEÇÃO CORRETOR PEQUENO ── */
+.para-voce {
+  background: var(--azul-escuro);
+  padding: 96px 0;
+  position: relative;
+  overflow: hidden;
+}
+.para-voce::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(61,111,176,0.18) 0%, transparent 70%);
+  left: -150px; bottom: -150px;
+}
+.para-voce-inner {
+  position: relative; z-index: 2;
+  max-width: 860px; margin: 0 auto;
+}
+.pv-tag {
+  display: inline-block;
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: .14em; color: var(--azul-claro);
+  font-weight: 500; margin-bottom: 20px;
+  border-bottom: 1px solid rgba(138,175,214,0.3);
+  padding-bottom: 8px;
+}
+.pv-titulo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.0;
+  letter-spacing: -.02em;
+  margin-bottom: 28px;
+}
+.pv-titulo em {
+  font-style: normal;
+  color: var(--azul-claro);
+  position: relative;
+}
+.pv-lead {
+  font-size: clamp(16px, 2vw, 20px);
+  color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+  margin-bottom: 48px;
+  font-weight: 300;
+  border-left: 3px solid rgba(61,111,176,0.5);
+  padding-left: 20px;
+}
+.pv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 48px;
+}
+.pv-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 14px;
+  padding: 24px;
+  transition: background .2s, border-color .2s;
+}
+.pv-card:hover {
+  background: rgba(61,111,176,0.1);
+  border-color: rgba(61,111,176,0.25);
+}
+.pv-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: rgba(61,111,176,0.25);
+  line-height: 1;
+  margin-bottom: 10px;
+  letter-spacing: -.02em;
+}
+.pv-card-titulo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  letter-spacing: -.01em;
+}
+.pv-card-texto {
+  font-size: 14px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.65;
+}
+.pv-fechamento {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 24px 28px;
+  flex-wrap: wrap;
+}
+.pv-fechamento-texto {
+  font-size: clamp(15px, 2vw, 18px);
+  color: rgba(255,255,255,0.7);
+  font-style: italic;
+  line-height: 1.5;
+  flex: 1;
+  min-width: 260px;
+}
+.pv-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: var(--azul-escuro);
+  border: none;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: .02em;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform .15s, box-shadow .15s;
+}
+.pv-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+@media (max-width: 768px) {
+  .pv-grid { grid-template-columns: 1fr; }
+  .pv-fechamento { flex-direction: column; align-items: flex-start; }
+  .pv-cta { width: 100%; justify-content: center; }
+  .para-voce { padding: 64px 0; }
+}
 </style>
 </head>
 <body>
@@ -986,11 +1159,14 @@ body {
           <a href="#preco" class="btn-cta-principal">
             Quero organizar minha carteira
           </a>
-          <div class="preco-hero">
-            <span class="preco-de">R$ 397/ano</span>
-            <span class="preco-por">R$ 197/ano</span>
-            <span class="preco-tag">-50%</span>
-            <span>· R$0,54/dia</span>
+          <div class="preco-hero-novo">
+            <div class="preco-hero-linha">
+              <span class="preco-hero-de">R$ 397</span>
+              <span class="preco-hero-seta">→</span>
+              <span class="preco-hero-por">R$ 197<small>/ano</small></span>
+              <span class="preco-tag">50% OFF</span>
+            </div>
+            <div class="preco-hero-dia">menos de R$0,54 por dia · menos que um café</div>
           </div>
         </div>
       </div>
@@ -1337,6 +1513,52 @@ body {
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- FALA COM O CORRETOR PEQUENO -->
+<section class="para-voce">
+  <div class="container">
+    <div class="para-voce-inner reveal">
+
+      <div class="pv-tag">Uma mensagem direta pra você</div>
+
+      <h2 class="pv-titulo">
+        Corretor, esse sistema<br>foi feito <em>pra você.</em>
+      </h2>
+
+      <p class="pv-lead">
+        Não pra uma corretora com 10 funcionários.<br>
+        Não pra quem tem equipe de TI.<br>
+        Pra você. Que trabalha sozinho, conhece cada cliente pelo nome, e ainda assim perde renovação porque a planilha não avisa.
+      </p>
+
+      <div class="pv-grid">
+        <div class="pv-card">
+          <div class="pv-num">01</div>
+          <div class="pv-card-titulo">Simples de verdade</div>
+          <div class="pv-card-texto">Você não precisa fazer curso pra usar. Se você sabe usar WhatsApp, você sabe usar o Simpp. Sem manual, sem onboarding, sem suporte técnico.</div>
+        </div>
+        <div class="pv-card">
+          <div class="pv-num">02</div>
+          <div class="pv-card-titulo">Rápido como você precisa</div>
+          <div class="pv-card-texto">Importou o PDF da apólice. Em 10 segundos está cadastrado, o cliente criado e o vencimento monitorado. Você volta a fazer o que importa: vender.</div>
+        </div>
+        <div class="pv-card">
+          <div class="pv-num">03</div>
+          <div class="pv-card-titulo">Sem menus que você não usa</div>
+          <div class="pv-card-texto">O Simpp tem exatamente o que um corretor solo precisa. Sem funil de vendas corporativo, sem dashboard de BI, sem funcionalidade que só existe pra justificar o preço alto.</div>
+        </div>
+      </div>
+
+      <div class="pv-fechamento">
+        <div class="pv-fechamento-texto">
+          "Você investe R$197 por ano — e recupera na primeira renovação que não perder."
+        </div>
+        <a href="#preco" class="pv-cta">Quero começar agora</a>
+      </div>
+
     </div>
   </div>
 </section>
