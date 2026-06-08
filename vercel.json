@@ -1,6 +1,6 @@
 {
-  "rewrites": [
-    { "source": "/api/checkout", "destination": "/api/checkout.js" },
-    { "source": "/api/webhook",  "destination": "/api/webhook.js"  }
-  ]
+  "functions": {
+    "api/checkout.js": { "maxDuration": 10 },
+    "api/webhook.js":  { "maxDuration": 10 }
+  }
 }
