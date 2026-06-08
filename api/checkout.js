@@ -1,14 +1,7 @@
-export const config = { runtime: 'edge' };
-
-export default async function handler(req) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
-
-  let body = {};
-  try { body = await req.json(); } catch (_) {}
-
-  const email = body.email || '';
 
   const preference = {
     items: [
@@ -21,10 +14,8 @@ export default async function handler(req) {
         unit_price: 197.00,
       },
     ],
-    payer: email ? { email } : undefined,
     payment_methods: {
       installments: 3,
-      excluded_payment_types: [],
     },
     back_urls: {
       success: 'https://assine.simpp.com.br/obrigado',
@@ -34,7 +25,6 @@ export default async function handler(req) {
     auto_return: 'approved',
     notification_url: 'https://assine.simpp.com.br/api/webhook',
     statement_descriptor: 'SIMPP',
-    expires: false,
   };
 
   try {
@@ -49,18 +39,16 @@ export default async function handler(req) {
 
     const data = await mpRes.json();
 
+    console.log('MP response status:', mpRes.status);
+    console.log('MP response body:', JSON.stringify(data));
+
     if (!mpRes.ok) {
-      console.error('MP error:', data);
-      return new Response(JSON.stringify({ error: 'Erro ao criar preferência', detail: data }), { status: 500 });
+      return res.status(500).json({ error: 'Erro ao criar preferência', detail: data });
     }
 
-    // Retorna a URL do checkout pro
-    return new Response(JSON.stringify({ url: data.init_point }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return res.status(200).json({ url: data.init_point });
   } catch (err) {
     console.error('Checkout error:', err);
-    return new Response(JSON.stringify({ error: 'Erro interno' }), { status: 500 });
+    return res.status(500).json({ error: 'Erro interno', detail: err.message });
   }
 }
