@@ -1217,9 +1217,9 @@ body {
           O Simpp organiza toda sua carteira em segundos. Importe o PDF da apólice, a IA faz o resto. Sem planilha, sem confusão.
         </p>
         <div class="hero-cta-stack">
-          <a href="#preco" class="btn-hero">
+          <button onclick="irParaCheckout()" class="btn-hero">
             Organizar minha carteira agora →
-          </a>
+          </button>
           <div class="hero-preco">
             <span class="preco-de">R$397/ano</span>
             <span class="preco-por">R$197<span>/ano</span></span>
@@ -1642,9 +1642,9 @@ body {
           <li><span class="chk"><i class="ti ti-check"></i></span> Seus dados isolados com segurança total</li>
           <li><span class="chk"><i class="ti ti-check"></i></span> Acesso vitalício ao preço de hoje</li>
         </ul>
-        <a href="https://simpp.com.br" class="btn-cta-preco">
+        <button onclick="irParaCheckout()" class="btn-cta-preco">
           Organizar minha carteira — R$197/ano →
-        </a>
+        </button>
         <div class="preco-garantia">Pagamento seguro · Acesso imediato · Cancele quando quiser</div>
       </div>
 
@@ -1718,9 +1718,9 @@ body {
       <div class="section-chip" style="justify-content:center;">Última chamada</div>
       <h2 class="section-h2">Se você leu até aqui,<br>já sabe que precisa disso.</h2>
       <p class="section-p">Todo dia na planilha é um dia que você pode perder uma renovação. Por R$0,54/dia, isso não faz sentido.</p>
-      <a href="#preco" class="btn-cta-final">
+      <button onclick="irParaCheckout()" class="btn-cta-final">
         Começar agora por R$197/ano →
-      </a>
+      </button>
       <div style="margin-top:16px;font-size:12.5px;color:var(--text3);display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
         <span style="display:flex;align-items:center;gap:5px;"><i class="ti ti-bolt" style="color:#93A8FF;font-size:14px;"></i> Acesso imediato</span>
         <span style="display:flex;align-items:center;gap:5px;"><i class="ti ti-shield-check" style="color:#93A8FF;font-size:14px;"></i> Pagamento seguro</span>
@@ -1813,6 +1813,34 @@ function syncVagas() {
 setInterval(function() {
   if (Math.random() < 0.3 && vagas > 3) { vagas--; syncVagas(); }
 }, 45000);
+
+// Checkout Mercado Pago
+async function irParaCheckout() {
+  const btns = document.querySelectorAll('.btn-hero, .btn-cta-preco, .btn-cta-final');
+  btns.forEach(function(b) { b.disabled = true; b.style.opacity = '.7'; b.textContent = 'Aguarde...'; });
+
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({}),
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error('URL não retornada');
+    }
+  } catch (err) {
+    console.error(err);
+    btns.forEach(function(b) {
+      b.disabled = false;
+      b.style.opacity = '1';
+      b.textContent = 'Organizar minha carteira →';
+    });
+    alert('Erro ao iniciar o pagamento. Tente novamente.');
+  }
+}
 </script>
 </body>
 </html>
