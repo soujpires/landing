@@ -9,32 +9,27 @@ export default async function handler(req, res) {
     return res.status(405).send('Method not allowed');
   }
 
-  const { type, data } = req.body || {};
+  const body = req.body || {};
 
-  if (type !== 'payment' || !data?.id) {
+  console.log('Kiwify webhook recebido:', JSON.stringify(body));
+
+  // Kiwify envia order_status = 'paid' para pagamento aprovado
+  const status = body.order_status;
+  const email = body.Customer?.email;
+
+  if (status !== 'paid') {
+    console.log(`Status ${status} — ignorado`);
     return res.status(200).send('OK');
   }
 
+  if (!email) {
+    console.error('Email não encontrado no webhook');
+    return res.status(200).send('OK');
+  }
+
+  console.log(`Pagamento aprovado para: ${email}`);
+
   try {
-    const mpRes = await fetch(`https://api.mercadopago.com/v1/payments/${data.id}`, {
-      headers: { Authorization: `Bearer ${process.env.MP_ACCESS_TOKEN}` },
-    });
-
-    const payment = await mpRes.json();
-
-    if (payment.status !== 'approved') {
-      console.log(`Pagamento ${data.id} status: ${payment.status} — ignorado`);
-      return res.status(200).send('OK');
-    }
-
-    const email = payment.payer?.email;
-    if (!email) {
-      console.error('Email não encontrado no pagamento:', data.id);
-      return res.status(200).send('OK');
-    }
-
-    console.log(`Pagamento aprovado para: ${email}`);
-
     const supaRes = await fetch(`${SUPABASE_URL}/auth/v1/invite`, {
       method: 'POST',
       headers: {
@@ -46,8 +41,8 @@ export default async function handler(req, res) {
         email,
         data: {
           plano: 'anual',
-          origem: 'mercadopago',
-          payment_id: String(data.id),
+          origem: 'kiwify',
+          order_id: body.order_id || '',
           ativado_em: new Date().toISOString(),
           expira_em: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
         },
