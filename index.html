@@ -1814,32 +1814,9 @@ setInterval(function() {
   if (Math.random() < 0.3 && vagas > 3) { vagas--; syncVagas(); }
 }, 45000);
 
-// Checkout Mercado Pago
-async function irParaCheckout() {
-  const btns = document.querySelectorAll('.btn-hero, .btn-cta-preco, .btn-cta-final');
-  btns.forEach(function(b) { b.disabled = true; b.style.opacity = '.7'; b.textContent = 'Aguarde...'; });
-
-  try {
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({}),
-    });
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      throw new Error('URL não retornada');
-    }
-  } catch (err) {
-    console.error(err);
-    btns.forEach(function(b) {
-      b.disabled = false;
-      b.style.opacity = '1';
-      b.textContent = 'Organizar minha carteira →';
-    });
-    alert('Erro ao iniciar o pagamento. Tente novamente.');
-  }
+// Checkout Kiwify
+function irParaCheckout() {
+  window.location.href = 'https://pay.kiwify.com.br/zISskQ6';
 }
 </script>
 </body>
