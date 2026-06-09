@@ -2,5 +2,8 @@
   "functions": {
     "api/checkout.js": { "maxDuration": 10 },
     "api/webhook.js":  { "maxDuration": 10 }
-  }
+  },
+  "rewrites": [
+    { "source": "/obrigado", "destination": "/obrigado.html" }
+  ]
 }
