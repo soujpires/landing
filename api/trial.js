@@ -15,6 +15,7 @@ export default async function handler(req, res) {
   }
 
   const SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+  const ANON_KEY    = process.env.SUPABASE_ANON_KEY;
   const headers = {
     'Content-Type': 'application/json',
     'apikey': SERVICE_KEY,
@@ -28,41 +29,51 @@ export default async function handler(req, res) {
       { headers }
     );
     const listData = await listRes.json();
-    const jaExiste = listData?.users?.find(
+    const jaExiste = (listData?.users || []).find(
       u => u.email?.toLowerCase() === email.toLowerCase()
     );
 
     if (jaExiste) {
+      // Não revelar que o email já existe — retorna sucesso silencioso
       console.log('Trial: email já cadastrado:', email);
-      // Retorna sucesso mesmo assim — não revelar que o email existe
       return res.status(200).json({ ok: true });
     }
 
-    // Enviar invite com redirect para reset-password (definir senha)
-    const inviteRes = await fetch(`${SUPABASE_URL}/auth/v1/invite`, {
+    // Gerar senha temporária aleatória (o usuário vai redefinir pelo link)
+    const senhaTemp = Math.random().toString(36).slice(2) +
+                      Math.random().toString(36).slice(2).toUpperCase() +
+                      '!9';
+
+    // Criar conta via signUp — dispara email de confirmação
+    const signUpRes = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
       method: 'POST',
-      headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': ANON_KEY || SERVICE_KEY,
+        'Authorization': `Bearer ${ANON_KEY || SERVICE_KEY}`,
+      },
       body: JSON.stringify({
         email,
+        password: senhaTemp,
         options: {
-          redirect_to: 'https://simpp.com.br/reset-password.html',
-        },
-        data: {
-          plano: 'trial',
-          origem: 'landing',
-          ativado_em: new Date().toISOString(),
+          emailRedirectTo: 'https://simpp.com.br/reset-password.html',
+          data: {
+            plano: 'trial',
+            origem: 'landing',
+            ativado_em: new Date().toISOString(),
+          },
         },
       }),
     });
 
-    const inviteData = await inviteRes.json();
+    const signUpData = await signUpRes.json();
 
-    if (!inviteRes.ok) {
-      console.error('Trial invite erro:', JSON.stringify(inviteData));
+    if (!signUpRes.ok || signUpData?.error) {
+      console.error('Trial signUp erro:', JSON.stringify(signUpData));
       return res.status(500).json({ error: 'Erro ao criar trial' });
     }
 
-    console.log('Trial criado para:', email);
+    console.log('Trial criado para:', email, '| id:', signUpData?.id);
     return res.status(200).json({ ok: true });
 
   } catch (err) {
