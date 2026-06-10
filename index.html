@@ -941,11 +941,11 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
 
     <!-- Sucesso -->
     <div class="modal-sucesso" id="modalSucesso">
-      <div class="sucesso-ico"><i class="ti ti-check"></i></div>
-      <div class="sucesso-title">Conta criada!</div>
+      <div class="sucesso-ico"><i class="ti ti-mail-check"></i></div>
+      <div class="sucesso-title">Confirme seu e-mail!</div>
       <p class="sucesso-txt">
-        Enviamos um e-mail de confirmação para <strong id="emailConfirm"></strong>.<br><br>
-        Clique no link do e-mail para ativar sua conta e começar a usar o Simpp.
+        Enviamos um e-mail para <strong id="emailConfirm"></strong>.<br><br>
+        Clique no link do e-mail para confirmar sua conta. Depois volte para <strong>simpp.com.br</strong> e faça login com seu e-mail e senha.
       </p>
     </div>
   </div>
@@ -1013,8 +1013,13 @@ async function cadastrarTrial() {
     return;
   }
 
-  // Redireciona para o login após cadastro
-  window.location.href = 'https://simpp.com.br';
+  // Desloga imediatamente — usuário precisa confirmar o e-mail antes de entrar
+  await sb.auth.signOut();
+
+  // Mostra tela de sucesso
+  document.getElementById('emailConfirm').textContent = email;
+  document.getElementById('modalForm').style.display = 'none';
+  document.getElementById('modalSucesso').classList.add('show');
 }
 
 function mostrarErro(msg) {
