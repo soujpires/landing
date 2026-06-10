@@ -3,683 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simpp — Organize sua carteira. Sem planilha.</title>
+<title>Simpp — Teste grátis por 3 dias. Sem cartão.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-/* ── RESET & BASE ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
 
 :root {
-  --bg:       #F5F7FA;
-  --surface:  #FFFFFF;
-  --border:   #E5EAF1;
-  --text:     #111827;
-  --text2:    #6B7280;
-  --text3:    #9CA3AF;
-  --blue:     #4F6EF7;
-  --blue-h:   #3B56E8;
-  --blue-lt:  #EEF2FF;
-  --navy:     #0F172A;
-  --green:    #10B981;
-  --amber:    #F59E0B;
-  --red:      #EF4444;
-  --sh-sm:    0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-  --sh-md:    0 4px 16px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
-  --sh-lg:    0 20px 40px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.06);
-  --r:        12px;
+  --bg:      #F5F7FA;
+  --surface: #FFFFFF;
+  --border:  #E5EAF1;
+  --text:    #111827;
+  --text2:   #6B7280;
+  --text3:   #9CA3AF;
+  --blue:    #4F6EF7;
+  --blue-h:  #3B56E8;
+  --blue-lt: #EEF2FF;
+  --navy:    #0F172A;
+  --green:   #10B981;
+  --amber:   #F59E0B;
+  --red:     #EF4444;
+  --sh-sm:   0 1px 3px rgba(0,0,0,.06);
+  --sh-md:   0 4px 16px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
+  --sh-lg:   0 20px 40px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.06);
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  color: var(--text);
-  background: var(--bg);
-  overflow-x: hidden;
-  line-height: 1.6;
-}
-
+body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; line-height: 1.6; }
 .container { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
 
 /* ── URGÊNCIA ── */
 .urgencia {
   background: var(--navy);
-  color: rgba(255,255,255,.75);
+  color: rgba(255,255,255,.7);
   text-align: center;
   padding: 10px 20px;
   font-size: 12.5px;
-  letter-spacing: .01em;
-  position: sticky;
-  top: 0;
-  z-index: 200;
+  position: sticky; top: 0; z-index: 200;
   border-bottom: 1px solid rgba(255,255,255,.06);
 }
 .urgencia strong { color: #fff; font-weight: 600; }
-.urg-tag {
-  display: inline-block;
-  background: rgba(79,110,247,.25);
-  border: 1px solid rgba(79,110,247,.4);
-  border-radius: 20px;
-  padding: 1px 9px;
-  font-size: 11px;
-  color: #93A8FF;
-  margin-right: 6px;
-  font-weight: 500;
-}
 
 /* ── HEADER ── */
 .header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 14px 0;
-  position: sticky;
-  top: 37px;
-  z-index: 100;
+  position: sticky; top: 37px; z-index: 100;
   transition: box-shadow .2s;
 }
 .header.scrolled { box-shadow: var(--sh-md); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; }
 
-/* LOGO */
 .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
-.logo-mark {
-  position: relative;
-  width: 28px;
-  height: 28px;
-}
-.logo-mark svg { display: block; }
-.logo-text { line-height: 1; }
-.logo-name {
-  font-family: 'Inter', sans-serif;
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--navy);
-  letter-spacing: -.4px;
-  display: block;
-}
-.logo-tag-small {
-  font-size: 8.5px;
-  color: var(--text3);
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  display: block;
-  margin-top: 1px;
-}
+.logo-name { font-size: 17px; font-weight: 600; color: var(--navy); letter-spacing: -.4px; display: block; }
+.logo-tag-small { font-size: 8.5px; color: var(--text3); letter-spacing: .12em; text-transform: uppercase; display: block; margin-top: 1px; }
 
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.btn-login {
+  font-size: 13px; color: var(--text2); text-decoration: none;
+  font-weight: 400; white-space: nowrap;
+  transition: color .15s;
+}
+.btn-login:hover { color: var(--text); }
 .btn-header {
-  background: var(--blue);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 9px 16px;
-  font-size: 13px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: background .15s, transform .1s;
-  letter-spacing: -.1px;
+  background: var(--blue); color: #fff; border: none;
+  border-radius: 8px; padding: 9px 16px;
+  font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 500;
+  cursor: pointer; text-decoration: none;
   white-space: nowrap;
+  transition: background .15s, transform .1s;
 }
 .btn-header:hover { background: var(--blue-h); transform: translateY(-1px); }
 
 /* ── HERO ── */
 .hero {
   background: var(--navy);
-  padding: 72px 0 0;
-  position: relative;
-  overflow: hidden;
+  padding: 72px 0 80px;
+  position: relative; overflow: hidden;
+  text-align: center;
 }
 .hero::before {
   content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 70% 60% at 85% 40%, rgba(79,110,247,.18) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 70% at 15% 80%, rgba(79,110,247,.08) 0%, transparent 60%);
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(79,110,247,.2) 0%, transparent 65%);
   pointer-events: none;
 }
-
-.hero-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: end;
-  position: relative;
-  z-index: 2;
-}
-
-.hero-content { padding-bottom: 72px; }
+.hero-inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
 
 .hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
+  display: inline-flex; align-items: center; gap: 7px;
   background: rgba(79,110,247,.15);
   border: 1px solid rgba(79,110,247,.3);
-  border-radius: 20px;
-  padding: 5px 13px;
-  font-size: 11px;
-  color: #93A8FF;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  font-weight: 500;
+  border-radius: 20px; padding: 5px 14px;
+  font-size: 11px; color: #93A8FF;
+  letter-spacing: .08em; text-transform: uppercase; font-weight: 500;
   margin-bottom: 24px;
 }
-.dot-pulse {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: #4ADE80;
-  animation: pulse 1.8s ease-in-out infinite;
-}
+.dot-pulse { width: 6px; height: 6px; border-radius: 50%; background: #4ADE80; animation: pulse 1.8s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
 
 .hero h1 {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(30px, 4vw, 50px);
-  font-weight: 800;
-  color: #fff;
-  line-height: 1.08;
-  letter-spacing: -.03em;
-  margin-bottom: 20px;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 800; color: #fff;
+  line-height: 1.08; letter-spacing: -.03em;
+  margin-bottom: 18px;
 }
-.hero h1 em {
-  font-style: normal;
-  color: #7C96FF;
-}
+.hero h1 em { font-style: normal; color: #7C96FF; }
 
 .hero-sub {
-  font-size: 16px;
-  color: rgba(255,255,255,.55);
-  line-height: 1.65;
-  margin-bottom: 36px;
-  font-weight: 300;
-  max-width: 420px;
+  font-size: 16px; color: rgba(255,255,255,.5);
+  line-height: 1.65; margin-bottom: 36px;
+  font-weight: 300; max-width: 480px; margin-left: auto; margin-right: auto;
 }
 
-/* Hero CTA */
-.hero-cta-stack { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.hero-cta-stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 
-.btn-hero {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #fff;
-  color: var(--navy);
-  border: none;
-  border-radius: 10px;
-  padding: 16px 28px;
-  font-size: 15px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  letter-spacing: -.2px;
+.btn-trial {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #fff; color: var(--navy);
+  border: none; border-radius: 10px;
+  padding: 16px 32px; font-size: 15px;
+  font-family: 'Inter', sans-serif; font-weight: 700;
+  cursor: pointer; text-decoration: none; letter-spacing: -.2px;
   transition: transform .15s, box-shadow .15s;
   box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  white-space: nowrap;
 }
-.btn-hero:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+.btn-trial:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
 
-.hero-preco {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.hero-link-assinar {
+  font-size: 13px; color: rgba(255,255,255,.4);
+  text-decoration: none; font-weight: 300;
+  transition: color .15s;
+  border-bottom: 1px solid rgba(255,255,255,.15);
+  padding-bottom: 1px;
+}
+.hero-link-assinar:hover { color: rgba(255,255,255,.7); }
+
+.hero-garantia {
+  margin-top: 16px;
+  display: flex; align-items: center; justify-content: center; gap: 20px;
   flex-wrap: wrap;
 }
-.preco-de {
-  font-size: 15px;
-  color: rgba(255,255,255,.3);
-  text-decoration: line-through;
-  font-weight: 400;
+.hero-garantia span {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: rgba(255,255,255,.3); font-weight: 300;
 }
-.preco-por {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 26px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -.03em;
-}
-.preco-por span { font-size: 14px; font-weight: 400; color: rgba(255,255,255,.5); }
-.preco-badge {
-  background: #4ADE80;
-  color: #052e16;
-  border-radius: 6px;
-  padding: 3px 9px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .03em;
-}
+.hero-garantia i { font-size: 13px; color: rgba(255,255,255,.4); }
 
-/* Hero mockup */
-.hero-visual { position: relative; align-self: flex-end; }
-
-.mockup-browser {
-  background: #141c2e;
-  border-radius: 14px 14px 0 0;
-  overflow: hidden;
-  box-shadow: 0 -8px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
-}
-.mockup-bar {
-  background: #0d1525;
-  padding: 9px 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-bottom: 1px solid rgba(255,255,255,.05);
-}
-.mdots { display: flex; gap: 5px; }
-.mdot { width: 8px; height: 8px; border-radius: 50%; }
-.murl {
-  flex: 1;
-  background: rgba(255,255,255,.05);
-  border-radius: 4px;
-  padding: 3px 10px;
-  font-size: 9.5px;
-  color: rgba(255,255,255,.25);
-  font-family: monospace;
-}
-
-.mockup-app {
-  display: flex;
-  height: 360px;
-}
-
-/* Sidebar mockup */
-.mk-sidebar {
-  width: 46px;
-  background: #0d1525;
-  border-right: 1px solid rgba(255,255,255,.04);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 12px 0;
-  gap: 14px;
-  flex-shrink: 0;
-}
-.mk-logo-dot {
-  width: 24px; height: 24px;
-  border-radius: 6px;
-  overflow: hidden;
-  flex-shrink: 0;
-  margin-bottom: 4px;
-}
-.mk-nav-dot {
-  width: 22px; height: 22px;
-  border-radius: 6px;
-  background: rgba(255,255,255,.04);
-}
-.mk-nav-dot.active {
-  background: rgba(79,110,247,.25);
-  border: 1px solid rgba(79,110,247,.4);
-}
-
-/* Main mockup */
-.mk-main {
-  flex: 1;
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow: hidden;
-  background: #0f1629;
-}
-
-.mk-topbar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.mk-search {
-  flex: 1;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: 7px;
-  padding: 6px 10px;
-  font-size: 10px;
-  color: rgba(255,255,255,.25);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.mk-search svg { opacity: .4; flex-shrink: 0; }
-.mk-btn-ia {
-  background: rgba(79,110,247,.15);
-  border: 1px solid rgba(79,110,247,.3);
-  border-radius: 7px;
-  padding: 6px 10px;
-  font-size: 9px;
-  color: #93A8FF;
-  white-space: nowrap;
-  font-weight: 500;
-}
-
-/* Métricas */
-.mk-metrics { display: flex; gap: 8px; }
-.mk-metric {
-  flex: 1;
-  background: rgba(255,255,255,.03);
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: 8px;
-  padding: 9px 10px;
-}
-.mk-m-num {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #E8EEF8;
-  line-height: 1;
-  margin-bottom: 2px;
-}
-.mk-m-label { font-size: 8.5px; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .06em; }
-.mk-m-bar { height: 2px; background: rgba(255,255,255,.06); border-radius: 1px; margin-top: 6px; overflow: hidden; }
-.mk-m-fill { height: 100%; border-radius: 1px; }
-
-/* Lista apólices */
-.mk-list { display: flex; flex-direction: column; gap: 6px; flex: 1; overflow: hidden; }
-.mk-row {
-  background: rgba(255,255,255,.03);
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: 8px;
-  padding: 9px 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.mk-avatar {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 600; color: #fff;
-  flex-shrink: 0;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-.mk-info { flex: 1; min-width: 0; }
-.mk-name { font-size: 11px; color: #E8EEF8; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mk-seg { font-size: 9px; color: rgba(255,255,255,.3); margin-top: 1px; }
-.mk-badge {
-  font-size: 8.5px;
-  border-radius: 4px;
-  padding: 2px 7px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-.b-v { background: rgba(16,185,129,.12); color: #34D399; }
-.b-p { background: rgba(79,110,247,.12); color: #93A8FF; }
-.b-r { background: rgba(245,158,11,.12); color: #FCD34D; }
-.mk-val { font-size: 10px; color: rgba(255,255,255,.45); text-align: right; }
-.mk-val strong { display: block; color: #C8D3E8; font-size: 11px; font-weight: 400; }
-
-/* Notif flutuante */
-.mk-notif {
-  position: absolute;
-  bottom: 56px;
-  right: -20px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 14px;
-  box-shadow: var(--sh-lg);
-  min-width: 210px;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  animation: float 3s ease-in-out infinite;
-}
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-.mk-notif-ico {
-  width: 32px; height: 32px; border-radius: 8px;
-  background: rgba(245,158,11,.1);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.mk-notif-ico i { font-size: 16px; color: var(--amber); }
-.mk-notif-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-.mk-notif-sub { font-size: 11px; color: var(--text2); }
-
-/* ── DOR / BEFORE ── */
-.dor {
-  padding: 80px 0;
-  background: var(--bg);
-}
-.dor-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: center;
-}
-
+/* ── SEÇÃO GENÉRICA ── */
 .section-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--blue);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; color: var(--blue);
+  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px;
 }
-
 .section-h2 {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(24px, 3vw, 36px);
-  font-weight: 800;
-  color: var(--text);
-  line-height: 1.15;
-  letter-spacing: -.03em;
-  margin-bottom: 16px;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 800; color: var(--text);
+  line-height: 1.15; letter-spacing: -.03em; margin-bottom: 14px;
 }
+.section-p { font-size: 15px; color: var(--text2); line-height: 1.7; font-weight: 300; }
 
-.section-p {
-  font-size: 15.5px;
-  color: var(--text2);
-  line-height: 1.7;
-  margin-bottom: 28px;
-  font-weight: 300;
-}
-
-.dor-lista { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.dor-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 14.5px;
-  color: var(--text2);
-  line-height: 1.5;
-  font-weight: 300;
-}
-.dor-dot {
-  width: 20px; height: 20px; border-radius: 50%;
-  background: rgba(239,68,68,.08);
-  border: 1px solid rgba(239,68,68,.2);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 2px;
-  font-size: 10px;
-}
-
-/* Planilha visual */
-.planilha-wrap {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--sh-md);
-}
-.planilha-hd {
-  background: #1D6F42;
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-}
-.planilha-body { overflow-x: auto; }
-.p-table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
-.p-table th {
-  background: #E8F5E9; color: #1D6F42;
-  padding: 6px 10px; text-align: left;
-  font-weight: 600; border: 1px solid #C8E6C9;
-  white-space: nowrap;
-}
-.p-table td {
-  padding: 6px 10px;
-  border: 1px solid #E0E0E0;
-  color: #444;
-  white-space: nowrap;
-}
-.p-table tr:nth-child(even) td { background: #F9F9F9; }
-.planilha-caos {
-  background: rgba(239,68,68,.04);
-  border-top: 2px solid rgba(239,68,68,.15);
-  padding: 10px 16px;
-  font-size: 11.5px;
-  color: var(--red);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-weight: 400;
-}
-
-/* ── COMO FUNCIONA ── */
-.como {
-  padding: 80px 0;
-  background: var(--navy);
-  position: relative;
-  overflow: hidden;
-}
-.como::before {
-  content: '';
-  position: absolute;
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(79,110,247,.15) 0%, transparent 70%);
-  right: -200px; top: -200px;
-  pointer-events: none;
-}
-
-.como-inner { position: relative; z-index: 2; }
-.como-header { text-align: center; margin-bottom: 56px; }
-.como-header .section-chip { justify-content: center; }
-.como-header .section-h2 { color: #fff; }
-.como-header .section-p { color: rgba(255,255,255,.5); max-width: 520px; margin: 0 auto; }
-
-.como-steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  position: relative;
-}
-
-/* linha conectora */
-.como-steps::before {
-  content: '';
-  position: absolute;
-  top: 32px;
-  left: calc(33.33% / 2 + 8px);
-  right: calc(33.33% / 2 + 8px);
-  height: 1px;
-  background: linear-gradient(90deg, rgba(79,110,247,.4), rgba(79,110,247,.4));
-  z-index: 0;
-}
-
-.como-step {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 16px;
-  padding: 28px 24px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  transition: border-color .2s, background .2s;
-}
-.como-step:hover {
-  background: rgba(255,255,255,.06);
-  border-color: rgba(79,110,247,.4);
-}
-
-.step-num {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(79,110,247,.2);
-  border: 1.5px solid rgba(79,110,247,.5);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px; font-weight: 700; color: #93A8FF;
-  margin: 0 auto 20px;
-}
-
-.step-ico { margin-bottom: 12px; }
-.step-ico i { font-size: 28px; color: #93A8FF; }
-.step-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; font-family: 'Plus Jakarta Sans', sans-serif; }
-.step-desc { font-size: 13.5px; color: rgba(255,255,255,.45); line-height: 1.6; font-weight: 300; }
-
-/* PDF visual mini */
-.pdf-demo {
-  margin: 0 auto;
-  max-width: 520px;
-  margin-top: 48px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 16px;
-  padding: 20px;
-}
-.pdf-file {
-  display: flex; align-items: center; gap: 12px;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 14px;
-}
-.pdf-icon { font-size: 24px; display:flex; align-items:center; }
-.pdf-icon i { font-size: 24px; color: #93A8FF; }
-.pdf-info { flex: 1; }
-.pdf-name { font-size: 12.5px; color: #E8EEF8; }
-.pdf-size { font-size: 10.5px; color: rgba(255,255,255,.3); margin-top: 1px; }
-.pdf-arrow { text-align: center; font-size: 18px; color: #7C96FF; margin: 8px 0; }
-.pdf-result {
-  background: rgba(79,110,247,.08);
-  border: 1px solid rgba(79,110,247,.2);
-  border-radius: 10px;
-  padding: 14px;
-}
-.pdf-campo {
-  display: flex; justify-content: space-between;
-  padding: 4px 0; font-size: 11.5px;
-  border-bottom: 1px solid rgba(255,255,255,.05);
-}
-.pdf-campo:last-child { border-bottom: none; }
-.pdf-label { color: rgba(255,255,255,.4); font-weight: 300; }
-.pdf-val { color: #C8D3E8; }
-
-/* ── BENEFÍCIOS ── */
-.features {
-  padding: 80px 0;
-  background: var(--bg);
-}
+/* ── FEATURES ── */
+.features { padding: 80px 0; background: var(--bg); }
 .features-header { text-align: center; margin-bottom: 52px; max-width: 560px; margin-left: auto; margin-right: auto; }
 
-.feat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
+.feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .feat-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 24px;
   transition: transform .2s, box-shadow .2s, border-color .2s;
 }
-.feat-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--sh-md);
-  border-color: rgba(79,110,247,.2);
-}
+.feat-card:hover { transform: translateY(-3px); box-shadow: var(--sh-md); border-color: rgba(79,110,247,.2); }
 .feat-ico-wrap {
   width: 42px; height: 42px; border-radius: 10px;
   background: #4F6EF7;
@@ -687,296 +187,118 @@ body {
   margin-bottom: 14px;
 }
 .feat-ico-wrap i { font-size: 20px; color: #fff; }
-.feat-title {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14.5px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 6px;
-  letter-spacing: -.2px;
-}
+.feat-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14.5px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -.2px; }
 .feat-desc { font-size: 13.5px; color: var(--text2); line-height: 1.6; font-weight: 300; }
 
-/* ── PROVA SOCIAL ── */
-.prova {
-  padding: 80px 0;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+/* ── COMO FUNCIONA ── */
+.como { padding: 80px 0; background: var(--navy); position: relative; overflow: hidden; }
+.como::before {
+  content: ''; position: absolute;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(79,110,247,.15) 0%, transparent 70%);
+  right: -200px; top: -200px; pointer-events: none;
 }
-.prova-header { text-align: center; margin-bottom: 48px; }
+.como-header { text-align: center; margin-bottom: 52px; position: relative; z-index: 2; }
+.como-header .section-h2 { color: #fff; }
+.como-header .section-p { color: rgba(255,255,255,.5); max-width: 480px; margin: 0 auto; }
 
-.depo-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+.como-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; position: relative; z-index: 2; }
+.como-steps::before {
+  content: ''; position: absolute;
+  top: 32px; left: calc(33.33% / 2 + 8px); right: calc(33.33% / 2 + 8px);
+  height: 1px; background: rgba(79,110,247,.3); z-index: 0;
 }
-.depo-card {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
+.como-step {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px; padding: 28px 24px; text-align: center;
+  position: relative; z-index: 1;
+  transition: border-color .2s, background .2s;
 }
-.depo-stars { color: #FBBF24; font-size: 13px; margin-bottom: 14px; letter-spacing: 2px; }
-.depo-txt {
-  font-size: 14px;
-  color: var(--text2);
-  line-height: 1.65;
-  font-style: italic;
-  flex: 1;
-  margin-bottom: 18px;
-  font-weight: 300;
-}
-.depo-autor { display: flex; align-items: center; gap: 10px; }
-.depo-av {
-  width: 34px; height: 34px; border-radius: 50%;
+.como-step:hover { background: rgba(255,255,255,.06); border-color: rgba(79,110,247,.4); }
+.step-num {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(79,110,247,.2); border: 1.5px solid rgba(79,110,247,.5);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11.5px; font-weight: 700; color: #fff;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  flex-shrink: 0;
+  font-size: 14px; font-weight: 700; color: #93A8FF;
+  margin: 0 auto 18px;
 }
-.depo-nome { font-size: 13px; font-weight: 600; color: var(--text); }
-.depo-cargo { font-size: 11px; color: var(--text3); }
-
-/* ── COMPARATIVO ── */
-.comparativo { padding: 80px 0; background: var(--bg); }
-.comp-header { text-align: center; margin-bottom: 48px; }
-.comp-wrap {
-  max-width: 680px; margin: 0 auto;
-  border-radius: 16px; overflow: hidden;
-  border: 1px solid var(--border);
-  box-shadow: var(--sh-md);
+.step-ico { margin-bottom: 10px; }
+.step-ico i { font-size: 26px; color: #93A8FF; }
+.step-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; font-family: 'Plus Jakarta Sans', sans-serif; }
+.step-desc { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.6; font-weight: 300; }
+.step-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25);
+  border-radius: 20px; padding: 3px 10px; margin-top: 10px;
+  font-size: 10.5px; color: #34D399; font-weight: 500;
 }
-.comp-table { width: 100%; border-collapse: collapse; background: var(--surface); table-layout: fixed; }
-.comp-table th {
-  padding: 14px 12px; text-align: center;
-  font-size: 12.5px; font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700; letter-spacing: -.1px;
-  width: 28%;
-}
-.comp-table th:first-child { text-align: left; background: var(--bg); color: var(--text2); width: 44%; }
-.th-simpp { background: var(--blue); color: #fff; }
-.th-outros { background: var(--bg); color: var(--text2); }
-.comp-table td {
-  padding: 12px 12px; font-size: 13px; color: var(--text2);
-  border-top: 1px solid var(--border);
-  text-align: center; font-weight: 300;
-  word-break: keep-all;
-}
-.comp-table td:first-child { text-align: left; color: var(--text); }
-.td-simpp { background: rgba(79,110,247,.04); }
-.check { color: var(--green); font-size: 15px; font-weight: 600; }
-.cross { color: var(--text3); font-size: 15px; }
 
 /* ── PREÇO ── */
-.preco-section {
-  padding: 80px 0;
-  background: var(--navy);
-  position: relative;
-  overflow: hidden;
-}
-.preco-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(79,110,247,.12) 0%, transparent 65%);
-  pointer-events: none;
-}
-.preco-inner { max-width: 500px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
-.preco-inner .section-chip { justify-content: center; }
-.preco-inner .section-h2 { color: #fff; margin-bottom: 12px; }
+.preco-section { padding: 80px 0; background: var(--bg); }
+.preco-header { text-align: center; margin-bottom: 40px; }
 
-.urgencia-vagas {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(239,68,68,.12);
-  border: 1px solid rgba(239,68,68,.25);
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
-  color: #FCA5A5;
-  margin-bottom: 28px;
-  font-weight: 400;
-}
-.urgencia-vagas strong { color: #fff; font-weight: 600; }
-
+.preco-card-wrap { max-width: 480px; margin: 0 auto; }
 .preco-card {
   background: var(--surface);
-  border-radius: 20px;
-  padding: 40px 36px;
-  box-shadow: var(--sh-lg), 0 0 0 1px rgba(255,255,255,.06);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 40px 36px;
+  box-shadow: var(--sh-lg);
   text-align: center;
 }
-.preco-tag-lancamento {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(79,110,247,.1);
-  border: 1px solid rgba(79,110,247,.25);
-  border-radius: 6px;
-  padding: 4px 12px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--blue);
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
+.preco-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(79,110,247,.1); border: 1px solid rgba(79,110,247,.25);
+  border-radius: 6px; padding: 4px 12px;
+  font-size: 11px; font-weight: 700; color: var(--blue);
+  letter-spacing: .06em; text-transform: uppercase; margin-bottom: 16px;
 }
-.preco-de-card {
-  font-size: 18px;
-  color: #6B7280;
-  font-weight: 500;
-  margin-bottom: 6px;
-  display: inline-block;
-  text-decoration: none;
+.preco-de-wrap { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 6px; }
+.preco-de {
+  font-size: 17px; color: #6B7280; font-weight: 500;
   background-image: linear-gradient(var(--red), var(--red));
-  background-size: 100% 2px;
-  background-position: 0 60%;
-  background-repeat: no-repeat;
+  background-size: 100% 2px; background-position: 0 60%; background-repeat: no-repeat;
 }
-/* badge de desconto ao lado do preço riscado */
-.preco-de-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-.preco-off-badge {
-  background: var(--red);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 5px;
-  padding: 3px 8px;
-  letter-spacing: .04em;
-  white-space: nowrap;
-}
-.preco-por-card {
+.preco-off { background: var(--red); color: #fff; font-size: 11px; font-weight: 700; border-radius: 5px; padding: 3px 8px; }
+.preco-por {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 60px;
-  font-weight: 800;
-  color: var(--text);
-  line-height: 1;
-  letter-spacing: -.04em;
-  margin-bottom: 6px;
+  font-size: 58px; font-weight: 800; color: var(--text);
+  line-height: 1; letter-spacing: -.04em; margin-bottom: 4px;
 }
-.preco-por-card sup { font-size: 26px; vertical-align: super; }
-.preco-por-card span { font-size: 18px; font-weight: 400; color: var(--text2); }
+.preco-por sup { font-size: 24px; vertical-align: super; }
+.preco-por span { font-size: 17px; font-weight: 400; color: var(--text2); }
 .preco-dia { font-size: 12.5px; color: var(--green); font-weight: 500; margin-bottom: 24px; }
 .preco-div { height: 1px; background: #D1D9E6; margin: 24px 0; }
+
 .preco-inclui { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; text-align: left; }
 .preco-inclui li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--text2); font-weight: 300; line-height: 1.5; }
-.preco-inclui .chk { color: var(--green); font-size: 14px; font-weight: 600; flex-shrink: 0; margin-top: 1px; }
+.chk { color: var(--green); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
 
-.btn-cta-preco {
+.btn-trial-preco {
   display: block; width: 100%;
-  background: var(--blue);
-  color: #fff; border: none;
-  border-radius: 10px;
-  padding: 16px 12px;
-  font-size: 14.5px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-  letter-spacing: -.2px;
-  transition: background .15s, transform .15s;
-  margin-bottom: 12px;
-  line-height: 1.3;
-}
-.btn-cta-preco:hover { background: var(--blue-h); transform: translateY(-1px); }
-.preco-garantia { font-size: 11.5px; color: var(--text3); text-align: center; }
-
-.vagas-bloco {
-  margin-top: 32px;
-  text-align: center;
-  color: rgba(255,255,255,.4);
-  font-size: 12.5px;
-  font-weight: 300;
-  position: relative;
-  z-index: 2;
-}
-.vagas-bloco strong { color: rgba(255,255,255,.8); font-weight: 600; }
-.vagas-bar-wrap {
-  width: 200px; height: 4px;
-  background: rgba(255,255,255,.1);
-  border-radius: 2px;
-  margin: 10px auto 0;
-  overflow: hidden;
-}
-.vagas-bar-fill {
-  height: 100%;
-  background: var(--red);
-  border-radius: 2px;
-  width: 73%;
-  animation: vp 2s ease-in-out infinite;
-}
-@keyframes vp { 0%,100%{opacity:1} 50%{opacity:.6} }
-
-/* ── FAQ ── */
-.faq { padding: 80px 0; background: var(--bg); }
-.faq-header { text-align: center; margin-bottom: 48px; }
-.faq-list { max-width: 660px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-.faq-item {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: border-color .15s;
-}
-.faq-item:hover, .faq-item.open { border-color: rgba(79,110,247,.25); }
-.faq-q {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px; cursor: pointer;
-  font-size: 14.5px; color: var(--text); font-weight: 400;
-  user-select: none; gap: 16px;
-}
-.faq-q:hover { background: rgba(79,110,247,.03); }
-.faq-chevron {
-  width: 20px; height: 20px; border-radius: 50%;
-  background: var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; color: var(--text2);
-  transition: transform .2s, background .15s;
-  flex-shrink: 0;
-}
-.faq-item.open .faq-chevron { transform: rotate(180deg); background: var(--blue-lt); color: var(--blue); }
-.faq-a {
-  display: none;
-  padding: 0 20px 16px;
-  font-size: 13.5px;
-  color: var(--text2);
-  line-height: 1.7;
-  border-top: 1px solid var(--border);
-  font-weight: 300;
-}
-.faq-item.open .faq-a { display: block; padding-top: 14px; }
-
-/* ── CTA FINAL ── */
-.cta-final {
-  padding: 80px 0;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  text-align: center;
-}
-.cta-final .section-h2 { max-width: 560px; margin: 0 auto 14px; }
-.cta-final .section-p { max-width: 480px; margin: 0 auto 36px; }
-
-.btn-cta-final {
-  display: inline-flex; align-items: center; gap: 10px;
   background: var(--blue); color: #fff; border: none;
-  border-radius: 10px; padding: 16px 32px;
-  font-size: 15px; font-family: 'Inter', sans-serif; font-weight: 600;
-  cursor: pointer; text-decoration: none; letter-spacing: -.1px;
+  border-radius: 10px; padding: 16px 12px;
+  font-size: 14.5px; font-family: 'Inter', sans-serif; font-weight: 600;
+  cursor: pointer; text-align: center; letter-spacing: -.2px;
   transition: background .15s, transform .15s;
-  box-shadow: 0 8px 32px rgba(79,110,247,.3);
+  margin-bottom: 10px;
 }
-.btn-cta-final:hover { background: var(--blue-h); transform: translateY(-2px); }
+.btn-trial-preco:hover { background: var(--blue-h); transform: translateY(-1px); }
+
+.btn-assinar-preco {
+  display: block; width: 100%;
+  background: transparent; color: var(--text2);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 13px 12px;
+  font-size: 13.5px; font-family: 'Inter', sans-serif; font-weight: 400;
+  cursor: pointer; text-align: center; letter-spacing: -.1px;
+  transition: border-color .15s, color .15s;
+  text-decoration: none;
+}
+.btn-assinar-preco:hover { border-color: var(--blue); color: var(--blue); }
+
+.preco-garantia { font-size: 11.5px; color: var(--text3); text-align: center; margin-top: 12px; }
 
 /* ── FOOTER ── */
 .footer { background: var(--navy); padding: 28px 0; }
@@ -985,188 +307,120 @@ body {
 .footer-logo .logo-name { color: #fff; }
 .footer-logo .logo-tag-small { color: rgba(255,255,255,.2); }
 
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,.5);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--surface);
+  border-radius: 20px; padding: 36px 32px;
+  max-width: 420px; width: 100%;
+  box-shadow: var(--sh-lg);
+  transform: translateY(16px);
+  transition: transform .25s cubic-bezier(.34,1.3,.64,1);
+  position: relative;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--bg); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text2); font-size: 14px;
+  transition: background .15s;
+}
+.modal-close:hover { background: var(--border); }
+
+.modal-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+.modal h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px; font-weight: 800; color: var(--text);
+  letter-spacing: -.03em; margin-bottom: 6px;
+}
+.modal-sub { font-size: 13.5px; color: var(--text2); margin-bottom: 24px; font-weight: 300; line-height: 1.55; }
+.modal-sub strong { color: var(--green); font-weight: 600; }
+
+.form-group { margin-bottom: 14px; }
+.form-label { display: block; font-size: 12.5px; font-weight: 500; color: var(--text2); margin-bottom: 5px; }
+.form-input {
+  width: 100%; background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 9px; padding: 11px 14px;
+  font-size: 14px; font-family: 'Inter', sans-serif;
+  color: var(--text); outline: none;
+  transition: border-color .15s;
+}
+.form-input:focus { border-color: var(--blue); background: #fff; }
+.form-input::placeholder { color: var(--text3); }
+
+.btn-submit {
+  width: 100%; background: var(--blue); color: #fff;
+  border: none; border-radius: 10px; padding: 14px;
+  font-size: 14.5px; font-family: 'Inter', sans-serif; font-weight: 600;
+  cursor: pointer; margin-top: 6px; letter-spacing: -.1px;
+  transition: background .15s, transform .1s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-submit:hover:not(:disabled) { background: var(--blue-h); transform: translateY(-1px); }
+.btn-submit:disabled { opacity: .65; cursor: not-allowed; }
+
+.form-erro { font-size: 12.5px; color: var(--red); margin-top: 10px; text-align: center; display: none; }
+.form-erro.show { display: block; }
+
+/* Sucesso */
+.modal-sucesso { display: none; text-align: center; }
+.modal-sucesso.show { display: block; }
+.sucesso-ico {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(16,185,129,.1); border: 2px solid rgba(16,185,129,.25);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  animation: pop .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+.sucesso-ico i { font-size: 30px; color: var(--green); }
+.sucesso-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.sucesso-txt { font-size: 13.5px; color: var(--text2); line-height: 1.6; font-weight: 300; }
+.sucesso-txt strong { color: var(--text); font-weight: 500; }
+
 /* ── REVEAL ── */
-.reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
 .reveal.visible { opacity: 1; transform: none; }
 
-/* ── CONTADOR REGRESSIVO ── */
-.countdown-bar {
-  background: rgba(239,68,68,.08);
-  border: 1px solid rgba(239,68,68,.2);
-  border-radius: 10px;
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
-.countdown-label {
-  font-size: 12.5px;
-  color: #FCA5A5;
-  font-weight: 400;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.countdown-label i { font-size: 14px; color: var(--red); }
-.countdown-digits {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.cd-unit {
-  background: var(--navy);
-  border: 1px solid rgba(239,68,68,.3);
-  border-radius: 8px;
-  padding: 6px 12px;
-  min-width: 48px;
-  text-align: center;
-}
-.cd-num {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1;
-  display: block;
-}
-.cd-lbl {
-  font-size: 9px;
-  color: rgba(255,255,255,.35);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  display: block;
-  margin-top: 2px;
-}
-.cd-sep {
-  font-size: 20px;
-  font-weight: 700;
-  color: rgba(255,255,255,.25);
-  line-height: 1;
-  margin-bottom: 8px;
-}
-
-/* ── ÍCONE BOX (quadrado #93A8FF com ícone dentro) ── */
-.ico-box {
-  width: 42px; height: 42px;
-  border-radius: 10px;
-  background: #4F6EF7;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 14px;
-  flex-shrink: 0;
-}
-.ico-box i {
-  font-size: 20px;
-  color: #fff;
-}
-/* versão menor para listas */
-.ico-box-sm {
-  width: 28px; height: 28px;
-  border-radius: 7px;
-  background: #4F6EF7;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.ico-box-sm i {
-  font-size: 14px;
-  color: #fff;
-}
-/* versão dor (vermelha) */
-.ico-box-red {
-  width: 24px; height: 24px;
-  border-radius: 6px;
-  background: rgba(239,68,68,.12);
-  border: 1px solid rgba(239,68,68,.2);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 1px;
-}
-.ico-box-red i { font-size: 12px; color: var(--red); }
-
-/* ── LOGO SVG INLINE ── */
-.logo-svg { display: block; width: 28px; height: 28px; }
-
-/* ── MOBILE FIRST — MEDIA QUERIES ── */
+/* ── MOBILE ── */
 @media (max-width: 768px) {
   .container { padding: 0 16px; }
-
-  /* Header mobile */
-  .btn-header { font-size: 12px; padding: 9px 13px; }
-  .logo-name { font-size: 15px; }
-
-  /* Urgência */
-  .urgencia { font-size: 11.5px; padding: 9px 16px; }
-  .urg-tag { display: none; }
-  .header { top: 36px; }
-
-  /* Hero */
-  .hero { padding: 48px 0 0; }
-  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
-  .hero-content { padding-bottom: 0; }
-  .hero h1 { font-size: 32px; }
-  .hero-sub { font-size: 15px; }
-  .hero-cta-stack { align-items: stretch; }
-  .btn-hero { justify-content: center; font-size: 14.5px; padding: 15px 24px; }
-  .hero-preco { justify-content: center; }
-  .hero-visual { display: none; }
-
-  /* Dor */
-  .dor-inner { grid-template-columns: 1fr; gap: 40px; }
-  .dor { padding: 60px 0; }
-
-  /* Como */
-  .como { padding: 60px 0; }
-  .como-steps { grid-template-columns: 1fr; gap: 14px; }
-  .como-steps::before { display: none; }
-
-  /* Features */
-  .features { padding: 60px 0; }
+  .urgencia { font-size: 11px; padding: 9px 16px; }
+  .header { top: 34px; }
+  .btn-login { display: none; }
+  .btn-header { font-size: 11.5px; padding: 9px 12px; }
+  .hero { padding: 52px 0 60px; }
+  .hero h1 { font-size: 30px; }
+  .hero-sub { font-size: 14.5px; }
+  .btn-trial { font-size: 14px; padding: 15px 24px; width: 100%; justify-content: center; }
   .feat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .feat-card { padding: 18px; }
-
-  /* Prova */
-  .prova { padding: 60px 0; }
-  .depo-grid { grid-template-columns: 1fr; gap: 14px; }
-
-  /* Comparativo */
-  .comparativo { padding: 60px 0; }
-  .comp-wrap { overflow-x: auto; }
-
-  /* Preço */
+  .como-steps { grid-template-columns: 1fr; gap: 12px; }
+  .como-steps::before { display: none; }
+  .features { padding: 60px 0; }
+  .como { padding: 60px 0; }
   .preco-section { padding: 60px 0; }
   .preco-card { padding: 28px 20px; }
-  .preco-por-card { font-size: 48px; }
-
-  /* FAQ */
-  .faq { padding: 60px 0; }
-
-  /* CTA final */
-  .cta-final { padding: 60px 0; }
-  .btn-cta-final { width: 100%; justify-content: center; font-size: 14px; padding: 15px 20px; }
-
-  /* Footer */
-  .footer-inner { flex-direction: column; text-align: center; }
+  .preco-por { font-size: 48px; }
+  .modal { padding: 28px 20px; }
+  .modal h2 { font-size: 19px; }
 }
-
 @media (max-width: 420px) {
   .feat-grid { grid-template-columns: 1fr; }
-  .hero h1 { font-size: 28px; }
-  .section-h2 { font-size: 22px; }
-
-  /* Tabela comparativa */
-  .comp-table th, .comp-table td { font-size: 12px; padding: 10px 8px; }
-  .comp-table th:first-child { width: 46%; }
-  .comp-table th { width: 27%; }
-
-  /* Card preço */
-  .preco-card { padding: 24px 18px; }
-  .preco-por-card { font-size: 44px; }
-  .preco-inclui li { font-size: 13px; }
-  .btn-cta-preco { font-size: 13.5px; padding: 15px 10px; }
-
-  /* Header */
-  .btn-header { font-size: 11.5px; padding: 8px 11px; }
+  .hero h1 { font-size: 26px; }
 }
 </style>
 </head>
@@ -1174,32 +428,30 @@ body {
 
 <!-- URGÊNCIA -->
 <div class="urgencia">
-  <span class="urg-tag"><i class="ti ti-bolt"></i> Lançamento</span>
-  <strong>50% OFF</strong> só para os primeiros — <strong id="vagas-num">27</strong> vagas restantes com esse preço
+  <strong>3 dias grátis</strong> — sem cartão de crédito. Depois, apenas <strong>R$197/ano</strong>.
 </div>
 
 <!-- HEADER -->
 <header class="header" id="header">
   <div class="container header-inner">
     <a href="#" class="logo">
-      <!-- Logo "dois blocos livres" formando S -->
-      <svg class="logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- bloco superior: âncora no canto sup. esq, abre para direita -->
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
-        <!-- sombra drop no bloco superior -->
         <rect x="4" y="4" width="22" height="14" rx="4" fill="#1A3BAA" opacity="0.25"/>
         <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
-        <!-- bloco inferior: âncora no canto inf. dir, abre para esquerda -->
         <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
         <rect x="14" y="22" width="22" height="14" rx="4" fill="#1A3BAA" opacity="0.2"/>
         <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
       </svg>
-      <div class="logo-text">
+      <div>
         <span class="logo-name">simpp</span>
         <span class="logo-tag-small">gestão simples</span>
       </div>
     </a>
-    <a href="#preco" class="btn-header">Organizar minha carteira →</a>
+    <div class="header-actions">
+      <a href="https://simpp.com.br" class="btn-login">Acessar minha conta</a>
+      <button onclick="abrirModal()" class="btn-header">Testar grátis →</button>
+    </div>
   </div>
 </header>
 
@@ -1207,284 +459,55 @@ body {
 <section class="hero">
   <div class="container">
     <div class="hero-inner">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span class="dot-pulse"></span>
-          Para pequenos corretores de seguros
-        </div>
-        <h1>Pare de procurar apólice<br>no <em>WhatsApp.</em></h1>
-        <p class="hero-sub">
-          O Simpp organiza toda sua carteira em segundos. Importe o PDF da apólice, a IA faz o resto. Sem planilha, sem confusão.
-        </p>
-        <div class="hero-cta-stack">
-          <button onclick="irParaCheckout()" class="btn-hero">
-            Organizar minha carteira agora →
-          </button>
-          <div class="hero-preco">
-            <span class="preco-de">R$397/ano</span>
-            <span class="preco-por">R$197<span>/ano</span></span>
-            <span class="preco-badge">50% OFF</span>
-          </div>
-        </div>
+      <div class="hero-badge">
+        <span class="dot-pulse"></span>
+        Para pequenos corretores de seguros
       </div>
-
-      <!-- Mockup desktop -->
-      <div class="hero-visual">
-        <div class="fluxo-wrapper" style="position:relative;">
-          <div class="mockup-browser">
-            <div class="mockup-bar">
-              <div class="mdots">
-                <div class="mdot" style="background:#FF5F57"></div>
-                <div class="mdot" style="background:#FFBD2E"></div>
-                <div class="mdot" style="background:#28C840"></div>
-              </div>
-              <div class="murl">app.simpp.com.br</div>
-            </div>
-            <div class="mockup-app">
-              <!-- Sidebar -->
-              <div class="mk-sidebar">
-                <div class="mk-logo-dot">
-                  <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
-                    <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
-                  </svg>
-                </div>
-                <div class="mk-nav-dot active"></div>
-                <div class="mk-nav-dot"></div>
-                <div class="mk-nav-dot"></div>
-                <div class="mk-nav-dot"></div>
-              </div>
-              <!-- Main -->
-              <div class="mk-main">
-                <!-- Topbar -->
-                <div class="mk-topbar">
-                  <div class="mk-search">
-                    <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
-                      <circle cx="7" cy="7" r="5.5" stroke="white" stroke-width="1.5"/>
-                      <path d="M11 11l3 3" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                    Buscar cliente ou apólice...
-                  </div>
-                  <div class="mk-btn-ia"><i class="ti ti-brain" style="font-size:10px;"></i> Importar PDF</div>
-                </div>
-                <!-- Métricas -->
-                <div class="mk-metrics">
-                  <div class="mk-metric">
-                    <div class="mk-m-num">84</div>
-                    <div class="mk-m-label">Apólices</div>
-                    <div class="mk-m-bar"><div class="mk-m-fill" style="width:70%;background:#4F6EF7"></div></div>
-                  </div>
-                  <div class="mk-metric">
-                    <div class="mk-m-num" style="color:#F59E0B">7</div>
-                    <div class="mk-m-label">A renovar</div>
-                    <div class="mk-m-bar"><div class="mk-m-fill" style="width:30%;background:#F59E0B"></div></div>
-                  </div>
-                  <div class="mk-metric">
-                    <div class="mk-m-num" style="color:#10B981">61</div>
-                    <div class="mk-m-label">Vigentes</div>
-                    <div class="mk-m-bar"><div class="mk-m-fill" style="width:73%;background:#10B981"></div></div>
-                  </div>
-                </div>
-                <!-- Lista -->
-                <div class="mk-list">
-                  <div class="mk-row">
-                    <div class="mk-avatar" style="background:#4F6EF7">RS</div>
-                    <div class="mk-info">
-                      <div class="mk-name">Ricardo Santos</div>
-                      <div class="mk-seg">Porto Seguro · Auto</div>
-                    </div>
-                    <div class="mk-badge b-v">Vigente</div>
-                    <div class="mk-val"><strong>R$1.240</strong>anual</div>
-                  </div>
-                  <div class="mk-row">
-                    <div class="mk-avatar" style="background:#F59E0B">MC</div>
-                    <div class="mk-info">
-                      <div class="mk-name">Maria Carvalho</div>
-                      <div class="mk-seg">SulAmérica · Vida</div>
-                    </div>
-                    <div class="mk-badge b-r">A renovar</div>
-                    <div class="mk-val"><strong>R$890</strong>anual</div>
-                  </div>
-                  <div class="mk-row">
-                    <div class="mk-avatar" style="background:#10B981">JP</div>
-                    <div class="mk-info">
-                      <div class="mk-name">João Pereira</div>
-                      <div class="mk-seg">Bradesco · Residencial</div>
-                    </div>
-                    <div class="mk-badge b-v">Vigente</div>
-                    <div class="mk-val"><strong>R$640</strong>anual</div>
-                  </div>
-                  <div class="mk-row">
-                    <div class="mk-avatar" style="background:#93A8FF">AT</div>
-                    <div class="mk-info">
-                      <div class="mk-name">Ana Torres</div>
-                      <div class="mk-seg">HDI · Auto</div>
-                    </div>
-                    <div class="mk-badge b-p">Proposta</div>
-                    <div class="mk-val"><strong>R$1.850</strong>anual</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Notificação flutuante -->
-          <div class="mk-notif">
-            <div class="mk-notif-ico"><i class="ti ti-bell-ringing"></i></div>
-            <div>
-              <div class="mk-notif-title">Renovação em 7 dias</div>
-              <div class="mk-notif-sub">Maria Carvalho · SulAmérica Vida</div>
-            </div>
-          </div>
-        </div>
+      <h1>Pare de procurar apólice<br>no <em>WhatsApp.</em></h1>
+      <p class="hero-sub">
+        O Simpp organiza toda sua carteira em segundos. Importe o PDF da apólice, a IA faz o resto. Sem planilha, sem confusão.
+      </p>
+      <div class="hero-cta-stack">
+        <button onclick="abrirModal()" class="btn-trial">
+          <i class="ti ti-sparkles" style="font-size:16px;"></i>
+          Testar grátis por 3 dias
+        </button>
+        <a href="https://pay.kiwify.com.br/zISskQ6" class="hero-link-assinar">
+          Já decidiu? Assine por R$197/ano →
+        </a>
+      </div>
+      <div class="hero-garantia">
+        <span><i class="ti ti-credit-card-off"></i> Sem cartão de crédito</span>
+        <span><i class="ti ti-lock"></i> Acesso imediato</span>
+        <span><i class="ti ti-x"></i> Cancele quando quiser</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DOR REAL -->
-<section class="dor">
-  <div class="container">
-    <div class="dor-inner">
-      <div class="reveal">
-        <div class="section-chip">O problema real</div>
-        <h2 class="section-h2">A planilha não avisa quando vai vencer.</h2>
-        <p class="section-p">
-          Você abre um grupo no WhatsApp, vai até a última apólice que mandou, tenta lembrar o número da proposta, e o cliente já está esperando na linha. Isso acontece todo dia.
-        </p>
-        <ul class="dor-lista">
-          <li class="dor-item">
-            <div class="ico-box-red"><i class="ti ti-message-circle-x"></i></div>
-            Procura apólice no WhatsApp enquanto o cliente espera
-          </li>
-          <li class="dor-item">
-            <div class="ico-box-red"><i class="ti ti-calendar-x"></i></div>
-            Descobre renovação vencida depois que o cliente reclama
-          </li>
-          <li class="dor-item">
-            <div class="ico-box-red"><i class="ti ti-files-off"></i></div>
-            PDFs espalhados em pastas sem lógica alguma
-          </li>
-          <li class="dor-item">
-            <div class="ico-box-red"><i class="ti ti-table-off"></i></div>
-            Planilha bagunçada com dados desatualizados
-          </li>
-          <li class="dor-item">
-            <div class="ico-box-red"><i class="ti ti-currency-dollar-off"></i></div>
-            Perde renovação por falta de controle — perde comissão
-          </li>
-        </ul>
-      </div>
-      <div class="reveal">
-        <!-- Planilha do caos -->
-        <div class="planilha-wrap">
-          <div class="planilha-hd">
-            <i class="ti ti-table" style="font-size:14px;"></i> Carteira_Apólices_v3_FINAL_2.xlsx
-          </div>
-          <div class="planilha-body">
-            <table class="p-table">
-              <thead>
-                <tr>
-                  <th>Cliente</th>
-                  <th>Seguradora</th>
-                  <th>Vencimento</th>
-                  <th>Valor</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>Ricardo S.</td><td>Porto Seguro</td><td>12/08/2025</td><td>R$1.240</td><td>vigente</td></tr>
-                <tr><td>Maria C.</td><td>SulAmérica</td><td>01/07/2025</td><td>R$890</td><td style="color:#EF4444;font-weight:600">VENCEU?</td></tr>
-                <tr><td>João P.</td><td>Bradesco</td><td>30/09/2025</td><td>R$640</td><td>ok</td></tr>
-                <tr><td>Ana T.</td><td>HDI</td><td>???</td><td></td><td style="color:#F59E0B">pendente</td></tr>
-                <tr><td>Carlos M.</td><td>Allianz</td><td>15/08/2025</td><td>R$2.100</td><td>renovar</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="planilha-caos">
-            <i class="ti ti-alert-triangle" style="font-size:14px;flex-shrink:0;"></i> Quando foi a última atualização disso?
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- COMO FUNCIONA -->
-<section class="como" id="como">
-  <div class="container como-inner">
-    <div class="como-header reveal">
-      <div class="section-chip">Como funciona</div>
-      <h2 class="section-h2">Sobe o PDF. A IA faz o resto.</h2>
-      <p class="section-p">Sem digitar nada. Sem formulário chato. Sem erro de digitação.</p>
-    </div>
-
-    <div class="como-steps">
-      <div class="como-step reveal">
-        <div class="step-num">1</div>
-        <div class="step-ico"><i class="ti ti-file-upload"></i></div>
-        <div class="step-title">Suba a apólice em PDF</div>
-        <div class="step-desc">Qualquer PDF de qualquer seguradora. Porto, Bradesco, SulAmérica, HDI, Tokio, Allianz — não importa.</div>
-      </div>
-      <div class="como-step reveal" style="transition-delay:.1s">
-        <div class="step-num">2</div>
-        <div class="step-ico"><i class="ti ti-cpu"></i></div>
-        <div class="step-title">A IA lê e organiza tudo</div>
-        <div class="step-desc">Cliente, vigência, prêmio, número da apólice, seguradora. Em segundos. Sem você tocar em nada.</div>
-      </div>
-      <div class="como-step reveal" style="transition-delay:.2s">
-        <div class="step-num">3</div>
-        <div class="step-ico"><i class="ti ti-circle-check"></i></div>
-        <div class="step-title">Carteira organizada</div>
-        <div class="step-desc">Tudo cadastrado, alertas configurados, renovações no radar. Você vê tudo em um lugar só.</div>
-      </div>
-    </div>
-
-    <!-- Demo PDF visual -->
-    <div class="pdf-demo reveal" style="transition-delay:.15s">
-      <div class="pdf-file">
-        <div class="pdf-icon"><i class="ti ti-file-type-pdf"></i></div>
-        <div class="pdf-info">
-          <div class="pdf-name">apolice_porto_seguro_maria_carvalho.pdf</div>
-          <div class="pdf-size">1.2 MB · Enviado agora</div>
-        </div>
-        <div style="font-size:11px;color:#4ADE80;font-weight:500;display:flex;align-items:center;gap:4px;"><i class="ti ti-check" style="font-size:13px;"></i> Importado</div>
-      </div>
-      <div class="pdf-arrow"><i class="ti ti-arrow-down" style="font-size:18px;"></i> IA extraiu automaticamente</div>
-      <div class="pdf-result">
-        <div class="pdf-campo"><span class="pdf-label">Cliente</span><span class="pdf-val">Maria Carvalho</span></div>
-        <div class="pdf-campo"><span class="pdf-label">Seguradora</span><span class="pdf-val">Porto Seguro</span></div>
-        <div class="pdf-campo"><span class="pdf-label">Nº Apólice</span><span class="pdf-val">7651482-9</span></div>
-        <div class="pdf-campo"><span class="pdf-label">Vigência</span><span class="pdf-val">01/07/2025 → 01/07/2026</span></div>
-        <div class="pdf-campo"><span class="pdf-label">Prêmio</span><span class="pdf-val">R$ 890,00/ano</span></div>
-        <div class="pdf-campo"><span class="pdf-label">Ramo</span><span class="pdf-val">Vida Individual</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BENEFÍCIOS -->
+<!-- FEATURES -->
 <section class="features">
   <div class="container">
     <div class="features-header reveal">
       <div class="section-chip">Tudo que você precisa</div>
       <h2 class="section-h2">Nada do que você não usa.</h2>
-      <p class="section-p" style="margin-bottom:0">Sem funil de vendas, sem dashboard de BI, sem funcionalidade que só existe pra justificar o preço alto.</p>
+      <p class="section-p">Sem funil de vendas, sem dashboard de BI. Só o que o corretor usa no dia a dia.</p>
     </div>
     <div class="feat-grid">
       <div class="feat-card reveal">
         <div class="feat-ico-wrap"><i class="ti ti-search"></i></div>
         <div class="feat-title">Busca instantânea</div>
-        <div class="feat-desc">Digite o nome do cliente ou a placa do carro. Acha em menos de 1 segundo.</div>
+        <div class="feat-desc">Digite o nome do cliente ou a placa. Acha em menos de 1 segundo.</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.05s">
         <div class="feat-ico-wrap"><i class="ti ti-bell-ringing"></i></div>
         <div class="feat-title">Alertas de renovação</div>
-        <div class="feat-desc">Saiba com antecedência quais apólices vencem em breve. Nunca perca uma comissão.</div>
+        <div class="feat-desc">Saiba com antecedência quais apólices vencem. Nunca perca uma comissão.</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.1s">
         <div class="feat-ico-wrap"><i class="ti ti-brain"></i></div>
         <div class="feat-title">Importação com IA</div>
-        <div class="feat-desc">Sobe o PDF. A IA extrai tudo sozinha. Sem digitação manual, sem erro humano.</div>
+        <div class="feat-desc">Sobe o PDF. A IA extrai tudo sozinha. Sem digitação manual, sem erro.</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.15s">
         <div class="feat-ico-wrap"><i class="ti ti-history"></i></div>
@@ -1494,7 +517,7 @@ body {
       <div class="feat-card reveal" style="transition-delay:.2s">
         <div class="feat-ico-wrap"><i class="ti ti-shield-lock"></i></div>
         <div class="feat-title">Dados seguros</div>
-        <div class="feat-desc">Seus dados isolados, criptografados. Mesmo padrão de fintechs e bancos digitais.</div>
+        <div class="feat-desc">Seus dados isolados, criptografados. Mesmo padrão de bancos digitais.</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.25s">
         <div class="feat-ico-wrap"><i class="ti ti-device-mobile"></i></div>
@@ -1505,100 +528,36 @@ body {
   </div>
 </section>
 
-<!-- PROVA SOCIAL -->
-<section class="prova">
+<!-- COMO FUNCIONA -->
+<section class="como">
   <div class="container">
-    <div class="prova-header reveal">
-      <div class="section-chip">Corretores que saíram da planilha</div>
-      <h2 class="section-h2">O que estão falando.</h2>
+    <div class="como-header reveal">
+      <div class="section-chip" style="justify-content:center;">Como funciona</div>
+      <h2 class="section-h2">Três passos. Começa agora.</h2>
+      <p class="section-p">Do caos da planilha para a carteira organizada em minutos.</p>
     </div>
-    <div class="depo-grid">
-      <div class="depo-card reveal">
-        <div class="depo-stars">★★★★★</div>
-        <p class="depo-txt">"Antes eu perdia tempo procurando apólice em grupos do WhatsApp. Agora digito o nome do cliente e acho tudo em segundos. Não consigo imaginar voltar pra planilha."</p>
-        <div class="depo-autor">
-          <div class="depo-av" style="background:#4F6EF7">RS</div>
-          <div>
-            <div class="depo-nome">Ricardo S.</div>
-            <div class="depo-cargo">Corretor de seguros · SP</div>
-          </div>
-        </div>
+    <div class="como-steps">
+      <div class="como-step reveal">
+        <div class="step-num">1</div>
+        <div class="step-ico"><i class="ti ti-user-plus"></i></div>
+        <div class="step-title">Crie sua conta grátis</div>
+        <div class="step-desc">Nome, e-mail e senha. Sem cartão de crédito. Acesso imediato em segundos.</div>
+        <div class="step-badge"><i class="ti ti-gift" style="font-size:10px;"></i> 3 dias grátis</div>
       </div>
-      <div class="depo-card reveal" style="transition-delay:.08s">
-        <div class="depo-stars">★★★★★</div>
-        <p class="depo-txt">"Finalmente consegui organizar minha carteira sem aprender um sistema complicado. O Simpp é simples do jeito certo. Importei as apólices e já estava funcionando."</p>
-        <div class="depo-autor">
-          <div class="depo-av" style="background:#10B981">MC</div>
-          <div>
-            <div class="depo-nome">Mariana C.</div>
-            <div class="depo-cargo">Corretora de seguros · MG</div>
-          </div>
-        </div>
+      <div class="como-step reveal" style="transition-delay:.1s">
+        <div class="step-num">2</div>
+        <div class="step-ico"><i class="ti ti-file-upload"></i></div>
+        <div class="step-title">Importe suas apólices</div>
+        <div class="step-desc">Sobe os PDFs e a IA organiza tudo automaticamente. Sem digitar nada.</div>
+        <div class="step-badge"><i class="ti ti-cpu" style="font-size:10px;"></i> IA inclusa</div>
       </div>
-      <div class="depo-card reveal" style="transition-delay:.16s">
-        <div class="depo-stars">★★★★★</div>
-        <p class="depo-txt">"R$197 no ano vale mais que uma comissão de seguro de moto. Só com as renovações que eu não perdi no primeiro mês já paguei tudo. É investimento, não despesa."</p>
-        <div class="depo-autor">
-          <div class="depo-av" style="background:#F59E0B">JP</div>
-          <div>
-            <div class="depo-nome">João P.</div>
-            <div class="depo-cargo">Corretor de seguros · RJ</div>
-          </div>
-        </div>
+      <div class="como-step reveal" style="transition-delay:.2s">
+        <div class="step-num">3</div>
+        <div class="step-ico"><i class="ti ti-heart"></i></div>
+        <div class="step-title">Gostou? Assine por R$197</div>
+        <div class="step-desc">Menos que uma comissão de seguro de moto. Sua carteira organizada pelo ano todo.</div>
+        <div class="step-badge"><i class="ti ti-check" style="font-size:10px;"></i> R$0,54/dia</div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- COMPARATIVO -->
-<section class="comparativo">
-  <div class="container">
-    <div class="comp-header reveal">
-      <div class="section-chip">Por que o Simpp?</div>
-      <h2 class="section-h2">O CRM mais barato do mercado. E o mais simples.</h2>
-    </div>
-    <div class="comp-wrap reveal">
-      <table class="comp-table">
-        <thead>
-          <tr>
-            <th>Recurso</th>
-            <th class="th-simpp">✦ Simpp</th>
-            <th class="th-outros">Outros CRMs</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Importação de PDF com IA</td>
-            <td class="td-simpp"><span class="check">✓</span></td>
-            <td><span class="cross">✕</span></td>
-          </tr>
-          <tr>
-            <td>Preço anual</td>
-            <td class="td-simpp" style="color:var(--blue);font-weight:600;">R$ 197</td>
-            <td>R$ 800 – R$ 3.600</td>
-          </tr>
-          <tr>
-            <td>Feito para pequenos corretores</td>
-            <td class="td-simpp"><span class="check">✓</span></td>
-            <td><span class="cross">✕</span></td>
-          </tr>
-          <tr>
-            <td>Sem mensalidade</td>
-            <td class="td-simpp"><span class="check">✓</span></td>
-            <td><span class="cross">✕</span></td>
-          </tr>
-          <tr>
-            <td>Alertas de renovação</td>
-            <td class="td-simpp"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Configuração em 5 minutos</td>
-            <td class="td-simpp"><span class="check">✓</span></td>
-            <td><span class="cross">✕</span></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </section>
@@ -1606,32 +565,19 @@ body {
 <!-- PREÇO -->
 <section class="preco-section" id="preco">
   <div class="container">
-    <div class="preco-inner">
-      <div class="section-chip" style="justify-content:center;">Oferta de lançamento</div>
-      <h2 class="section-h2" style="color:#fff;">Garanta agora com 50% off.</h2>
-
-      <!-- CONTADOR REGRESSIVO -->
-      <div class="countdown-bar">
-        <div class="countdown-label"><i class="ti ti-clock-hour-4"></i> Esta oferta expira em</div>
-        <div class="countdown-digits">
-          <div class="cd-unit"><span class="cd-num" id="cd-min">10</span><span class="cd-lbl">min</span></div>
-          <div class="cd-sep">:</div>
-          <div class="cd-unit"><span class="cd-num" id="cd-sec">00</span><span class="cd-lbl">seg</span></div>
-        </div>
-      </div>
-
-      <div class="urgencia-vagas">
-        <i class="ti ti-alert-circle" style="font-size:14px;color:var(--red);"></i>
-        Apenas <strong id="vagas-num2">&nbsp;27&nbsp;</strong> vagas com esse preço
-      </div>
-
+    <div class="preco-header reveal">
+      <div class="section-chip" style="justify-content:center;">Plano único</div>
+      <h2 class="section-h2">Simples como o sistema.</h2>
+      <p class="section-p">Um plano. Um preço. Tudo incluído.</p>
+    </div>
+    <div class="preco-card-wrap reveal">
       <div class="preco-card">
-        <div class="preco-tag-lancamento"><i class="ti ti-bolt" style="font-size:12px;"></i> Lançamento · 50% off</div>
+        <div class="preco-tag"><i class="ti ti-bolt" style="font-size:11px;"></i> Lançamento · 50% off</div>
         <div class="preco-de-wrap">
-          <div class="preco-de-card">De R$ 397/ano</div>
-          <div class="preco-off-badge">−50%</div>
+          <div class="preco-de">De R$ 397/ano</div>
+          <div class="preco-off">−50%</div>
         </div>
-        <div class="preco-por-card"><sup>R$</sup>197<span>/ano</span></div>
+        <div class="preco-por"><sup>R$</sup>197<span>/ano</span></div>
         <div class="preco-dia">= R$ 0,54 por dia. Menos que um café.</div>
         <div class="preco-div"></div>
         <ul class="preco-inclui">
@@ -1639,92 +585,16 @@ body {
           <li><span class="chk"><i class="ti ti-check"></i></span> Até 25 importações de PDF com IA por mês</li>
           <li><span class="chk"><i class="ti ti-check"></i></span> Alertas de renovação automáticos</li>
           <li><span class="chk"><i class="ti ti-check"></i></span> Histórico completo (endosso, cancelamento)</li>
-          <li><span class="chk"><i class="ti ti-check"></i></span> Seus dados isolados com segurança total</li>
-          <li><span class="chk"><i class="ti ti-check"></i></span> Acesso vitalício ao preço de hoje</li>
+          <li><span class="chk"><i class="ti ti-check"></i></span> Dados isolados com segurança total</li>
+          <li><span class="chk"><i class="ti ti-check"></i></span> Acesso pelo celular, sem instalar nada</li>
         </ul>
-        <button onclick="irParaCheckout()" class="btn-cta-preco">
-          Organizar minha carteira — R$197/ano →
+        <button onclick="abrirModal()" class="btn-trial-preco">
+          Começar teste grátis — 3 dias sem cartão →
         </button>
-        <div class="preco-garantia">Pagamento seguro · Acesso imediato · Cancele quando quiser</div>
-      </div>
-
-      <div class="vagas-bloco">
-        <strong>73% das vagas já foram preenchidas</strong><br>
-        Quando esgotar, o preço volta para R$397/ano.
-        <div class="vagas-bar-wrap"><div class="vagas-bar-fill"></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq">
-  <div class="container">
-    <div class="faq-header reveal">
-      <div class="section-chip">Dúvidas frequentes</div>
-      <h2 class="section-h2">Antes de fechar, leia isso.</h2>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          Funciona para qualquer seguradora?
-          <div class="faq-chevron">▾</div>
-        </div>
-        <div class="faq-a">Sim. A IA do Simpp lê qualquer PDF de proposta ou apólice — Porto Seguro, Bradesco, SulAmérica, HDI, Tokio Marine, Allianz e qualquer outra. Se tem PDF, o Simpp importa.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          Preciso instalar alguma coisa?
-          <div class="faq-chevron">▾</div>
-        </div>
-        <div class="faq-a">Não. O Simpp funciona direto no navegador — Chrome, Safari, Firefox, Edge. Sem instalação, sem aplicativo, sem configuração técnica. Acesse do celular ou computador.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          Meus dados estão seguros?
-          <div class="faq-chevron">▾</div>
-        </div>
-        <div class="faq-a">Completamente. Cada corretor tem acesso isolado — nenhum dado seu é visível por outros. Criptografia em trânsito e em repouso, o mesmo padrão de bancos digitais. Seus PDFs ficam em storage privado.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          O que acontece depois do primeiro ano?
-          <div class="faq-chevron">▾</div>
-        </div>
-        <div class="faq-a">Você renova por R$197/ano (ou o preço vigente). Se não renovar, o acesso é suspenso mas seus dados ficam guardados por 90 dias. Se voltar, tudo estará lá.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          Vale a pena para quem tem menos de 20 apólices?
-          <div class="faq-chevron">▾</div>
-        </div>
-        <div class="faq-a">Especialmente para você. O Simpp foi feito para o corretor que está crescendo — que ainda não justifica pagar R$300/mês em CRM robusto, mas já sofre com a planilha. R$197/ano é menos que uma comissão de seguro de moto.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">
-          Como migro minha carteira atual?
-          <div class="faq-chevron">▾</div>
-        </div>
-        <div class="faq-a">A forma mais rápida é importar os PDFs das apólices ativas — a IA extrai tudo automaticamente. O plano inclui até 25 importações por mês. Para corretores que precisam migrar toda a carteira de uma vez, oferecemos um serviço de implantação: até 200 apólices importadas por um custo adicional único de R$99. Entre em contato pelo contato@simpp.com.br após a assinatura para solicitar.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA FINAL -->
-<section class="cta-final">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-chip" style="justify-content:center;">Última chamada</div>
-      <h2 class="section-h2">Se você leu até aqui,<br>já sabe que precisa disso.</h2>
-      <p class="section-p">Todo dia na planilha é um dia que você pode perder uma renovação. Por R$0,54/dia, isso não faz sentido.</p>
-      <button onclick="irParaCheckout()" class="btn-cta-final">
-        Começar agora por R$197/ano →
-      </button>
-      <div style="margin-top:16px;font-size:12.5px;color:var(--text3);display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
-        <span style="display:flex;align-items:center;gap:5px;"><i class="ti ti-bolt" style="color:#93A8FF;font-size:14px;"></i> Acesso imediato</span>
-        <span style="display:flex;align-items:center;gap:5px;"><i class="ti ti-shield-check" style="color:#93A8FF;font-size:14px;"></i> Pagamento seguro</span>
-        <span style="display:flex;align-items:center;gap:5px;"><i class="ti ti-calendar-off" style="color:#93A8FF;font-size:14px;"></i> Sem mensalidade</span>
+        <a href="https://pay.kiwify.com.br/zISskQ6" class="btn-assinar-preco">
+          Já decidi — assinar por R$197/ano
+        </a>
+        <div class="preco-garantia">Pagamento seguro via Kiwify · Acesso imediato</div>
       </div>
     </div>
   </div>
@@ -1734,15 +604,11 @@ body {
 <footer class="footer">
   <div class="container footer-inner">
     <a href="#" class="logo footer-logo">
-      <svg class="logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="26" height="26" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
-        <rect x="4" y="4" width="22" height="14" rx="4" fill="#1A3BAA" opacity="0.25"/>
-        <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
-        <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
-        <rect x="14" y="22" width="22" height="14" rx="4" fill="#1A3BAA" opacity="0.2"/>
         <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
       </svg>
-      <div class="logo-text">
+      <div>
         <span class="logo-name">simpp</span>
         <span class="logo-tag-small">gestão simples</span>
       </div>
@@ -1752,72 +618,136 @@ body {
   </div>
 </footer>
 
+<!-- MODAL CADASTRO TRIAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="fecharModalFora(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="fecharModal()"><i class="ti ti-x"></i></button>
+
+    <!-- Formulário -->
+    <div id="modalForm">
+      <div class="modal-logo">
+        <svg width="24" height="24" viewBox="0 0 36 36" fill="none">
+          <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
+          <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
+        </svg>
+        <span style="font-size:15px;font-weight:600;color:#0F172A;letter-spacing:-.3px;">simpp</span>
+      </div>
+      <h2>Teste grátis por 3 dias</h2>
+      <p class="modal-sub">Sem cartão de crédito. <strong>Acesso imediato</strong> após confirmar seu e-mail.</p>
+
+      <div class="form-group">
+        <label class="form-label">Nome completo</label>
+        <input type="text" id="inputNome" class="form-input" placeholder="Seu nome" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">E-mail</label>
+        <input type="email" id="inputEmail" class="form-input" placeholder="seu@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Senha</label>
+        <input type="password" id="inputSenha" class="form-input" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+      </div>
+
+      <button class="btn-submit" id="btnSubmit" onclick="cadastrarTrial()">
+        <span id="btnTxt">Criar minha conta grátis</span>
+      </button>
+      <div class="form-erro" id="formErro"></div>
+    </div>
+
+    <!-- Sucesso -->
+    <div class="modal-sucesso" id="modalSucesso">
+      <div class="sucesso-ico"><i class="ti ti-check"></i></div>
+      <div class="sucesso-title">Conta criada!</div>
+      <p class="sucesso-txt">
+        Enviamos um e-mail de confirmação para <strong id="emailConfirm"></strong>.<br><br>
+        Clique no link do e-mail para ativar sua conta e começar a usar o Simpp.
+      </p>
+    </div>
+  </div>
+</div>
+
 <script>
-// FAQ toggle
-function toggleFaq(el) {
-  var item = el.closest('.faq-item');
-  var isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(function(i) { i.classList.remove('open'); });
-  if (!isOpen) item.classList.add('open');
+// Supabase
+const { createClient } = supabase;
+const sb = createClient(
+  'https://qqmfvpubrrdxakowpldv.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxbWZ2cHVicnJkeGFrb3dwbGR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1NTI4NTMsImV4cCI6MjA2MDEyODg1M30.eiw8QMzPOlSnfMEmMhOIUy_WL-5AYVPxWkv3TJLrdoo'
+);
+
+// Modal
+function abrirModal() {
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('inputNome').focus(), 300);
+}
+function fecharModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+function fecharModalFora(e) {
+  if (e.target === document.getElementById('modalOverlay')) fecharModal();
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') fecharModal();
+});
+
+// Cadastro trial
+async function cadastrarTrial() {
+  const nome  = document.getElementById('inputNome').value.trim();
+  const email = document.getElementById('inputEmail').value.trim();
+  const senha = document.getElementById('inputSenha').value;
+  const erro  = document.getElementById('formErro');
+  const btn   = document.getElementById('btnSubmit');
+  const txt   = document.getElementById('btnTxt');
+
+  erro.classList.remove('show');
+
+  if (!nome) { mostrarErro('Informe seu nome.'); return; }
+  if (!email || !email.includes('@')) { mostrarErro('Informe um e-mail válido.'); return; }
+  if (senha.length < 6) { mostrarErro('A senha precisa ter pelo menos 6 caracteres.'); return; }
+
+  btn.disabled = true;
+  txt.textContent = 'Criando conta...';
+
+  const { error } = await sb.auth.signUp({
+    email,
+    password: senha,
+    options: {
+      data: { full_name: nome }
+    }
+  });
+
+  if (error) {
+    btn.disabled = false;
+    txt.textContent = 'Criar minha conta grátis';
+    if (error.message.includes('already registered')) {
+      mostrarErro('Este e-mail já está cadastrado. Acesse sua conta em simpp.com.br.');
+    } else {
+      mostrarErro('Erro ao criar conta. Tente novamente.');
+    }
+    return;
+  }
+
+  // Sucesso
+  document.getElementById('emailConfirm').textContent = email;
+  document.getElementById('modalForm').style.display = 'none';
+  document.getElementById('modalSucesso').classList.add('show');
 }
 
-// Scroll reveal
+function mostrarErro(msg) {
+  const el = document.getElementById('formErro');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+// Reveal
 var observer = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) {
-    if (e.isIntersecting) { e.target.classList.add('visible'); }
-  });
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(function(r) { observer.observe(r); });
 
-// Header shadow on scroll
+// Header shadow
 window.addEventListener('scroll', function() {
   document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
 }, { passive: true });
-
-// Contador regressivo 10 minutos
-(function() {
-  var STORAGE_KEY = 'simpp_cd_end';
-  var end = sessionStorage.getItem(STORAGE_KEY);
-  if (!end) {
-    end = Date.now() + 10 * 60 * 1000;
-    sessionStorage.setItem(STORAGE_KEY, end);
-  } else {
-    end = parseInt(end, 10);
-  }
-
-  function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-  var elMin = document.getElementById('cd-min');
-  var elSec = document.getElementById('cd-sec');
-
-  function tick() {
-    var remaining = Math.max(0, end - Date.now());
-    var totalSec = Math.floor(remaining / 1000);
-    var m = Math.floor(totalSec / 60);
-    var s = totalSec % 60;
-    if (elMin) elMin.textContent = pad(m);
-    if (elSec) elSec.textContent = pad(s);
-    if (remaining > 0) {
-      setTimeout(tick, 500);
-    }
-  }
-  tick();
-})();
-var vagas = 27;
-function syncVagas() {
-  var v1 = document.getElementById('vagas-num');
-  var v2 = document.getElementById('vagas-num2');
-  if (v1) v1.textContent = ' ' + vagas + ' ';
-  if (v2) v2.textContent = ' ' + vagas + ' ';
-}
-setInterval(function() {
-  if (Math.random() < 0.3 && vagas > 3) { vagas--; syncVagas(); }
-}, 45000);
-
-// Checkout Kiwify
-function irParaCheckout() {
-  window.location.href = 'https://pay.kiwify.com.br/zISskQ6';
-}
 </script>
 </body>
 </html>
