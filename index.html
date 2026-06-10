@@ -78,10 +78,10 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
 }
 .btn-header:hover { background: var(--blue-h); transform: translateY(-1px); }
 
-/* ── HERO ── */
+/* ── HERO MOCKUP ANIMADO ── */
 .hero {
   background: var(--navy);
-  padding: 72px 0 80px;
+  padding: 72px 0 0;
   position: relative; overflow: hidden;
   text-align: center;
 }
@@ -89,9 +89,177 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
   content: '';
   position: absolute; inset: 0;
   background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(79,110,247,.2) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+
+/* mockup de fundo */
+.hero-bg-mockup {
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 820px;
+  opacity: .18;
+  pointer-events: none;
+  z-index: 1;
+  animation: mockupDrift 8s ease-in-out infinite;
+}
+@keyframes mockupDrift {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-10px); }
+}
+
+.hero-inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; padding-bottom: 72px; }
+
+/* partículas flutuantes */
+.hero-particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+.particle {
+  position: absolute; border-radius: 50%;
+  background: rgba(79,110,247,.35);
+  animation: particleFlt linear infinite;
+}
+@keyframes particleFlt {
+  0%   { transform: translateY(0) scale(1); opacity: .5; }
+  50%  { opacity: .2; }
+  100% { transform: translateY(-80px) scale(.6); opacity: 0; }
+}
+
+/* notif flutuante à direita */
+.hero-notif {
+  position: absolute;
+  right: 40px; top: 60px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.3);
+  display: flex; align-items: flex-start; gap: 10px;
+  min-width: 200px;
+  z-index: 3;
+  animation: floatNotif 4s ease-in-out infinite;
   pointer-events: none;
 }
-.hero-inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
+@keyframes floatNotif {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.hero-notif-ico {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: rgba(245,158,11,.12);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.hero-notif-ico i { font-size: 15px; color: var(--amber); }
+.hero-notif-title { font-size: 11.5px; font-weight: 600; color: var(--text); margin-bottom: 1px; }
+.hero-notif-sub { font-size: 10.5px; color: var(--text2); font-weight: 300; }
+
+/* card search flutuante à esquerda */
+.hero-search-card {
+  position: absolute;
+  left: 32px; bottom: 120px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.3);
+  z-index: 3;
+  animation: floatSearch 5s ease-in-out infinite;
+  pointer-events: none;
+  min-width: 190px;
+}
+@keyframes floatSearch {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.hero-search-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; font-weight: 500; }
+.hero-search-row { display: flex; align-items: center; gap: 8px; }
+.hero-search-av {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--blue);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.hero-search-info { flex: 1; }
+.hero-search-name { font-size: 11px; font-weight: 600; color: var(--text); }
+.hero-search-seg { font-size: 9.5px; color: var(--text2); font-weight: 300; }
+.hero-search-badge {
+  font-size: 9px; border-radius: 4px; padding: 2px 6px; font-weight: 500;
+  background: rgba(16,185,129,.1); color: #10B981;
+}
+
+/* Mockup browser */
+.mock-browser {
+  background: #141c2e;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  box-shadow: 0 -8px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+}
+.mock-bar {
+  background: #0d1525;
+  padding: 9px 14px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.mock-dots { display: flex; gap: 5px; }
+.mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+.mock-url {
+  flex: 1; background: rgba(255,255,255,.05); border-radius: 4px;
+  padding: 3px 10px; font-size: 9.5px; color: rgba(255,255,255,.25); font-family: monospace;
+}
+.mock-app { display: flex; height: 280px; }
+.mock-sidebar {
+  width: 44px; background: #0d1525;
+  border-right: 1px solid rgba(255,255,255,.04);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 10px 0; gap: 12px; flex-shrink: 0;
+}
+.mock-nav { width: 22px; height: 22px; border-radius: 6px; background: rgba(255,255,255,.04); }
+.mock-nav.active { background: rgba(79,110,247,.25); border: 1px solid rgba(79,110,247,.4); }
+.mock-main { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; background: #0f1629; }
+.mock-topbar { display: flex; align-items: center; gap: 7px; }
+.mock-search-inp {
+  flex: 1; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.07);
+  border-radius: 6px; padding: 5px 9px; font-size: 9.5px; color: rgba(255,255,255,.25);
+  display: flex; align-items: center; gap: 5px;
+}
+.mock-btn-imp {
+  background: rgba(79,110,247,.15); border: 1px solid rgba(79,110,247,.3);
+  border-radius: 6px; padding: 5px 9px; font-size: 8.5px; color: #93A8FF; font-weight: 500; white-space: nowrap;
+}
+.mock-metrics { display: flex; gap: 7px; }
+.mock-metric {
+  flex: 1; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
+  border-radius: 7px; padding: 8px 9px;
+}
+.mock-m-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #E8EEF8; line-height: 1; margin-bottom: 2px; }
+.mock-m-lbl { font-size: 8px; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .06em; }
+.mock-m-bar { height: 2px; background: rgba(255,255,255,.06); border-radius: 1px; margin-top: 5px; overflow: hidden; }
+.mock-m-fill { height: 100%; border-radius: 1px; }
+.mock-list { display: flex; flex-direction: column; gap: 5px; flex: 1; overflow: hidden; }
+.mock-row {
+  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.05);
+  border-radius: 7px; padding: 7px 10px;
+  display: flex; align-items: center; gap: 8px;
+  animation: rowPulse 3s ease-in-out infinite;
+}
+.mock-row:nth-child(2) { animation-delay: .5s; }
+.mock-row:nth-child(3) { animation-delay: 1s; }
+.mock-row:nth-child(4) { animation-delay: 1.5s; }
+@keyframes rowPulse {
+  0%,100% { border-color: rgba(255,255,255,.05); }
+  50%      { border-color: rgba(79,110,247,.2); }
+}
+.mock-av {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.mock-info { flex: 1; min-width: 0; }
+.mock-name { font-size: 10px; color: #E8EEF8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mock-seg { font-size: 8.5px; color: rgba(255,255,255,.3); margin-top: 1px; }
+.mock-badge { font-size: 8px; border-radius: 4px; padding: 2px 6px; font-weight: 500; white-space: nowrap; }
+.b-v { background: rgba(16,185,129,.12); color: #34D399; }
+.b-r { background: rgba(245,158,11,.12); color: #FCD34D; }
+.b-p { background: rgba(79,110,247,.12); color: #93A8FF; }
+.mock-val { font-size: 9.5px; color: rgba(255,255,255,.35); text-align: right; }
+.mock-val strong { display: block; color: #C8D3E8; font-size: 10px; font-weight: 400; }
 
 .hero-badge {
   display: inline-flex; align-items: center; gap: 7px;
@@ -136,13 +304,13 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
 .btn-trial:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
 
 .hero-link-assinar {
-  font-size: 13px; color: rgba(255,255,255,.4);
-  text-decoration: none; font-weight: 300;
+  font-size: 13.5px; color: rgba(255,255,255,.75);
+  text-decoration: none; font-weight: 500;
   transition: color .15s;
-  border-bottom: 1px solid rgba(255,255,255,.15);
-  padding-bottom: 1px;
+  border-bottom: 1px solid rgba(255,255,255,.35);
+  padding-bottom: 2px;
 }
-.hero-link-assinar:hover { color: rgba(255,255,255,.7); }
+.hero-link-assinar:hover { color: #fff; border-bottom-color: rgba(255,255,255,.7); }
 
 .hero-garantia {
   margin-top: 16px;
@@ -406,6 +574,7 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
   .hero h1 { font-size: 30px; }
   .hero-sub { font-size: 14.5px; }
   .btn-trial { font-size: 14px; padding: 15px 24px; width: 100%; justify-content: center; }
+  .hero-bg-mockup, .hero-notif, .hero-search-card { display: none; }
   .feat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .feat-card { padding: 18px; }
   .como-steps { grid-template-columns: 1fr; gap: 12px; }
@@ -457,6 +626,114 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
 
 <!-- HERO -->
 <section class="hero">
+  <!-- Partículas flutuantes -->
+  <div class="hero-particles">
+    <div class="particle" style="width:4px;height:4px;left:15%;top:70%;animation-duration:6s;animation-delay:0s;"></div>
+    <div class="particle" style="width:3px;height:3px;left:25%;top:80%;animation-duration:8s;animation-delay:1s;"></div>
+    <div class="particle" style="width:5px;height:5px;left:70%;top:60%;animation-duration:7s;animation-delay:2s;"></div>
+    <div class="particle" style="width:3px;height:3px;left:80%;top:75%;animation-duration:9s;animation-delay:.5s;"></div>
+    <div class="particle" style="width:4px;height:4px;left:55%;top:85%;animation-duration:6.5s;animation-delay:3s;"></div>
+    <div class="particle" style="width:2px;height:2px;left:40%;top:65%;animation-duration:7.5s;animation-delay:1.5s;"></div>
+  </div>
+
+  <!-- Mockup de fundo animado -->
+  <div class="hero-bg-mockup">
+    <div class="mock-browser">
+      <div class="mock-bar">
+        <div class="mock-dots">
+          <div class="mock-dot" style="background:#FF5F57"></div>
+          <div class="mock-dot" style="background:#FFBD2E"></div>
+          <div class="mock-dot" style="background:#28C840"></div>
+        </div>
+        <div class="mock-url">app.simpp.com.br</div>
+      </div>
+      <div class="mock-app">
+        <div class="mock-sidebar">
+          <svg width="22" height="22" viewBox="0 0 36 36" fill="none"><rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/><rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/></svg>
+          <div class="mock-nav active"></div>
+          <div class="mock-nav"></div>
+          <div class="mock-nav"></div>
+          <div class="mock-nav"></div>
+        </div>
+        <div class="mock-main">
+          <div class="mock-topbar">
+            <div class="mock-search-inp">
+              <svg width="9" height="9" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="white" stroke-width="1.5"/><path d="M11 11l3 3" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Buscar cliente ou apólice...
+            </div>
+            <div class="mock-btn-imp">Importar PDF</div>
+          </div>
+          <div class="mock-metrics">
+            <div class="mock-metric">
+              <div class="mock-m-num">84</div>
+              <div class="mock-m-lbl">Apólices</div>
+              <div class="mock-m-bar"><div class="mock-m-fill" style="width:70%;background:#4F6EF7"></div></div>
+            </div>
+            <div class="mock-metric">
+              <div class="mock-m-num" style="color:#F59E0B">7</div>
+              <div class="mock-m-lbl">A renovar</div>
+              <div class="mock-m-bar"><div class="mock-m-fill" style="width:30%;background:#F59E0B"></div></div>
+            </div>
+            <div class="mock-metric">
+              <div class="mock-m-num" style="color:#10B981">61</div>
+              <div class="mock-m-lbl">Vigentes</div>
+              <div class="mock-m-bar"><div class="mock-m-fill" style="width:73%;background:#10B981"></div></div>
+            </div>
+          </div>
+          <div class="mock-list">
+            <div class="mock-row">
+              <div class="mock-av" style="background:#4F6EF7">RS</div>
+              <div class="mock-info"><div class="mock-name">Ricardo Santos</div><div class="mock-seg">Porto Seguro · Auto</div></div>
+              <div class="mock-badge b-v">Vigente</div>
+              <div class="mock-val"><strong>R$1.240</strong>anual</div>
+            </div>
+            <div class="mock-row">
+              <div class="mock-av" style="background:#F59E0B">MC</div>
+              <div class="mock-info"><div class="mock-name">Maria Carvalho</div><div class="mock-seg">SulAmérica · Vida</div></div>
+              <div class="mock-badge b-r">A renovar</div>
+              <div class="mock-val"><strong>R$890</strong>anual</div>
+            </div>
+            <div class="mock-row">
+              <div class="mock-av" style="background:#10B981">JP</div>
+              <div class="mock-info"><div class="mock-name">João Pereira</div><div class="mock-seg">Bradesco · Residencial</div></div>
+              <div class="mock-badge b-v">Vigente</div>
+              <div class="mock-val"><strong>R$640</strong>anual</div>
+            </div>
+            <div class="mock-row">
+              <div class="mock-av" style="background:#93A8FF">AT</div>
+              <div class="mock-info"><div class="mock-name">Ana Torres</div><div class="mock-seg">HDI · Auto</div></div>
+              <div class="mock-badge b-p">Proposta</div>
+              <div class="mock-val"><strong>R$1.850</strong>anual</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notif flutuante direita -->
+  <div class="hero-notif">
+    <div class="hero-notif-ico"><i class="ti ti-bell-ringing"></i></div>
+    <div>
+      <div class="hero-notif-title">Renovação em 7 dias</div>
+      <div class="hero-notif-sub">Maria Carvalho · SulAmérica</div>
+    </div>
+  </div>
+
+  <!-- Card busca flutuante esquerda -->
+  <div class="hero-search-card">
+    <div class="hero-search-label">Cliente encontrado</div>
+    <div class="hero-search-row">
+      <div class="hero-search-av">RS</div>
+      <div class="hero-search-info">
+        <div class="hero-search-name">Ricardo Santos</div>
+        <div class="hero-search-seg">Porto Seguro · Auto</div>
+      </div>
+      <div class="hero-search-badge">Vigente</div>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal -->
   <div class="container">
     <div class="hero-inner">
       <div class="hero-badge">
@@ -465,7 +742,7 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
       </div>
       <h1>Pare de procurar apólice<br>no <em>WhatsApp.</em></h1>
       <p class="hero-sub">
-        O Simpp organiza toda sua carteira em segundos. Importe o PDF da apólice, a IA faz o resto. Sem planilha, sem confusão.
+        O Simpp organiza toda sua carteira em segundos. Importe o PDF da apólice e o Simpp faz o resto. Sem planilha, sem confusão.
       </p>
       <div class="hero-cta-stack">
         <button onclick="abrirModal()" class="btn-trial">
@@ -506,8 +783,8 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
       </div>
       <div class="feat-card reveal" style="transition-delay:.1s">
         <div class="feat-ico-wrap"><i class="ti ti-brain"></i></div>
-        <div class="feat-title">Importação com IA</div>
-        <div class="feat-desc">Sobe o PDF. A IA extrai tudo sozinha. Sem digitação manual, sem erro.</div>
+        <div class="feat-title">Importação inteligente</div>
+        <div class="feat-desc">Sobe o PDF e o Simpp extrai tudo sozinho. Sem digitação manual, sem erro.</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.15s">
         <div class="feat-ico-wrap"><i class="ti ti-history"></i></div>
@@ -548,14 +825,14 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
         <div class="step-num">2</div>
         <div class="step-ico"><i class="ti ti-file-upload"></i></div>
         <div class="step-title">Importe suas apólices</div>
-        <div class="step-desc">Sobe os PDFs e a IA organiza tudo automaticamente. Sem digitar nada.</div>
-        <div class="step-badge"><i class="ti ti-cpu" style="font-size:10px;"></i> IA inclusa</div>
+        <div class="step-desc">Sobe os PDFs e o Simpp organiza tudo automaticamente. Sem digitar nada.</div>
+        <div class="step-badge"><i class="ti ti-sparkles" style="font-size:10px;"></i> O Simpp faz o resto</div>
       </div>
       <div class="como-step reveal" style="transition-delay:.2s">
         <div class="step-num">3</div>
         <div class="step-ico"><i class="ti ti-heart"></i></div>
         <div class="step-title">Gostou? Assine por R$197</div>
-        <div class="step-desc">Menos que uma comissão de seguro de moto. Sua carteira organizada pelo ano todo.</div>
+        <div class="step-desc">Use por 12 meses sem mensalidade. Menos que uma comissão de seguro de moto.</div>
         <div class="step-badge"><i class="ti ti-check" style="font-size:10px;"></i> R$0,54/dia</div>
       </div>
     </div>
@@ -587,6 +864,10 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
           <li><span class="chk"><i class="ti ti-check"></i></span> Histórico completo (endosso, cancelamento)</li>
           <li><span class="chk"><i class="ti ti-check"></i></span> Dados isolados com segurança total</li>
           <li><span class="chk"><i class="ti ti-check"></i></span> Acesso pelo celular, sem instalar nada</li>
+          <li>
+            <span style="color:var(--amber);font-size:13px;flex-shrink:0;margin-top:1px;"><i class="ti ti-clock"></i></span>
+            <span style="color:var(--text3);font-size:13px;font-weight:300;">App nativo para celular <span style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:4px;padding:1px 7px;font-size:10.5px;color:var(--amber);font-weight:500;margin-left:4px;">Em breve</span></span>
+          </li>
         </ul>
         <button onclick="abrirModal()" class="btn-trial-preco">
           Começar teste grátis — 3 dias sem cartão →
