@@ -925,6 +925,10 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
         <input type="email" id="inputEmail" class="form-input" placeholder="seu@email.com" autocomplete="email">
       </div>
       <div class="form-group">
+        <label class="form-label">WhatsApp</label>
+        <input type="tel" id="inputWhatsapp" class="form-input" placeholder="(00) 00000-0000" autocomplete="tel">
+      </div>
+      <div class="form-group">
         <label class="form-label">Senha</label>
         <input type="password" id="inputSenha" class="form-input" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
       </div>
@@ -972,18 +976,19 @@ document.addEventListener('keydown', function(e) {
 
 // Cadastro trial
 async function cadastrarTrial() {
-  const nome  = document.getElementById('inputNome').value.trim();
-  const email = document.getElementById('inputEmail').value.trim();
-  const senha = document.getElementById('inputSenha').value;
-  const erro  = document.getElementById('formErro');
-  const btn   = document.getElementById('btnSubmit');
-  const txt   = document.getElementById('btnTxt');
+  const nome      = document.getElementById('inputNome').value.trim();
+  const email     = document.getElementById('inputEmail').value.trim();
+  const whatsapp  = document.getElementById('inputWhatsapp').value.trim();
+  const senha     = document.getElementById('inputSenha').value;
+  const btn       = document.getElementById('btnSubmit');
+  const txt       = document.getElementById('btnTxt');
 
-  erro.classList.remove('show');
+  document.getElementById('formErro').classList.remove('show');
 
-  if (!nome) { mostrarErro('Informe seu nome.'); return; }
+  if (!nome)                          { mostrarErro('Informe seu nome.'); return; }
   if (!email || !email.includes('@')) { mostrarErro('Informe um e-mail válido.'); return; }
-  if (senha.length < 6) { mostrarErro('A senha precisa ter pelo menos 6 caracteres.'); return; }
+  if (!whatsapp)                      { mostrarErro('Informe seu WhatsApp.'); return; }
+  if (senha.length < 6)               { mostrarErro('A senha precisa ter pelo menos 6 caracteres.'); return; }
 
   btn.disabled = true;
   txt.textContent = 'Criando conta...';
@@ -992,7 +997,11 @@ async function cadastrarTrial() {
     email,
     password: senha,
     options: {
-      data: { full_name: nome }
+      emailRedirectTo: 'https://simpp.com.br',
+      data: {
+        full_name: nome,
+        whatsapp: whatsapp,
+      }
     }
   });
 
@@ -1000,14 +1009,13 @@ async function cadastrarTrial() {
     btn.disabled = false;
     txt.textContent = 'Criar minha conta grátis';
     if (error.message.includes('already registered')) {
-      mostrarErro('Este e-mail já está cadastrado. Acesse sua conta em simpp.com.br.');
+      mostrarErro('Este e-mail já está cadastrado. Acesse em simpp.com.br.');
     } else {
       mostrarErro('Erro ao criar conta. Tente novamente.');
     }
     return;
   }
 
-  // Sucesso
   document.getElementById('emailConfirm').textContent = email;
   document.getElementById('modalForm').style.display = 'none';
   document.getElementById('modalSucesso').classList.add('show');
