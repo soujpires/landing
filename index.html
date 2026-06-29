@@ -586,6 +586,8 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
   .preco-por { font-size: 48px; }
   .modal { padding: 28px 20px; }
   .modal h2 { font-size: 19px; }
+  .dor-grid { grid-template-columns: 1fr !important; }
+  .depo-grid-wrap { grid-template-columns: 1fr !important; }
 }
 @media (max-width: 420px) {
   .feat-grid { grid-template-columns: 1fr; }
@@ -597,7 +599,7 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
 
 <!-- URGÊNCIA -->
 <div class="urgencia">
-  <strong>3 dias grátis</strong> — sem cartão de crédito. Depois, apenas <strong>R$197/ano</strong>.
+  <strong>3 dias grátis</strong> — sem cartão de crédito. Depois, apenas <strong>R$297/ano</strong>.
 </div>
 
 <!-- HEADER -->
@@ -740,9 +742,9 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
         <span class="dot-pulse"></span>
         Para pequenos corretores de seguros
       </div>
-      <h1>Pare de procurar apólice<br>no <em>WhatsApp.</em></h1>
+      <h1>Sua carteira organizada.<br><em>Sua comissão protegida.</em></h1>
       <p class="hero-sub">
-        O Simpp organiza toda sua carteira em segundos. Importe o PDF da apólice e o Simpp faz o resto. Sem planilha, sem confusão.
+        Corretor que perde renovação perde comissão. O Simpp avisa antes, organiza tudo e te deixa encontrar qualquer apólice em segundos — sem planilha, sem WhatsApp, sem estresse.
       </p>
       <div class="hero-cta-stack">
         <button onclick="abrirModal()" class="btn-trial">
@@ -750,7 +752,7 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
           Testar grátis por 3 dias
         </button>
         <a href="https://pay.kiwify.com.br/zISskQ6" class="hero-link-assinar">
-          Já decidiu? Assine por R$197/ano →
+          Já decidiu? Assine por R$297/ano →
         </a>
       </div>
       <div class="hero-garantia">
@@ -768,38 +770,38 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
     <div class="features-header reveal">
       <div class="section-chip">Tudo que você precisa</div>
       <h2 class="section-h2">Nada do que você não usa.</h2>
-      <p class="section-p">Sem funil de vendas, sem dashboard de BI. Só o que o corretor usa no dia a dia.</p>
+      <p class="section-p">O Simpp foi criado por quem entende a rotina do corretor. Sem funcionalidade de enfeite, sem curva de aprendizado, sem suporte técnico para configurar. Abre e usa.</p>
     </div>
     <div class="feat-grid">
       <div class="feat-card reveal">
         <div class="feat-ico-wrap"><i class="ti ti-search"></i></div>
         <div class="feat-title">Busca instantânea</div>
-        <div class="feat-desc">Digite o nome do cliente ou a placa. Acha em menos de 1 segundo.</div>
+        <div class="feat-desc">Cliente liga perguntando sobre a apólice. Você digita o nome e a resposta aparece antes de ele terminar de falar.</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.05s">
         <div class="feat-ico-wrap"><i class="ti ti-bell-ringing"></i></div>
         <div class="feat-title">Alertas de renovação</div>
-        <div class="feat-desc">Saiba com antecedência quais apólices vencem. Nunca perca uma comissão.</div>
+        <div class="feat-desc">O Simpp avisa antes de vencer. Você aborda o cliente no momento certo — e não perde a comissão para o concorrente.</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.1s">
         <div class="feat-ico-wrap"><i class="ti ti-brain"></i></div>
         <div class="feat-title">Importação inteligente</div>
-        <div class="feat-desc">Sobe o PDF e o Simpp extrai tudo sozinho. Sem digitação manual, sem erro.</div>
+        <div class="feat-desc">Sobe o PDF da apólice e o Simpp lê tudo sozinho — nome, vigência, prêmio, seguradora. Zero digitação, zero erro.</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.15s">
         <div class="feat-ico-wrap"><i class="ti ti-history"></i></div>
         <div class="feat-title">Histórico completo</div>
-        <div class="feat-desc">Endossos, cancelamentos, renovações. Tudo documentado e fácil de achar.</div>
+        <div class="feat-desc">Endosso, cancelamento, renovação, sinistro. Tudo registrado com data e documento. Nunca mais "não sei o que aconteceu com essa apólice".</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.2s">
         <div class="feat-ico-wrap"><i class="ti ti-shield-lock"></i></div>
-        <div class="feat-title">Dados seguros</div>
-        <div class="feat-desc">Seus dados isolados, criptografados. Mesmo padrão de bancos digitais.</div>
+        <div class="feat-title">Seus dados só seus</div>
+        <div class="feat-desc">Cada corretor tem acesso isolado. Nenhum dado seu é visível por outros. Criptografia e segurança de nível bancário.</div>
       </div>
       <div class="feat-card reveal" style="transition-delay:.25s">
         <div class="feat-ico-wrap"><i class="ti ti-device-mobile"></i></div>
-        <div class="feat-title">Acessa pelo celular</div>
-        <div class="feat-desc">Funciona no navegador. Sem instalar nada. iPhone, Android, qualquer device.</div>
+        <div class="feat-title">Funciona em qualquer tela</div>
+        <div class="feat-desc">Celular, tablet ou computador. Sem instalar nada. Abre no navegador e sua carteira está lá — em qualquer lugar.</div>
       </div>
     </div>
   </div>
@@ -811,29 +813,130 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
     <div class="como-header reveal">
       <div class="section-chip" style="justify-content:center;">Como funciona</div>
       <h2 class="section-h2">Três passos. Começa agora.</h2>
-      <p class="section-p">Do caos da planilha para a carteira organizada em minutos.</p>
+      <p class="section-p">Do caos da planilha para a carteira organizada. Em menos tempo do que você imagina.</p>
     </div>
     <div class="como-steps">
       <div class="como-step reveal">
         <div class="step-num">1</div>
         <div class="step-ico"><i class="ti ti-user-plus"></i></div>
         <div class="step-title">Crie sua conta grátis</div>
-        <div class="step-desc">Nome, e-mail e senha. Sem cartão de crédito. Acesso imediato em segundos.</div>
+        <div class="step-desc">Nome, e-mail e senha. Sem cartão de crédito, sem burocracia. Você está dentro em menos de 2 minutos.</div>
         <div class="step-badge"><i class="ti ti-gift" style="font-size:10px;"></i> 3 dias grátis</div>
       </div>
       <div class="como-step reveal" style="transition-delay:.1s">
         <div class="step-num">2</div>
         <div class="step-ico"><i class="ti ti-file-upload"></i></div>
         <div class="step-title">Importe suas apólices</div>
-        <div class="step-desc">Sobe os PDFs e o Simpp organiza tudo automaticamente. Sem digitar nada.</div>
+        <div class="step-desc">Sobe o PDF e o Simpp lê tudo sozinho. Nome do cliente, vigência, prêmio, seguradora — organizados automaticamente.</div>
         <div class="step-badge"><i class="ti ti-sparkles" style="font-size:10px;"></i> O Simpp faz o resto</div>
       </div>
       <div class="como-step reveal" style="transition-delay:.2s">
         <div class="step-num">3</div>
         <div class="step-ico"><i class="ti ti-heart"></i></div>
-        <div class="step-title">Gostou? Assine por R$197</div>
-        <div class="step-desc">Use por 12 meses sem mensalidade. Menos que uma comissão de seguro de moto.</div>
-        <div class="step-badge"><i class="ti ti-check" style="font-size:10px;"></i> R$0,54/dia</div>
+        <div class="step-title">Gostou? Assine por R$297</div>
+        <div class="step-desc">Use por 12 meses sem mensalidade. Menos que uma comissão de seguro de moto por ano inteiro.</div>
+        <div class="step-badge"><i class="ti ti-check" style="font-size:10px;"></i> R$0,81/dia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOR REAL -->
+<section style="padding:80px 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div style="text-align:center;max-width:640px;margin:0 auto 52px;" class="reveal">
+      <div class="section-chip">A realidade do corretor sem sistema</div>
+      <h2 class="section-h2">Você já perdeu comissão por isso.</h2>
+      <p class="section-p">Não é falta de esforço. É falta de ferramenta certa. Reconhece alguma dessas situações?</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:780px;margin:0 auto;" class="dor-grid">
+      <div class="reveal" style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:36px;height:36px;border-radius:9px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ti ti-message-circle-x" style="font-size:16px;color:var(--red);"></i>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;">Apólice perdida no WhatsApp</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;">Cliente ligou, você ficou procurando nos grupos enquanto ele esperou na linha.</div>
+        </div>
+      </div>
+      <div class="reveal" style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;" >
+        <div style="width:36px;height:36px;border-radius:9px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ti ti-calendar-x" style="font-size:16px;color:var(--red);"></i>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;">Renovação que você não viu vencer</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;">A apólice expirou, o cliente ficou descoberto e a comissão foi para outro corretor.</div>
+        </div>
+      </div>
+      <div class="reveal" style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:36px;height:36px;border-radius:9px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ti ti-table-off" style="font-size:16px;color:var(--red);"></i>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;">Planilha desatualizada</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;">A última atualização foi há semanas. Você não confia mais nos dados que estão lá.</div>
+        </div>
+      </div>
+      <div class="reveal" style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:36px;height:36px;border-radius:9px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ti ti-files-off" style="font-size:16px;color:var(--red);"></i>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;">PDFs espalhados em todo lugar</div>
+          <div style="font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;">Downloads, e-mail, Google Drive, celular. Cada apólice em um lugar diferente.</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;" class="reveal">
+      <p style="font-size:15px;color:var(--text2);font-weight:300;max-width:480px;margin:0 auto 20px;">Cada um desses problemas custa dinheiro. O Simpp resolve todos — por <strong style="color:var(--text);font-weight:600;">menos de R$1 por dia</strong>.</p>
+      <button onclick="abrirModal()" class="btn-trial" style="display:inline-flex;">
+        <i class="ti ti-sparkles" style="font-size:15px;"></i>
+        Testar grátis por 3 dias
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section style="padding:80px 0;background:var(--bg);">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px;" class="reveal">
+      <div class="section-chip">O que estão falando</div>
+      <h2 class="section-h2">Corretores que saíram da planilha.</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;" class="depo-grid-wrap">
+      <div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;">
+        <div style="color:#FBBF24;font-size:13px;letter-spacing:2px;margin-bottom:14px;">★★★★★</div>
+        <p style="font-size:14px;color:var(--text2);line-height:1.65;font-style:italic;flex:1;margin-bottom:18px;font-weight:300;">"Antes eu ficava procurando apólice em grupos do WhatsApp enquanto o cliente esperava na linha. Hoje digito o nome e acho em segundos. Não consigo imaginar voltar para a planilha."</p>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:34px;height:34px;border-radius:50%;background:#4F6EF7;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">RS</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text);">Ricardo S.</div>
+            <div style="font-size:11px;color:var(--text3);">Corretor de seguros · SP</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;" >
+        <div style="color:#FBBF24;font-size:13px;letter-spacing:2px;margin-bottom:14px;">★★★★★</div>
+        <p style="font-size:14px;color:var(--text2);line-height:1.65;font-style:italic;flex:1;margin-bottom:18px;font-weight:300;">"Finalmente organizei minha carteira sem precisar aprender um sistema complicado. O Simpp é simples do jeito certo. Importei as apólices e já estava funcionando no mesmo dia."</p>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:34px;height:34px;border-radius:50%;background:#10B981;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">MC</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text);">Mariana C.</div>
+            <div style="font-size:11px;color:var(--text3);">Corretora de seguros · MG</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;">
+        <div style="color:#FBBF24;font-size:13px;letter-spacing:2px;margin-bottom:14px;">★★★★★</div>
+        <p style="font-size:14px;color:var(--text2);line-height:1.65;font-style:italic;flex:1;margin-bottom:18px;font-weight:300;">"Só com as renovações que eu não perdi no primeiro mês já paguei o ano inteiro. O Simpp não é um custo — é investimento. Hoje não largo mais."</p>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:34px;height:34px;border-radius:50%;background:#F59E0B;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">JP</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text);">João P.</div>
+            <div style="font-size:11px;color:var(--text3);">Corretor de seguros · RJ</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -844,22 +947,22 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
   <div class="container">
     <div class="preco-header reveal">
       <div class="section-chip" style="justify-content:center;">Plano único</div>
-      <h2 class="section-h2">Simples como o sistema.</h2>
-      <p class="section-p">Um plano. Um preço. Tudo incluído.</p>
+      <h2 class="section-h2">Menos que uma comissão de moto.</h2>
+      <p class="section-p">Um plano. Um preço. 12 meses sem mensalidade. Tudo incluído.</p>
     </div>
     <div class="preco-card-wrap reveal">
       <div class="preco-card">
-        <div class="preco-tag"><i class="ti ti-bolt" style="font-size:11px;"></i> Lançamento · 50% off</div>
+        <div class="preco-tag"><i class="ti ti-bolt" style="font-size:11px;"></i> Plano anual · sem mensalidade</div>
         <div class="preco-de-wrap">
-          <div class="preco-de">De R$ 397/ano</div>
-          <div class="preco-off">−50%</div>
+          <div class="preco-de">De R$ 497/ano</div>
+          <div class="preco-off">−40%</div>
         </div>
-        <div class="preco-por"><sup>R$</sup>197<span>/ano</span></div>
-        <div class="preco-dia">= R$ 0,54 por dia. Menos que um café.</div>
+        <div class="preco-por"><sup>R$</sup>297<span>/ano</span></div>
+        <div class="preco-dia">= R$ 0,81 por dia. Menos que um café.</div>
         <div class="preco-div"></div>
         <ul class="preco-inclui">
           <li><span class="chk"><i class="ti ti-check"></i></span> Clientes e apólices ilimitados</li>
-          <li><span class="chk"><i class="ti ti-check"></i></span> Até 25 importações de PDF com IA por mês</li>
+          <li><span class="chk"><i class="ti ti-check"></i></span> Até 25 importações de PDF por mês</li>
           <li><span class="chk"><i class="ti ti-check"></i></span> Alertas de renovação automáticos</li>
           <li><span class="chk"><i class="ti ti-check"></i></span> Histórico completo (endosso, cancelamento)</li>
           <li><span class="chk"><i class="ti ti-check"></i></span> Dados isolados com segurança total</li>
@@ -873,10 +976,19 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
           Começar teste grátis — 3 dias sem cartão →
         </button>
         <a href="https://pay.kiwify.com.br/zISskQ6" class="btn-assinar-preco">
-          Já decidi — assinar por R$197/ano
+          Já decidi — assinar por R$297/ano
         </a>
         <div class="preco-garantia">Pagamento seguro via Kiwify · Acesso imediato</div>
       </div>
+    </div>
+
+    <!-- Ancoragem de valor -->
+    <div class="reveal" style="max-width:480px;margin:32px auto 0;text-align:center;">
+      <p style="font-size:13px;color:var(--text3);line-height:1.7;font-weight:300;">
+        Uma renovação de seguro auto vale em média <strong style="color:var(--text2);">R$180 de comissão</strong>.<br>
+        O Simpp custa R$297 por ano e te ajuda a não perder nenhuma.<br>
+        <strong style="color:var(--text2);">Dois clientes renovados já pagam o sistema.</strong>
+      </p>
     </div>
   </div>
 </section>
