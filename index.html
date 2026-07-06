@@ -594,7 +594,21 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
   .hero h1 { font-size: 26px; }
 }
 </style>
-</head>
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2040005986902175');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2040005986902175&ev=PageView&noscript=1"
+/></noscript>
 <body>
 
 <!-- URGÊNCIA -->
@@ -1127,6 +1141,9 @@ async function cadastrarTrial() {
 
   // Desloga imediatamente — usuário precisa confirmar o e-mail antes de entrar
   await sb.auth.signOut();
+
+  // Evento Facebook Pixel
+  if (typeof fbq !== 'undefined') fbq('track', 'Lead');
 
   // Mostra tela de sucesso
   document.getElementById('emailConfirm').textContent = email;
