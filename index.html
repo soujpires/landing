@@ -1145,7 +1145,7 @@ async function cadastrarTrial() {
   // Eventos Facebook Pixel
   if (typeof fbq !== 'undefined') {
     fbq('track', 'Lead');
-    fbq('track', 'CompleteRegistration', {
+    fbq('track', 'StartTrial', {
       currency: 'BRL',
       value: 0,
       content_name: 'Trial Simpp 3 dias',
