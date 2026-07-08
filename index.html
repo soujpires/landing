@@ -1142,8 +1142,15 @@ async function cadastrarTrial() {
   // Desloga imediatamente — usuário precisa confirmar o e-mail antes de entrar
   await sb.auth.signOut();
 
-  // Evento Facebook Pixel
-  if (typeof fbq !== 'undefined') fbq('track', 'Lead');
+  // Eventos Facebook Pixel
+  if (typeof fbq !== 'undefined') {
+    fbq('track', 'Lead');
+    fbq('track', 'CompleteRegistration', {
+      currency: 'BRL',
+      value: 0,
+      content_name: 'Trial Simpp 3 dias',
+    });
+  }
 
   // Mostra tela de sucesso
   document.getElementById('emailConfirm').textContent = email;
