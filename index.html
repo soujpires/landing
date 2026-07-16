@@ -1101,6 +1101,24 @@ document.addEventListener('keydown', function(e) {
 });
 
 // Cadastro trial
+async function dispararBoasVindas(userData) {
+  try {
+    await fetch('https://qoptwkmnyrjatcamrfxd.supabase.co/functions/v1/pipeline-webhook/cd802cba469deea8123985ae35be0ad86867baa37ce1286b', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event:      'novo_cadastro',
+        email:      userData.email    || '',
+        nome:       userData.nome     || userData.full_name || '',
+        whatsapp:   userData.whatsapp || userData.phone     || '',
+        created_at: new Date().toISOString()
+      })
+    });
+  } catch(e) {
+    console.warn('Webhook boas-vindas falhou:', e.message);
+  }
+}
+
 async function cadastrarTrial() {
   const nome     = document.getElementById('inputNome').value.trim();
   const email    = document.getElementById('inputEmail').value.trim();
@@ -1141,6 +1159,9 @@ async function cadastrarTrial() {
 
   // Desloga imediatamente — usuário precisa confirmar o e-mail antes de entrar
   await sb.auth.signOut();
+
+  // Webhook boas-vindas WhatsApp (falha silenciosa — não impede o cadastro)
+  await dispararBoasVindas({ email, nome, whatsapp });
 
   // Eventos Facebook Pixel
   if (typeof fbq !== 'undefined') {
