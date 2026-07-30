@@ -6,12 +6,12 @@
   "redirects": [
     {
       "source": "/login",
-      "destination": "https://crm.simpp.com.br/login",
+      "destination": "https://crm.simpp.com.br/login.html",
       "permanent": false
     },
     {
       "source": "/login.html",
-      "destination": "https://crm.simpp.com.br/login",
+      "destination": "https://crm.simpp.com.br/login.html",
       "permanent": false
     },
     {
@@ -21,22 +21,22 @@
     },
     {
       "source": "/reset-password",
-      "destination": "https://crm.simpp.com.br/reset-password",
+      "destination": "https://crm.simpp.com.br/reset-password.html",
       "permanent": false
     },
     {
       "source": "/reset-password.html",
-      "destination": "https://crm.simpp.com.br/reset-password",
+      "destination": "https://crm.simpp.com.br/reset-password.html",
       "permanent": false
     },
     {
       "source": "/password-updated",
-      "destination": "https://crm.simpp.com.br/password-updated",
+      "destination": "https://crm.simpp.com.br/password-updated.html",
       "permanent": false
     },
     {
       "source": "/password-updated.html",
-      "destination": "https://crm.simpp.com.br/password-updated",
+      "destination": "https://crm.simpp.com.br/password-updated.html",
       "permanent": false
     }
   ],
