@@ -63,21 +63,18 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
 
 .header-actions { display: flex; align-items: center; gap: 10px; }
 .btn-login {
-  font-size: 13px; color: var(--text2); text-decoration: none;
-  font-weight: 400; white-space: nowrap;
-  transition: color .15s;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  background: var(--blue); color: #fff; text-decoration: none;
+  border-radius: 8px; padding: 10px 18px;
+  font-size: 12.5px; font-weight: 600; white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(79,110,247,.2);
+  transition: background .15s, transform .1s, box-shadow .15s;
 }
-.btn-login:hover { color: var(--text); }
-.btn-login-mobile { display: none; }
-.btn-header {
-  background: var(--blue); color: #fff; border: none;
-  border-radius: 8px; padding: 9px 16px;
-  font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 500;
-  cursor: pointer; text-decoration: none;
-  white-space: nowrap;
-  transition: background .15s, transform .1s;
+.btn-login:hover {
+  background: var(--blue-h); color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(79,110,247,.26);
 }
-.btn-header:hover { background: var(--blue-h); transform: translateY(-1px); }
 
 /* ── HERO MOCKUP ANIMADO ── */
 .hero {
@@ -569,11 +566,8 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
   .container { padding: 0 16px; }
   .urgencia { font-size: 11px; padding: 9px 16px; }
   .header { top: 34px; }
-  .header-actions { gap: 8px; }
-  .btn-login { display: inline-flex; font-size: 11.5px; }
-  .btn-login-desktop { display: none; }
-  .btn-login-mobile { display: inline; }
-  .btn-header { font-size: 11.5px; padding: 9px 10px; }
+  .logo-tag-small { display: none; }
+  .btn-login { font-size: 11.5px; padding: 9px 12px; }
   .hero { padding: 52px 0 60px; }
   .hero h1 { font-size: 30px; }
   .hero-sub { font-size: 14.5px; }
@@ -639,10 +633,9 @@ src="https://www.facebook.com/tr?id=2040005986902175&ev=PageView&noscript=1"
     </a>
     <div class="header-actions">
       <a href="/login" class="btn-login" aria-label="Acessar minha conta">
-        <span class="btn-login-desktop">Acessar minha conta</span>
-        <span class="btn-login-mobile">Entrar</span>
+        <i class="ti ti-login-2" aria-hidden="true"></i>
+        <span>Acessar minha conta</span>
       </a>
-      <button onclick="abrirModal()" class="btn-header">Testar grátis →</button>
     </div>
   </div>
 </header>
