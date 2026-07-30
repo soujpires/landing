@@ -68,6 +68,7 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
   transition: color .15s;
 }
 .btn-login:hover { color: var(--text); }
+.btn-login-mobile { display: none; }
 .btn-header {
   background: var(--blue); color: #fff; border: none;
   border-radius: 8px; padding: 9px 16px;
@@ -568,8 +569,11 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
   .container { padding: 0 16px; }
   .urgencia { font-size: 11px; padding: 9px 16px; }
   .header { top: 34px; }
-  .btn-login { display: none; }
-  .btn-header { font-size: 11.5px; padding: 9px 12px; }
+  .header-actions { gap: 8px; }
+  .btn-login { display: inline-flex; font-size: 11.5px; }
+  .btn-login-desktop { display: none; }
+  .btn-login-mobile { display: inline; }
+  .btn-header { font-size: 11.5px; padding: 9px 10px; }
   .hero { padding: 52px 0 60px; }
   .hero h1 { font-size: 30px; }
   .hero-sub { font-size: 14.5px; }
@@ -634,7 +638,10 @@ src="https://www.facebook.com/tr?id=2040005986902175&ev=PageView&noscript=1"
       </div>
     </a>
     <div class="header-actions">
-      <a href="https://simpp.com.br" class="btn-login">Acessar minha conta</a>
+      <a href="/login" class="btn-login" aria-label="Acessar minha conta">
+        <span class="btn-login-desktop">Acessar minha conta</span>
+        <span class="btn-login-mobile">Entrar</span>
+      </a>
       <button onclick="abrirModal()" class="btn-header">Testar grátis →</button>
     </div>
   </div>
@@ -661,7 +668,7 @@ src="https://www.facebook.com/tr?id=2040005986902175&ev=PageView&noscript=1"
           <div class="mock-dot" style="background:#FFBD2E"></div>
           <div class="mock-dot" style="background:#28C840"></div>
         </div>
-        <div class="mock-url">app.simpp.com.br</div>
+        <div class="mock-url">crm.simpp.com.br</div>
       </div>
       <div class="mock-app">
         <div class="mock-sidebar">
@@ -1071,7 +1078,7 @@ src="https://www.facebook.com/tr?id=2040005986902175&ev=PageView&noscript=1"
       <div class="sucesso-title">Confirme seu e-mail!</div>
       <p class="sucesso-txt">
         Enviamos um e-mail para <strong id="emailConfirm"></strong>.<br><br>
-        Clique no link do e-mail para confirmar sua conta. Depois volte para <strong>simpp.com.br</strong> e faça login com seu e-mail e senha.
+        Clique no link do e-mail para confirmar sua conta. Depois acesse <strong>crm.simpp.com.br</strong> e faça login com seu e-mail e senha.
       </p>
     </div>
   </div>
@@ -1141,7 +1148,7 @@ async function cadastrarTrial() {
     email,
     password: senha,
     options: {
-      emailRedirectTo: 'https://simpp.com.br',
+      emailRedirectTo: 'https://crm.simpp.com.br/login.html',
       data: { full_name: nome, whatsapp }
     }
   });
@@ -1150,7 +1157,7 @@ async function cadastrarTrial() {
     btn.disabled = false;
     txt.textContent = 'Criar minha conta grátis';
     if (error.message.includes('already registered')) {
-      mostrarErro('Este e-mail já está cadastrado. Acesse em simpp.com.br.');
+      mostrarErro('Este e-mail já está cadastrado. Acesse em crm.simpp.com.br.');
     } else {
       mostrarErro('Erro ao criar conta. Tente novamente.');
     }

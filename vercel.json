@@ -3,6 +3,43 @@
     "api/checkout.js": { "maxDuration": 10 },
     "api/webhook.js":  { "maxDuration": 10 }
   },
+  "redirects": [
+    {
+      "source": "/login",
+      "destination": "https://crm.simpp.com.br/login",
+      "permanent": false
+    },
+    {
+      "source": "/login.html",
+      "destination": "https://crm.simpp.com.br/login",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "destination": "https://crm.simpp.com.br/",
+      "permanent": false
+    },
+    {
+      "source": "/reset-password",
+      "destination": "https://crm.simpp.com.br/reset-password",
+      "permanent": false
+    },
+    {
+      "source": "/reset-password.html",
+      "destination": "https://crm.simpp.com.br/reset-password",
+      "permanent": false
+    },
+    {
+      "source": "/password-updated",
+      "destination": "https://crm.simpp.com.br/password-updated",
+      "permanent": false
+    },
+    {
+      "source": "/password-updated.html",
+      "destination": "https://crm.simpp.com.br/password-updated",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     { "source": "/obrigado", "destination": "/obrigado.html" }
   ]

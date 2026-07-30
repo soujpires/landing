@@ -67,7 +67,7 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           email,
           options: {
-            redirect_to: 'https://simpp.com.br/reset-password.html',
+            redirect_to: 'https://crm.simpp.com.br/reset-password.html',
           },
           data: {
             plano: 'anual',
