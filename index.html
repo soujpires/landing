@@ -556,6 +556,15 @@ body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--b
 .sucesso-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
 .sucesso-txt { font-size: 13.5px; color: var(--text2); line-height: 1.6; font-weight: 300; }
 .sucesso-txt strong { color: var(--text); font-weight: 500; }
+.btn-login-crm {
+  width: 100%; background: var(--blue); color: #fff;
+  border-radius: 10px; padding: 14px; margin-top: 20px;
+  font-size: 14.5px; font-family: 'Inter', sans-serif; font-weight: 600;
+  text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background .15s, transform .1s;
+}
+.btn-login-crm:hover { background: var(--blue-h); transform: translateY(-1px); }
+.btn-login-crm:focus-visible { outline: 3px solid rgba(79,110,247,.25); outline-offset: 3px; }
 
 /* ── REVEAL ── */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
@@ -1073,6 +1082,9 @@ src="https://www.facebook.com/tr?id=2040005986902175&ev=PageView&noscript=1"
         Enviamos um e-mail para <strong id="emailConfirm"></strong>.<br><br>
         Clique no link do e-mail para confirmar sua conta. Depois acesse <strong>crm.simpp.com.br</strong> e faça login com seu e-mail e senha.
       </p>
+      <a class="btn-login-crm" id="btnLoginCrm" href="https://crm.simpp.com.br/login.html">
+        Ir para o login <i class="ti ti-arrow-right"></i>
+      </a>
     </div>
   </div>
 </div>
@@ -1177,6 +1189,7 @@ async function cadastrarTrial() {
   document.getElementById('emailConfirm').textContent = email;
   document.getElementById('modalForm').style.display = 'none';
   document.getElementById('modalSucesso').classList.add('show');
+  document.getElementById('btnLoginCrm').focus();
 }
 
 function mostrarErro(msg) {
@@ -1198,3 +1211,4 @@ window.addEventListener('scroll', function() {
 </script>
 </body>
 </html>
+
