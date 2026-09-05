@@ -7,11 +7,11 @@ export default async function handler(req, res) {
     items: [
       {
         id: 'simpp-anual',
-        title: 'Simpp — Gestão de Carteira Anual',
-        description: 'Acesso anual ao Simpp com importação IA, alertas de renovação e carteira organizada.',
+        title: 'Simpp | Gestão de Carteira Anual',
+        description: 'Acesso anual ao Simpp com importação de documentos, alertas de renovação e carteira organizada.',
         quantity: 1,
         currency_id: 'BRL',
-        unit_price: 197.00,
+        unit_price: 297.00,
       },
     ],
     payment_methods: {
