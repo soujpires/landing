@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   const email  = body.Customer?.email;
 
   if (status !== 'paid') {
-    console.log(`Status ${status} — ignorado`);
+    console.log(`Status ${status}, ignorado`);
     return res.status(200).send('OK');
   }
   if (!email) {
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     );
 
     if (usuarioExistente) {
-      // Usuário já existe (trial) — só atualiza is_paid = true
+      // Usuário já existe (trial), só atualiza is_paid = true
       console.log('Usuário existente, atualizando is_paid:', usuarioExistente.id);
 
       const updateRes = await fetch(
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
       console.log('is_paid atualizado, status:', updateRes.status);
 
     } else {
-      // Usuário novo (comprou sem trial) — enviar invite com redirect para reset-password
+      // Usuário novo (comprou sem trial), enviar invite com redirect para reset-password
       console.log('Usuário novo, enviando invite:', email);
 
       const inviteRes = await fetch(`${SUPABASE_URL}/auth/v1/invite`, {

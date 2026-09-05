@@ -1,1214 +1,291 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simpp — Teste grátis por 3 dias. Sem cartão.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-
-:root {
-  --bg:      #F5F7FA;
-  --surface: #FFFFFF;
-  --border:  #E5EAF1;
-  --text:    #111827;
-  --text2:   #6B7280;
-  --text3:   #9CA3AF;
-  --blue:    #4F6EF7;
-  --blue-h:  #3B56E8;
-  --blue-lt: #EEF2FF;
-  --navy:    #0F172A;
-  --green:   #10B981;
-  --amber:   #F59E0B;
-  --red:     #EF4444;
-  --sh-sm:   0 1px 3px rgba(0,0,0,.06);
-  --sh-md:   0 4px 16px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.04);
-  --sh-lg:   0 20px 40px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.06);
-}
-
-body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); overflow-x: hidden; line-height: 1.6; }
-.container { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
-
-/* ── URGÊNCIA ── */
-.urgencia {
-  background: var(--navy);
-  color: rgba(255,255,255,.7);
-  text-align: center;
-  padding: 10px 20px;
-  font-size: 12.5px;
-  position: sticky; top: 0; z-index: 200;
-  border-bottom: 1px solid rgba(255,255,255,.06);
-}
-.urgencia strong { color: #fff; font-weight: 600; }
-
-/* ── HEADER ── */
-.header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 0;
-  position: sticky; top: 37px; z-index: 100;
-  transition: box-shadow .2s;
-}
-.header.scrolled { box-shadow: var(--sh-md); }
-.header-inner { display: flex; align-items: center; justify-content: space-between; }
-
-.logo { display: flex; align-items: center; gap: 9px; text-decoration: none; }
-.logo-name { font-size: 17px; font-weight: 600; color: var(--navy); letter-spacing: -.4px; display: block; }
-.logo-tag-small { font-size: 8.5px; color: var(--text3); letter-spacing: .12em; text-transform: uppercase; display: block; margin-top: 1px; }
-
-.header-actions { display: flex; align-items: center; gap: 10px; }
-.btn-login {
-  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  background: var(--blue); color: #fff; text-decoration: none;
-  border-radius: 8px; padding: 10px 18px;
-  font-size: 12.5px; font-weight: 600; white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(79,110,247,.2);
-  transition: background .15s, transform .1s, box-shadow .15s;
-}
-.btn-login:hover {
-  background: var(--blue-h); color: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(79,110,247,.26);
-}
-
-/* ── HERO MOCKUP ANIMADO ── */
-.hero {
-  background: var(--navy);
-  padding: 72px 0 0;
-  position: relative; overflow: hidden;
-  text-align: center;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(79,110,247,.2) 0%, transparent 65%);
-  pointer-events: none; z-index: 0;
-}
-
-/* mockup de fundo */
-.hero-bg-mockup {
-  position: absolute;
-  bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 820px;
-  opacity: .18;
-  pointer-events: none;
-  z-index: 1;
-  animation: mockupDrift 8s ease-in-out infinite;
-}
-@keyframes mockupDrift {
-  0%,100% { transform: translateX(-50%) translateY(0); }
-  50%      { transform: translateX(-50%) translateY(-10px); }
-}
-
-.hero-inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; padding-bottom: 72px; }
-
-/* partículas flutuantes */
-.hero-particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
-.particle {
-  position: absolute; border-radius: 50%;
-  background: rgba(79,110,247,.35);
-  animation: particleFlt linear infinite;
-}
-@keyframes particleFlt {
-  0%   { transform: translateY(0) scale(1); opacity: .5; }
-  50%  { opacity: .2; }
-  100% { transform: translateY(-80px) scale(.6); opacity: 0; }
-}
-
-/* notif flutuante à direita */
-.hero-notif {
-  position: absolute;
-  right: 40px; top: 60px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 14px;
-  box-shadow: 0 20px 40px rgba(0,0,0,.3);
-  display: flex; align-items: flex-start; gap: 10px;
-  min-width: 200px;
-  z-index: 3;
-  animation: floatNotif 4s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes floatNotif {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
-}
-.hero-notif-ico {
-  width: 30px; height: 30px; border-radius: 8px;
-  background: rgba(245,158,11,.12);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.hero-notif-ico i { font-size: 15px; color: var(--amber); }
-.hero-notif-title { font-size: 11.5px; font-weight: 600; color: var(--text); margin-bottom: 1px; }
-.hero-notif-sub { font-size: 10.5px; color: var(--text2); font-weight: 300; }
-
-/* card search flutuante à esquerda */
-.hero-search-card {
-  position: absolute;
-  left: 32px; bottom: 120px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 16px;
-  box-shadow: 0 20px 40px rgba(0,0,0,.3);
-  z-index: 3;
-  animation: floatSearch 5s ease-in-out infinite;
-  pointer-events: none;
-  min-width: 190px;
-}
-@keyframes floatSearch {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
-}
-.hero-search-label { font-size: 9px; color: var(--text3); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; font-weight: 500; }
-.hero-search-row { display: flex; align-items: center; gap: 8px; }
-.hero-search-av {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: var(--blue);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-weight: 700; color: #fff; flex-shrink: 0;
-}
-.hero-search-info { flex: 1; }
-.hero-search-name { font-size: 11px; font-weight: 600; color: var(--text); }
-.hero-search-seg { font-size: 9.5px; color: var(--text2); font-weight: 300; }
-.hero-search-badge {
-  font-size: 9px; border-radius: 4px; padding: 2px 6px; font-weight: 500;
-  background: rgba(16,185,129,.1); color: #10B981;
-}
-
-/* Mockup browser */
-.mock-browser {
-  background: #141c2e;
-  border-radius: 14px 14px 0 0;
-  overflow: hidden;
-  box-shadow: 0 -8px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
-}
-.mock-bar {
-  background: #0d1525;
-  padding: 9px 14px;
-  display: flex; align-items: center; gap: 8px;
-  border-bottom: 1px solid rgba(255,255,255,.05);
-}
-.mock-dots { display: flex; gap: 5px; }
-.mock-dot { width: 8px; height: 8px; border-radius: 50%; }
-.mock-url {
-  flex: 1; background: rgba(255,255,255,.05); border-radius: 4px;
-  padding: 3px 10px; font-size: 9.5px; color: rgba(255,255,255,.25); font-family: monospace;
-}
-.mock-app { display: flex; height: 280px; }
-.mock-sidebar {
-  width: 44px; background: #0d1525;
-  border-right: 1px solid rgba(255,255,255,.04);
-  display: flex; flex-direction: column; align-items: center;
-  padding: 10px 0; gap: 12px; flex-shrink: 0;
-}
-.mock-nav { width: 22px; height: 22px; border-radius: 6px; background: rgba(255,255,255,.04); }
-.mock-nav.active { background: rgba(79,110,247,.25); border: 1px solid rgba(79,110,247,.4); }
-.mock-main { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; background: #0f1629; }
-.mock-topbar { display: flex; align-items: center; gap: 7px; }
-.mock-search-inp {
-  flex: 1; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.07);
-  border-radius: 6px; padding: 5px 9px; font-size: 9.5px; color: rgba(255,255,255,.25);
-  display: flex; align-items: center; gap: 5px;
-}
-.mock-btn-imp {
-  background: rgba(79,110,247,.15); border: 1px solid rgba(79,110,247,.3);
-  border-radius: 6px; padding: 5px 9px; font-size: 8.5px; color: #93A8FF; font-weight: 500; white-space: nowrap;
-}
-.mock-metrics { display: flex; gap: 7px; }
-.mock-metric {
-  flex: 1; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
-  border-radius: 7px; padding: 8px 9px;
-}
-.mock-m-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #E8EEF8; line-height: 1; margin-bottom: 2px; }
-.mock-m-lbl { font-size: 8px; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .06em; }
-.mock-m-bar { height: 2px; background: rgba(255,255,255,.06); border-radius: 1px; margin-top: 5px; overflow: hidden; }
-.mock-m-fill { height: 100%; border-radius: 1px; }
-.mock-list { display: flex; flex-direction: column; gap: 5px; flex: 1; overflow: hidden; }
-.mock-row {
-  background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.05);
-  border-radius: 7px; padding: 7px 10px;
-  display: flex; align-items: center; gap: 8px;
-  animation: rowPulse 3s ease-in-out infinite;
-}
-.mock-row:nth-child(2) { animation-delay: .5s; }
-.mock-row:nth-child(3) { animation-delay: 1s; }
-.mock-row:nth-child(4) { animation-delay: 1.5s; }
-@keyframes rowPulse {
-  0%,100% { border-color: rgba(255,255,255,.05); }
-  50%      { border-color: rgba(79,110,247,.2); }
-}
-.mock-av {
-  width: 24px; height: 24px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-weight: 700; color: #fff; flex-shrink: 0;
-}
-.mock-info { flex: 1; min-width: 0; }
-.mock-name { font-size: 10px; color: #E8EEF8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.mock-seg { font-size: 8.5px; color: rgba(255,255,255,.3); margin-top: 1px; }
-.mock-badge { font-size: 8px; border-radius: 4px; padding: 2px 6px; font-weight: 500; white-space: nowrap; }
-.b-v { background: rgba(16,185,129,.12); color: #34D399; }
-.b-r { background: rgba(245,158,11,.12); color: #FCD34D; }
-.b-p { background: rgba(79,110,247,.12); color: #93A8FF; }
-.mock-val { font-size: 9.5px; color: rgba(255,255,255,.35); text-align: right; }
-.mock-val strong { display: block; color: #C8D3E8; font-size: 10px; font-weight: 400; }
-
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: rgba(79,110,247,.15);
-  border: 1px solid rgba(79,110,247,.3);
-  border-radius: 20px; padding: 5px 14px;
-  font-size: 11px; color: #93A8FF;
-  letter-spacing: .08em; text-transform: uppercase; font-weight: 500;
-  margin-bottom: 24px;
-}
-.dot-pulse { width: 6px; height: 6px; border-radius: 50%; background: #4ADE80; animation: pulse 1.8s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
-
-.hero h1 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(28px, 5vw, 52px);
-  font-weight: 800; color: #fff;
-  line-height: 1.08; letter-spacing: -.03em;
-  margin-bottom: 18px;
-}
-.hero h1 em { font-style: normal; color: #7C96FF; }
-
-.hero-sub {
-  font-size: 16px; color: rgba(255,255,255,.5);
-  line-height: 1.65; margin-bottom: 36px;
-  font-weight: 300; max-width: 480px; margin-left: auto; margin-right: auto;
-}
-
-.hero-cta-stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-
-.btn-trial {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: #fff; color: var(--navy);
-  border: none; border-radius: 10px;
-  padding: 16px 32px; font-size: 15px;
-  font-family: 'Inter', sans-serif; font-weight: 700;
-  cursor: pointer; text-decoration: none; letter-spacing: -.2px;
-  transition: transform .15s, box-shadow .15s;
-  box-shadow: 0 8px 32px rgba(0,0,0,.25);
-  white-space: nowrap;
-}
-.btn-trial:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.35); }
-
-.hero-link-assinar {
-  font-size: 13.5px; color: rgba(255,255,255,.75);
-  text-decoration: none; font-weight: 500;
-  transition: color .15s;
-  border-bottom: 1px solid rgba(255,255,255,.35);
-  padding-bottom: 2px;
-}
-.hero-link-assinar:hover { color: #fff; border-bottom-color: rgba(255,255,255,.7); }
-
-.hero-garantia {
-  margin-top: 16px;
-  display: flex; align-items: center; justify-content: center; gap: 20px;
-  flex-wrap: wrap;
-}
-.hero-garantia span {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 12px; color: rgba(255,255,255,.3); font-weight: 300;
-}
-.hero-garantia i { font-size: 13px; color: rgba(255,255,255,.4); }
-
-/* ── SEÇÃO GENÉRICA ── */
-.section-chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 11px; font-weight: 600; color: var(--blue);
-  letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px;
-}
-.section-h2 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(22px, 3vw, 34px);
-  font-weight: 800; color: var(--text);
-  line-height: 1.15; letter-spacing: -.03em; margin-bottom: 14px;
-}
-.section-p { font-size: 15px; color: var(--text2); line-height: 1.7; font-weight: 300; }
-
-/* ── FEATURES ── */
-.features { padding: 80px 0; background: var(--bg); }
-.features-header { text-align: center; margin-bottom: 52px; max-width: 560px; margin-left: auto; margin-right: auto; }
-
-.feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.feat-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 16px; padding: 24px;
-  transition: transform .2s, box-shadow .2s, border-color .2s;
-}
-.feat-card:hover { transform: translateY(-3px); box-shadow: var(--sh-md); border-color: rgba(79,110,247,.2); }
-.feat-ico-wrap {
-  width: 42px; height: 42px; border-radius: 10px;
-  background: #4F6EF7;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 14px;
-}
-.feat-ico-wrap i { font-size: 20px; color: #fff; }
-.feat-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14.5px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -.2px; }
-.feat-desc { font-size: 13.5px; color: var(--text2); line-height: 1.6; font-weight: 300; }
-
-/* ── COMO FUNCIONA ── */
-.como { padding: 80px 0; background: var(--navy); position: relative; overflow: hidden; }
-.como::before {
-  content: ''; position: absolute;
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(79,110,247,.15) 0%, transparent 70%);
-  right: -200px; top: -200px; pointer-events: none;
-}
-.como-header { text-align: center; margin-bottom: 52px; position: relative; z-index: 2; }
-.como-header .section-h2 { color: #fff; }
-.como-header .section-p { color: rgba(255,255,255,.5); max-width: 480px; margin: 0 auto; }
-
-.como-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; position: relative; z-index: 2; }
-.como-steps::before {
-  content: ''; position: absolute;
-  top: 32px; left: calc(33.33% / 2 + 8px); right: calc(33.33% / 2 + 8px);
-  height: 1px; background: rgba(79,110,247,.3); z-index: 0;
-}
-.como-step {
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 16px; padding: 28px 24px; text-align: center;
-  position: relative; z-index: 1;
-  transition: border-color .2s, background .2s;
-}
-.como-step:hover { background: rgba(255,255,255,.06); border-color: rgba(79,110,247,.4); }
-.step-num {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(79,110,247,.2); border: 1.5px solid rgba(79,110,247,.5);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px; font-weight: 700; color: #93A8FF;
-  margin: 0 auto 18px;
-}
-.step-ico { margin-bottom: 10px; }
-.step-ico i { font-size: 26px; color: #93A8FF; }
-.step-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; font-family: 'Plus Jakarta Sans', sans-serif; }
-.step-desc { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.6; font-weight: 300; }
-.step-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25);
-  border-radius: 20px; padding: 3px 10px; margin-top: 10px;
-  font-size: 10.5px; color: #34D399; font-weight: 500;
-}
-
-/* ── PREÇO ── */
-.preco-section { padding: 80px 0; background: var(--bg); }
-.preco-header { text-align: center; margin-bottom: 40px; }
-
-.preco-card-wrap { max-width: 480px; margin: 0 auto; }
-.preco-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px; padding: 40px 36px;
-  box-shadow: var(--sh-lg);
-  text-align: center;
-}
-.preco-tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(79,110,247,.1); border: 1px solid rgba(79,110,247,.25);
-  border-radius: 6px; padding: 4px 12px;
-  font-size: 11px; font-weight: 700; color: var(--blue);
-  letter-spacing: .06em; text-transform: uppercase; margin-bottom: 16px;
-}
-.preco-de-wrap { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 6px; }
-.preco-de {
-  font-size: 17px; color: #6B7280; font-weight: 500;
-  background-image: linear-gradient(var(--red), var(--red));
-  background-size: 100% 2px; background-position: 0 60%; background-repeat: no-repeat;
-}
-.preco-off { background: var(--red); color: #fff; font-size: 11px; font-weight: 700; border-radius: 5px; padding: 3px 8px; }
-.preco-por {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 58px; font-weight: 800; color: var(--text);
-  line-height: 1; letter-spacing: -.04em; margin-bottom: 4px;
-}
-.preco-por sup { font-size: 24px; vertical-align: super; }
-.preco-por span { font-size: 17px; font-weight: 400; color: var(--text2); }
-.preco-dia { font-size: 12.5px; color: var(--green); font-weight: 500; margin-bottom: 24px; }
-.preco-div { height: 1px; background: #D1D9E6; margin: 24px 0; }
-
-.preco-inclui { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; text-align: left; }
-.preco-inclui li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: var(--text2); font-weight: 300; line-height: 1.5; }
-.chk { color: var(--green); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-
-.btn-trial-preco {
-  display: block; width: 100%;
-  background: var(--blue); color: #fff; border: none;
-  border-radius: 10px; padding: 16px 12px;
-  font-size: 14.5px; font-family: 'Inter', sans-serif; font-weight: 600;
-  cursor: pointer; text-align: center; letter-spacing: -.2px;
-  transition: background .15s, transform .15s;
-  margin-bottom: 10px;
-}
-.btn-trial-preco:hover { background: var(--blue-h); transform: translateY(-1px); }
-
-.btn-assinar-preco {
-  display: block; width: 100%;
-  background: transparent; color: var(--text2);
-  border: 1px solid var(--border);
-  border-radius: 10px; padding: 13px 12px;
-  font-size: 13.5px; font-family: 'Inter', sans-serif; font-weight: 400;
-  cursor: pointer; text-align: center; letter-spacing: -.1px;
-  transition: border-color .15s, color .15s;
-  text-decoration: none;
-}
-.btn-assinar-preco:hover { border-color: var(--blue); color: var(--blue); }
-
-.preco-garantia { font-size: 11.5px; color: var(--text3); text-align: center; margin-top: 12px; }
-
-/* ── FOOTER ── */
-.footer { background: var(--navy); padding: 28px 0; }
-.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
-.footer-txt { font-size: 11.5px; color: rgba(255,255,255,.25); font-weight: 300; }
-.footer-logo .logo-name { color: #fff; }
-.footer-logo .logo-tag-small { color: rgba(255,255,255,.2); }
-
-/* ── MODAL ── */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 1000;
-  background: rgba(0,0,0,.5);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-  opacity: 0; pointer-events: none;
-  transition: opacity .2s;
-}
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-
-.modal {
-  background: var(--surface);
-  border-radius: 20px; padding: 36px 32px;
-  max-width: 420px; width: 100%;
-  box-shadow: var(--sh-lg);
-  transform: translateY(16px);
-  transition: transform .25s cubic-bezier(.34,1.3,.64,1);
-  position: relative;
-}
-.modal-overlay.open .modal { transform: translateY(0); }
-
-.modal-close {
-  position: absolute; top: 16px; right: 16px;
-  width: 28px; height: 28px; border-radius: 50%;
-  background: var(--bg); border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text2); font-size: 14px;
-  transition: background .15s;
-}
-.modal-close:hover { background: var(--border); }
-
-.modal-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
-.modal h2 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 22px; font-weight: 800; color: var(--text);
-  letter-spacing: -.03em; margin-bottom: 6px;
-}
-.modal-sub { font-size: 13.5px; color: var(--text2); margin-bottom: 24px; font-weight: 300; line-height: 1.55; }
-.modal-sub strong { color: var(--green); font-weight: 600; }
-
-.form-group { margin-bottom: 14px; }
-.form-label { display: block; font-size: 12.5px; font-weight: 500; color: var(--text2); margin-bottom: 5px; }
-.form-input {
-  width: 100%; background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: 9px; padding: 11px 14px;
-  font-size: 14px; font-family: 'Inter', sans-serif;
-  color: var(--text); outline: none;
-  transition: border-color .15s;
-}
-.form-input:focus { border-color: var(--blue); background: #fff; }
-.form-input::placeholder { color: var(--text3); }
-
-.btn-submit {
-  width: 100%; background: var(--blue); color: #fff;
-  border: none; border-radius: 10px; padding: 14px;
-  font-size: 14.5px; font-family: 'Inter', sans-serif; font-weight: 600;
-  cursor: pointer; margin-top: 6px; letter-spacing: -.1px;
-  transition: background .15s, transform .1s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.btn-submit:hover:not(:disabled) { background: var(--blue-h); transform: translateY(-1px); }
-.btn-submit:disabled { opacity: .65; cursor: not-allowed; }
-
-.form-erro { font-size: 12.5px; color: var(--red); margin-top: 10px; text-align: center; display: none; }
-.form-erro.show { display: block; }
-
-/* Sucesso */
-.modal-sucesso { display: none; text-align: center; }
-.modal-sucesso.show { display: block; }
-.sucesso-ico {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: rgba(16,185,129,.1); border: 2px solid rgba(16,185,129,.25);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 20px;
-  animation: pop .4s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
-.sucesso-ico i { font-size: 30px; color: var(--green); }
-.sucesso-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); margin-bottom: 8px; }
-.sucesso-txt { font-size: 13.5px; color: var(--text2); line-height: 1.6; font-weight: 300; }
-.sucesso-txt strong { color: var(--text); font-weight: 500; }
-.btn-login-crm {
-  width: 100%; background: var(--blue); color: #fff;
-  border-radius: 10px; padding: 14px; margin-top: 20px;
-  font-size: 14.5px; font-family: 'Inter', sans-serif; font-weight: 600;
-  text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: background .15s, transform .1s;
-}
-.btn-login-crm:hover { background: var(--blue-h); transform: translateY(-1px); }
-.btn-login-crm:focus-visible { outline: 3px solid rgba(79,110,247,.25); outline-offset: 3px; }
-
-/* ── REVEAL ── */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
-.reveal.visible { opacity: 1; transform: none; }
-
-/* ── MOBILE ── */
-@media (max-width: 768px) {
-  .container { padding: 0 16px; }
-  .urgencia { font-size: 11px; padding: 9px 16px; }
-  .header { top: 34px; }
-  .logo-tag-small { display: none; }
-  .btn-login { font-size: 11.5px; padding: 9px 12px; }
-  .hero { padding: 52px 0 60px; }
-  .hero h1 { font-size: 30px; }
-  .hero-sub { font-size: 14.5px; }
-  .btn-trial { font-size: 14px; padding: 15px 24px; width: 100%; justify-content: center; }
-  .hero-bg-mockup, .hero-notif, .hero-search-card { display: none; }
-  .feat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .feat-card { padding: 18px; }
-  .como-steps { grid-template-columns: 1fr; gap: 12px; }
-  .como-steps::before { display: none; }
-  .features { padding: 60px 0; }
-  .como { padding: 60px 0; }
-  .preco-section { padding: 60px 0; }
-  .preco-card { padding: 28px 20px; }
-  .preco-por { font-size: 48px; }
-  .modal { padding: 28px 20px; }
-  .modal h2 { font-size: 19px; }
-  .dor-grid { grid-template-columns: 1fr !important; }
-  .depo-grid-wrap { grid-template-columns: 1fr !important; }
-}
-@media (max-width: 420px) {
-  .feat-grid { grid-template-columns: 1fr; }
-  .hero h1 { font-size: 26px; }
-}
-</style>
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '2040005986902175');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=2040005986902175&ev=PageView&noscript=1"
-/></noscript>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0D1A2E">
+  <title>Simpp | Sua corretora inteira sob controle</title>
+  <meta name="description" content="O Simpp importa apólices, organiza comissões, controla o financeiro e mantém sua equipe na mesma operação.">
+  <meta property="og:title" content="Simpp | Sua corretora inteira sob controle">
+  <meta property="og:description" content="Carteira, comissões, financeiro e equipe. Tudo no Simpp.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://simpp.com.br/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Simpp | Sua corretora inteira sob controle">
+  <meta name="twitter:description" content="Carteira, comissões, financeiro e equipe. Tudo no Simpp.">
+  <meta name="twitter:image" content="https://simpp.com.br/og.png">
+  <link rel="icon" type="image/png" href="og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="styles.css?v=6">
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+    (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','2040005986902175');
+    fbq('track','PageView');
+  </script>
+</head>
 <body>
-
-<!-- URGÊNCIA -->
-<div class="urgencia">
-  <strong>3 dias grátis</strong> — sem cartão de crédito. Depois apenas <strong>R$297/ano</strong>.
-</div>
-
-<!-- HEADER -->
-<header class="header" id="header">
-  <div class="container header-inner">
-    <a href="#" class="logo">
-      <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
-        <rect x="4" y="4" width="22" height="14" rx="4" fill="#1A3BAA" opacity="0.25"/>
-        <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
-        <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
-        <rect x="14" y="22" width="22" height="14" rx="4" fill="#1A3BAA" opacity="0.2"/>
-        <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
-      </svg>
-      <div>
-        <span class="logo-name">simpp</span>
-        <span class="logo-tag-small">gestão simples</span>
-      </div>
-    </a>
-    <div class="header-actions">
-      <a href="/login" class="btn-login" aria-label="Acessar minha conta">
-        <i class="ti ti-login-2" aria-hidden="true"></i>
-        <span>Acessar minha conta</span>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2040005986902175&ev=PageView&noscript=1" alt=""></noscript>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <header class="site-header" id="header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="Simpp, início">
+        <img class="brand-logo" src="simpp-logo.svg" alt="Simpp gestão simples">
       </a>
-    </div>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <!-- Partículas flutuantes -->
-  <div class="hero-particles">
-    <div class="particle" style="width:4px;height:4px;left:15%;top:70%;animation-duration:6s;animation-delay:0s;"></div>
-    <div class="particle" style="width:3px;height:3px;left:25%;top:80%;animation-duration:8s;animation-delay:1s;"></div>
-    <div class="particle" style="width:5px;height:5px;left:70%;top:60%;animation-duration:7s;animation-delay:2s;"></div>
-    <div class="particle" style="width:3px;height:3px;left:80%;top:75%;animation-duration:9s;animation-delay:.5s;"></div>
-    <div class="particle" style="width:4px;height:4px;left:55%;top:85%;animation-duration:6.5s;animation-delay:3s;"></div>
-    <div class="particle" style="width:2px;height:2px;left:40%;top:65%;animation-duration:7.5s;animation-delay:1.5s;"></div>
-  </div>
-
-  <!-- Mockup de fundo animado -->
-  <div class="hero-bg-mockup">
-    <div class="mock-browser">
-      <div class="mock-bar">
-        <div class="mock-dots">
-          <div class="mock-dot" style="background:#FF5F57"></div>
-          <div class="mock-dot" style="background:#FFBD2E"></div>
-          <div class="mock-dot" style="background:#28C840"></div>
-        </div>
-        <div class="mock-url">crm.simpp.com.br</div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false"><i class="ti ti-menu-2"></i></button>
+      <nav id="mainNav" aria-label="Navegação principal">
+        <a href="#solucoes">Soluções</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#planos">Preço</a>
+        <a href="#faq">Dúvidas</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="login-link" href="https://crm.simpp.com.br/login.html">Entrar</a>
+        <button class="button button-primary button-small" data-open-trial>Testar grátis <i class="ti ti-arrow-up-right"></i></button>
       </div>
-      <div class="mock-app">
-        <div class="mock-sidebar">
-          <svg width="22" height="22" viewBox="0 0 36 36" fill="none"><rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/><rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/></svg>
-          <div class="mock-nav active"></div>
-          <div class="mock-nav"></div>
-          <div class="mock-nav"></div>
-          <div class="mock-nav"></div>
-        </div>
-        <div class="mock-main">
-          <div class="mock-topbar">
-            <div class="mock-search-inp">
-              <svg width="9" height="9" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="white" stroke-width="1.5"/><path d="M11 11l3 3" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-              Buscar cliente ou apólice...
-            </div>
-            <div class="mock-btn-imp">Importar PDF</div>
-          </div>
-          <div class="mock-metrics">
-            <div class="mock-metric">
-              <div class="mock-m-num">84</div>
-              <div class="mock-m-lbl">Apólices</div>
-              <div class="mock-m-bar"><div class="mock-m-fill" style="width:70%;background:#4F6EF7"></div></div>
-            </div>
-            <div class="mock-metric">
-              <div class="mock-m-num" style="color:#F59E0B">7</div>
-              <div class="mock-m-lbl">A renovar</div>
-              <div class="mock-m-bar"><div class="mock-m-fill" style="width:30%;background:#F59E0B"></div></div>
-            </div>
-            <div class="mock-metric">
-              <div class="mock-m-num" style="color:#10B981">61</div>
-              <div class="mock-m-lbl">Vigentes</div>
-              <div class="mock-m-bar"><div class="mock-m-fill" style="width:73%;background:#10B981"></div></div>
-            </div>
-          </div>
-          <div class="mock-list">
-            <div class="mock-row">
-              <div class="mock-av" style="background:#4F6EF7">RS</div>
-              <div class="mock-info"><div class="mock-name">Ricardo Santos</div><div class="mock-seg">Porto Seguro · Auto</div></div>
-              <div class="mock-badge b-v">Vigente</div>
-              <div class="mock-val"><strong>R$1.240</strong>anual</div>
-            </div>
-            <div class="mock-row">
-              <div class="mock-av" style="background:#F59E0B">MC</div>
-              <div class="mock-info"><div class="mock-name">Maria Carvalho</div><div class="mock-seg">SulAmérica · Vida</div></div>
-              <div class="mock-badge b-r">A renovar</div>
-              <div class="mock-val"><strong>R$890</strong>anual</div>
-            </div>
-            <div class="mock-row">
-              <div class="mock-av" style="background:#10B981">JP</div>
-              <div class="mock-info"><div class="mock-name">João Pereira</div><div class="mock-seg">Bradesco · Residencial</div></div>
-              <div class="mock-badge b-v">Vigente</div>
-              <div class="mock-val"><strong>R$640</strong>anual</div>
-            </div>
-            <div class="mock-row">
-              <div class="mock-av" style="background:#93A8FF">AT</div>
-              <div class="mock-info"><div class="mock-name">Ana Torres</div><div class="mock-seg">HDI · Auto</div></div>
-              <div class="mock-badge b-p">Proposta</div>
-              <div class="mock-val"><strong>R$1.850</strong>anual</div>
-            </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span></span> Gestão completa para corretoras de seguros</div>
+          <h1>Sua corretora inteira sob controle.</h1>
+          <p class="hero-lead">O Simpp importa apólices, organiza comissões, controla o financeiro e mostra o que precisa da sua atenção. Tudo sem planilhas, PDFs soltos ou conversas perdidas.</p>
+          <div class="hero-actions">
+            <button class="button button-primary button-large" data-open-trial>Começar meu teste grátis <i class="ti ti-arrow-right"></i></button>
+            <a class="text-link" href="#solucoes">Ver como funciona <i class="ti ti-arrow-down"></i></a>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Notif flutuante direita -->
-  <div class="hero-notif">
-    <div class="hero-notif-ico"><i class="ti ti-bell-ringing"></i></div>
-    <div>
-      <div class="hero-notif-title">Renovação em 7 dias</div>
-      <div class="hero-notif-sub">Maria Carvalho · SulAmérica</div>
-    </div>
-  </div>
-
-  <!-- Card busca flutuante esquerda -->
-  <div class="hero-search-card">
-    <div class="hero-search-label">Cliente encontrado</div>
-    <div class="hero-search-row">
-      <div class="hero-search-av">RS</div>
-      <div class="hero-search-info">
-        <div class="hero-search-name">Ricardo Santos</div>
-        <div class="hero-search-seg">Porto Seguro · Auto</div>
-      </div>
-      <div class="hero-search-badge">Vigente</div>
-    </div>
-  </div>
-
-  <!-- Conteúdo principal -->
-  <div class="container">
-    <div class="hero-inner">
-      <div class="hero-badge">
-        <span class="dot-pulse"></span>
-        Para pequenos corretores de seguros
-      </div>
-      <h1>Pare de procurar apólice<br>no <em>WhatsApp.</em></h1>
-      <p class="hero-sub">
-        Corretor que perde renovação perde comissão. O Simpp avisa antes, organiza tudo e te deixa encontrar qualquer apólice em segundos. Sem planilha, sem WhatsApp, sem estresse.
-      </p>
-      <div class="hero-cta-stack">
-        <button onclick="abrirModal()" class="btn-trial">
-          <i class="ti ti-sparkles" style="font-size:16px;"></i>
-          Testar grátis por 3 dias
-        </button>
-        <a href="https://pay.kiwify.com.br/zISskQ6" class="hero-link-assinar">
-          Já decidiu? Assine por R$297/ano →
-        </a>
-      </div>
-      <div class="hero-garantia">
-        <span><i class="ti ti-credit-card-off"></i> Sem cartão de crédito</span>
-        <span><i class="ti ti-lock"></i> Acesso imediato</span>
-        <span><i class="ti ti-x"></i> Cancele quando quiser</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="features">
-  <div class="container">
-    <div class="features-header reveal">
-      <div class="section-chip">Tudo que você precisa</div>
-      <h2 class="section-h2">Nada do que você não usa.</h2>
-      <p class="section-p">O Simpp foi criado por quem entende a rotina do corretor. Sem funcionalidade de enfeite, sem curva de aprendizado, sem suporte técnico para configurar. Abre e usa.</p>
-    </div>
-    <div class="feat-grid">
-      <div class="feat-card reveal">
-        <div class="feat-ico-wrap"><i class="ti ti-search"></i></div>
-        <div class="feat-title">Busca instantânea</div>
-        <div class="feat-desc">Cliente liga perguntando sobre a apólice. Você digita o nome e a resposta aparece antes de ele terminar de falar.</div>
-      </div>
-      <div class="feat-card reveal" style="transition-delay:.05s">
-        <div class="feat-ico-wrap"><i class="ti ti-bell-ringing"></i></div>
-        <div class="feat-title">Alertas de renovação</div>
-        <div class="feat-desc">O Simpp avisa antes de vencer. Você aborda o cliente no momento certo. Sem perder a comissão para o concorrente.</div>
-      </div>
-      <div class="feat-card reveal" style="transition-delay:.1s">
-        <div class="feat-ico-wrap"><i class="ti ti-brain"></i></div>
-        <div class="feat-title">Importação inteligente</div>
-        <div class="feat-desc">Sobe o PDF da apólice e o Simpp lê tudo sozinho: nome, vigência, prêmio, seguradora. Zero digitação, zero erro.</div>
-      </div>
-      <div class="feat-card reveal" style="transition-delay:.15s">
-        <div class="feat-ico-wrap"><i class="ti ti-history"></i></div>
-        <div class="feat-title">Histórico completo</div>
-        <div class="feat-desc">Endosso, cancelamento, renovação, sinistro. Tudo registrado com data e documento. Nunca mais "não sei o que aconteceu com essa apólice".</div>
-      </div>
-      <div class="feat-card reveal" style="transition-delay:.2s">
-        <div class="feat-ico-wrap"><i class="ti ti-shield-lock"></i></div>
-        <div class="feat-title">Seus dados só seus</div>
-        <div class="feat-desc">Cada corretor tem acesso isolado. Nenhum dado seu é visível por outros. Criptografia e segurança de nível bancário.</div>
-      </div>
-      <div class="feat-card reveal" style="transition-delay:.25s">
-        <div class="feat-ico-wrap"><i class="ti ti-device-mobile"></i></div>
-        <div class="feat-title">Funciona em qualquer tela</div>
-        <div class="feat-desc">Celular, tablet ou computador. Sem instalar nada. Abre no navegador e sua carteira está lá, em qualquer lugar.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- COMO FUNCIONA -->
-<section class="como">
-  <div class="container">
-    <div class="como-header reveal">
-      <div class="section-chip" style="justify-content:center;">Como funciona</div>
-      <h2 class="section-h2">Três passos. Começa agora.</h2>
-      <p class="section-p">Do caos da planilha para a carteira organizada. Em menos tempo do que você imagina.</p>
-    </div>
-    <div class="como-steps">
-      <div class="como-step reveal">
-        <div class="step-num">1</div>
-        <div class="step-ico"><i class="ti ti-user-plus"></i></div>
-        <div class="step-title">Crie sua conta grátis</div>
-        <div class="step-desc">Nome, e-mail e senha. Sem cartão de crédito, sem burocracia. Você está dentro em menos de 2 minutos.</div>
-        <div class="step-badge"><i class="ti ti-gift" style="font-size:10px;"></i> 3 dias grátis</div>
-      </div>
-      <div class="como-step reveal" style="transition-delay:.1s">
-        <div class="step-num">2</div>
-        <div class="step-ico"><i class="ti ti-file-upload"></i></div>
-        <div class="step-title">Importe suas apólices</div>
-        <div class="step-desc">Sobe o PDF e o Simpp lê tudo sozinho. Nome do cliente, vigência, prêmio, seguradora. Organizados automaticamente.</div>
-        <div class="step-badge"><i class="ti ti-sparkles" style="font-size:10px;"></i> O Simpp faz o resto</div>
-      </div>
-      <div class="como-step reveal" style="transition-delay:.2s">
-        <div class="step-num">3</div>
-        <div class="step-ico"><i class="ti ti-heart"></i></div>
-        <div class="step-title">Gostou? Assine por R$297</div>
-        <div class="step-desc">Use por 12 meses sem mensalidade. Menos que uma comissão de seguro de moto por ano inteiro.</div>
-        <div class="step-badge"><i class="ti ti-check" style="font-size:10px;"></i> R$0,81/dia</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- DOR REAL -->
-<section style="padding:80px 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="container">
-    <div style="text-align:center;max-width:640px;margin:0 auto 52px;" class="reveal">
-      <div class="section-chip">A realidade do corretor sem sistema</div>
-      <h2 class="section-h2">Você já perdeu comissão por isso.</h2>
-      <p class="section-p">Não é falta de esforço. É falta de ferramenta certa. Reconhece alguma dessas situações?</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:780px;margin:0 auto;" class="dor-grid">
-      <div class="reveal" style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;">
-        <div style="width:36px;height:36px;border-radius:9px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <i class="ti ti-message-circle-x" style="font-size:16px;color:var(--red);"></i>
-        </div>
-        <div>
-          <div style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;">Apólice perdida no WhatsApp</div>
-          <div style="font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;">Cliente ligou, você ficou procurando nos grupos enquanto ele esperou na linha.</div>
-        </div>
-      </div>
-      <div class="reveal" style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;" >
-        <div style="width:36px;height:36px;border-radius:9px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <i class="ti ti-calendar-x" style="font-size:16px;color:var(--red);"></i>
-        </div>
-        <div>
-          <div style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;">Renovação que você não viu vencer</div>
-          <div style="font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;">A apólice expirou, o cliente ficou descoberto e a comissão foi para outro corretor.</div>
-        </div>
-      </div>
-      <div class="reveal" style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;">
-        <div style="width:36px;height:36px;border-radius:9px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <i class="ti ti-table-off" style="font-size:16px;color:var(--red);"></i>
-        </div>
-        <div>
-          <div style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;">Planilha desatualizada</div>
-          <div style="font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;">A última atualização foi há semanas. Você não confia mais nos dados que estão lá.</div>
-        </div>
-      </div>
-      <div class="reveal" style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:22px 24px;display:flex;gap:14px;align-items:flex-start;">
-        <div style="width:36px;height:36px;border-radius:9px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <i class="ti ti-files-off" style="font-size:16px;color:var(--red);"></i>
-        </div>
-        <div>
-          <div style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;">PDFs espalhados em todo lugar</div>
-          <div style="font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;">Downloads, e-mail, Google Drive, celular. Cada apólice em um lugar diferente.</div>
-        </div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:36px;" class="reveal">
-      <p style="font-size:15px;color:var(--text2);font-weight:300;max-width:480px;margin:0 auto 20px;">Cada um desses problemas custa dinheiro. O Simpp resolve todos — por <strong style="color:var(--text);font-weight:600;">menos de R$1 por dia</strong>.</p>
-      <button onclick="abrirModal()" class="btn-trial" style="display:inline-flex;">
-        <i class="ti ti-sparkles" style="font-size:15px;"></i>
-        Testar grátis por 3 dias
-      </button>
-    </div>
-  </div>
-</section>
-
-<!-- DEPOIMENTOS -->
-<section style="padding:80px 0;background:var(--bg);">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:48px;" class="reveal">
-      <div class="section-chip">O que estão falando</div>
-      <h2 class="section-h2">Corretores que saíram da planilha.</h2>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;" class="depo-grid-wrap">
-      <div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;">
-        <div style="color:#FBBF24;font-size:13px;letter-spacing:2px;margin-bottom:14px;">★★★★★</div>
-        <p style="font-size:14px;color:var(--text2);line-height:1.65;font-style:italic;flex:1;margin-bottom:18px;font-weight:300;">"Antes eu ficava procurando apólice em grupos do WhatsApp enquanto o cliente esperava na linha. Hoje digito o nome e acho em segundos. Não consigo imaginar voltar para a planilha."</p>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="width:34px;height:34px;border-radius:50%;background:#4F6EF7;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">RS</div>
-          <div>
-            <div style="font-size:13px;font-weight:600;color:var(--text);">Ricardo S.</div>
-            <div style="font-size:11px;color:var(--text3);">Corretor de seguros · SP</div>
+        <div class="product-stage reveal delay-1" aria-label="Visão geral ilustrativa da plataforma Simpp">
+          <div class="stage-glow"></div>
+          <div class="app-shell">
+            <div class="app-top">
+              <div class="mini-brand"><img class="mini-brand-logo" src="simpp-logo.svg" alt="Simpp"></div>
+              <div class="app-search"><i class="ti ti-search"></i> Buscar cliente, apólice...</div>
+              <div class="avatar">S</div>
+            </div>
+            <div class="app-body">
+              <aside aria-hidden="true"><span class="active"><i class="ti ti-layout-dashboard"></i></span><span><i class="ti ti-users"></i></span><span><i class="ti ti-file-description"></i></span><span><i class="ti ti-chart-pie"></i></span><span><i class="ti ti-calendar"></i></span></aside>
+              <div class="dashboard">
+                <div class="dash-heading"><div><small>Visão geral</small><strong>Resumo da operação</strong></div><button type="button"><i class="ti ti-upload"></i> Nova importação</button></div>
+                <div class="metrics">
+                  <article><span>Produção no mês</span><strong>R$ 84.920</strong><em>+12,4%</em></article>
+                  <article><span>Comissão prevista</span><strong>R$ 14.386</strong><em>+8,1%</em></article>
+                  <article><span>Renovações</span><strong>23</strong><em>próx. 30 dias</em></article>
+                </div>
+                <div class="dash-lower">
+                  <div class="chart-card"><div class="card-title"><strong>Produção da carteira</strong><span>Últimos 6 meses</span></div><div class="chart"><i style="height:35%"></i><i style="height:48%"></i><i style="height:42%"></i><i style="height:65%"></i><i style="height:74%"></i><i style="height:88%"></i></div></div>
+                  <div class="tasks"><div class="card-title"><strong>Precisa de atenção</strong><span>Hoje</span></div><p><b class="orange"></b><span><strong>5 renovações</strong><small>Vencem nesta semana</small></span></p><p><b class="blue"></b><span><strong>3 atendimentos</strong><small>Para acompanhar hoje</small></span></p><p><b class="green"></b><span><strong>Conciliação</strong><small>Extrato processado</small></span></p></div>
+                </div>
+              </div>
+            </div>
           </div>
+          <div class="floating-card import-card"><span class="float-icon"><i class="ti ti-file-check"></i></span><div><small>Apólice importada</small><strong>Dados organizados</strong></div><i class="ti ti-circle-check"></i></div>
+          <div class="floating-card renew-card"><span class="float-icon amber"><i class="ti ti-bell"></i></span><div><small>Próxima renovação</small><strong>Em 7 dias</strong></div></div>
         </div>
       </div>
-      <div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;" >
-        <div style="color:#FBBF24;font-size:13px;letter-spacing:2px;margin-bottom:14px;">★★★★★</div>
-        <p style="font-size:14px;color:var(--text2);line-height:1.65;font-style:italic;flex:1;margin-bottom:18px;font-weight:300;">"Finalmente organizei minha carteira sem precisar aprender um sistema complicado. O Simpp é simples do jeito certo. Importei as apólices e já estava funcionando no mesmo dia."</p>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="width:34px;height:34px;border-radius:50%;background:#10B981;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">MC</div>
-          <div>
-            <div style="font-size:13px;font-weight:600;color:var(--text);">Mariana C.</div>
-            <div style="font-size:11px;color:var(--text3);">Corretora de seguros · MG</div>
+      <div class="container hero-foot"><span>Uma operação mais simples começa quando tudo trabalha junto.</span><div></div></div>
+    </section>
+
+    <section class="problem section" id="solucoes">
+      <div class="container problem-grid">
+        <div class="reveal"><span class="section-kicker">A rotina não precisa ser assim</span><h2>Enquanto você cuida de tudo, alguma coisa acaba ficando para trás.</h2></div>
+        <div class="problem-copy reveal delay-1"><p>O problema não é falta de esforço. É administrar uma corretora em ferramentas que não conversam entre si.</p><ul><li><i class="ti ti-x"></i> Uma planilha para a carteira e outra para comissões</li><li><i class="ti ti-x"></i> PDFs espalhados entre e-mail, celular e pastas</li><li><i class="ti ti-x"></i> Renovações e retornos dependendo da memória</li><li><i class="ti ti-x"></i> Atendimentos importantes perdidos no WhatsApp</li><li><i class="ti ti-x"></i> Cada pessoa da equipe com uma informação diferente</li></ul></div>
+      </div>
+      <div class="container pain-cards">
+        <article class="pain-card reveal"><span>01</span><i class="ti ti-file-spreadsheet"></i><h3>A planilha informa. Mas não conduz a operação.</h3><p>Ela não avisa, não conecta a equipe e não mostra automaticamente o próximo passo.</p></article>
+        <article class="pain-card reveal delay-1"><span>02</span><i class="ti ti-message-circle"></i><h3>O WhatsApp conversa. Mas não guarda o processo.</h3><p>Sem histórico organizado, acompanhar um atendimento depende de quem lembra da conversa.</p></article>
+        <article class="pain-card reveal delay-2"><span>03</span><i class="ti ti-folder"></i><h3>O PDF registra. Mas não trabalha por você.</h3><p>Enquanto os dados ficam presos no documento, alguém ainda precisa digitar e conferir tudo.</p></article>
+      </div>
+    </section>
+
+    <section class="manifesto">
+      <div class="container manifesto-grid">
+        <div class="manifesto-title reveal"><span>É aqui que o Simpp entra.</span><h2>De tarefas espalhadas para uma operação que flui.</h2></div>
+        <div class="manifesto-copy reveal delay-1"><p>O Simpp reúne carteira, atendimento e financeiro em uma única rotina. Você abre o sistema e sabe o que aconteceu, o que está previsto e o que precisa ser feito agora.</p><a href="#como-funciona">Descubra o fluxo <i class="ti ti-arrow-down-right"></i></a></div>
+      </div>
+      <div class="marquee" aria-label="Funcionalidades do Simpp">
+        <div class="marquee-flow">
+          <div class="marquee-track"><span>CARTEIRA</span><i></i><span>COMISSÕES</span><i></i><span>RENOVAÇÕES</span><i></i><span>FINANCEIRO</span><i></i><span>ATENDIMENTOS</span><i></i><span>RELATÓRIOS</span><i></i></div>
+          <div class="marquee-track" aria-hidden="true"><span>CARTEIRA</span><i></i><span>COMISSÕES</span><i></i><span>RENOVAÇÕES</span><i></i><span>FINANCEIRO</span><i></i><span>ATENDIMENTOS</span><i></i><span>RELATÓRIOS</span><i></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="import-section section" id="como-funciona">
+      <div class="container split-grid">
+        <div class="import-visual reveal">
+          <div class="paper-stack"><div class="paper paper-back"></div><div class="paper paper-main"><div class="paper-head"><span class="paper-logo">SEGURADORA</span><span>APÓLICE</span></div><div class="paper-line w80"></div><div class="paper-line w55"></div><div class="paper-box"><div></div><div></div><div></div><div></div></div><div class="paper-line w90"></div><div class="paper-line w65"></div><div class="scan-line"></div></div></div>
+          <div class="process-arrow"><i class="ti ti-arrow-right"></i></div>
+          <div class="data-card"><div class="data-card-head"><span><i class="ti ti-circle-check-filled"></i> Dados identificados</span><small>Pronto para revisar</small></div><dl><div><dt>Segurado</dt><dd>Mariana Costa</dd></div><div><dt>Vigência</dt><dd>10/09/26 a 10/09/27</dd></div><div><dt>Prêmio</dt><dd>R$ 3.840,00</dd></div><div><dt>Ramo</dt><dd>Seguro Auto</dd></div></dl><button><i class="ti ti-check"></i> Confirmar importação</button></div>
+          <div class="time-badge"><del>10 min</del><strong>30 seg</strong><span>por apólice</span></div>
+        </div>
+        <div class="split-copy reveal delay-1"><span class="section-kicker">Chega de digitar apólice uma por uma</span><h2>Envie o PDF. O Simpp organiza o restante.</h2><p>Importe a proposta ou apólice e deixe que o Simpp identifique segurado, vigência, prêmio e as demais informações do documento. Você revisa e confirma.</p><div class="feature-list"><div><i class="ti ti-file-upload"></i><span><strong>Importação em poucos passos</strong><small>Selecione o documento e acompanhe os dados aparecerem organizados.</small></span></div><div><i class="ti ti-file-delta"></i><span><strong>Endossos no lugar certo</strong><small>O Simpp reconhece a alteração e a vincula à apólice correspondente.</small></span></div><div><i class="ti ti-shield-check"></i><span><strong>Você confirma antes de salvar</strong><small>Revise as informações identificadas e mantenha o controle do cadastro.</small></span></div></div><button class="button button-primary" data-open-trial>Quero parar de digitar apólices <i class="ti ti-arrow-right"></i></button></div>
+      </div>
+    </section>
+
+    <section class="outcomes section">
+      <div class="container center-heading reveal"><span class="section-kicker">Uma plataforma. Uma operação.</span><h2>O Simpp conecta o trabalho que hoje acontece separado.</h2><p>Do cadastro de uma nova apólice à conferência da comissão, cada etapa fica visível e organizada.</p></div>
+      <div class="container outcome-grid">
+        <article class="outcome-card card-wide reveal"><div class="outcome-copy"><span class="icon-box purple"><i class="ti ti-coins"></i></span><h3>Comissão sem planilha paralela.</h3><p>O Simpp organiza grades de comissionamento, calcula repasses para produtores e parceiros e confere o extrato da seguradora com a sua carteira.</p><ul><li>Grades de comissionamento</li><li>Repasse automático</li><li>Conciliação de extratos</li></ul></div><div class="commission-ui"><div class="ui-title"><span>Comissões do mês</span><strong>R$ 14.386,40</strong></div><div class="commission-row"><span><b>MC</b>Mariana Costa</span><em>Auto</em><strong>R$ 576,00</strong></div><div class="commission-row"><span><b>RS</b>Ricardo Silva</span><em>Residencial</em><strong>R$ 318,20</strong></div><div class="commission-row"><span><b>AP</b>Ana Paula</span><em>Vida</em><strong>R$ 892,40</strong></div><div class="reconcile"><i class="ti ti-check"></i><span><strong>Extrato conciliado</strong><small>Todos os valores conferem</small></span></div></div></article>
+        <article class="outcome-card reveal delay-1"><span class="icon-box green"><i class="ti ti-cash-banknote"></i></span><h3>O dinheiro entrando e saindo, visível.</h3><p>Fluxo de caixa completo, conciliação bancária e um resumo financeiro em PDF para conversar com contador ou sócio.</p><div class="mini-cash"><div><span>Entradas</span><strong>R$ 31.840</strong></div><div><span>Saídas</span><strong>R$ 12.460</strong></div><i style="height:50%"></i><i style="height:68%"></i><i style="height:56%"></i><i style="height:86%"></i><i style="height:76%"></i></div></article>
+        <article class="outcome-card reveal delay-2"><span class="icon-box orange"><i class="ti ti-calendar-check"></i></span><h3>Nenhuma renovação esquecida.</h3><p>O Simpp avisa antes do vencimento e mostra todos os dias o que precisa de atenção.</p><div class="renew-list"><div><b>Hoje</b><span><strong>Seguro Auto</strong><small>Mariana Costa · 7 dias</small></span><i class="ti ti-chevron-right"></i></div><div><b>12</b><span><strong>Residencial</strong><small>Paulo Mendes · 12 dias</small></span><i class="ti ti-chevron-right"></i></div></div></article>
+        <article class="outcome-card reveal"><span class="icon-box blue"><i class="ti ti-folders"></i></span><h3>Sua carteira organizada e fácil de consultar.</h3><p>Clientes, apólices e endossos ficam conectados para você encontrar o que precisa sem procurar em várias ferramentas.</p><div class="pipeline"><div><span>Clientes</span><i></i><i></i></div><div><span>Apólices</span><i></i></div><div><span>Endossos</span><i></i><i></i></div></div></article>
+        <article class="outcome-card reveal delay-1"><span class="icon-box red"><i class="ti ti-lifebuoy"></i></span><h3>Atendimento organizado, não perdido em conversa.</h3><p>Histórico por cliente, sinistros com status personalizados e assistências reunidas no mesmo lugar.</p><div class="timeline-mini"><i></i><span><strong>Sinistro aberto</strong><small>Hoje, 09:42</small></span><i></i><span><strong>Atendimento atualizado</strong><small>Ontem, 16:18</small></span></div></article>
+        <article class="outcome-card card-wide team-card reveal delay-2"><div class="outcome-copy"><span class="icon-box cyan"><i class="ti ti-users-group"></i></span><h3>Sua equipe, sua carteira, sob seu controle.</h3><p>Convide colaboradores, defina papéis e mantenha todos trabalhando com as mesmas informações. O gestor acompanha a operação sem pedir uma planilha nova.</p><div class="team-pills"><span><i class="ti ti-shield"></i> Administrador</span><span><i class="ti ti-user"></i> Colaborador</span><span><i class="ti ti-chart-bar"></i> Visão gerencial</span></div></div><div class="team-avatars"><span class="av a1">JP</span><span class="av a2">MC</span><span class="av a3">RS</span><span class="av a4">AP</span><div class="team-line"></div><div class="activity"><i class="ti ti-user-check"></i><span><strong>Mariana atualizou um atendimento</strong><small>Agora mesmo</small></span></div><div class="activity"><i class="ti ti-file-check"></i><span><strong>Ricardo importou uma apólice</strong><small>Há 8 minutos</small></span></div></div></article>
+      </div>
+    </section>
+
+    <section class="day-section section">
+      <div class="container day-grid">
+        <div class="day-copy reveal"><span class="section-kicker light">Do começo ao fim do dia</span><h2>Você abre o Simpp e sabe por onde começar.</h2><p>O trabalho deixa de depender da memória. Cada módulo alimenta o próximo e mantém a rotina em movimento.</p><button class="button button-light" data-open-trial>Ver isso na minha corretora <i class="ti ti-arrow-right"></i></button></div>
+        <ol class="day-flow reveal delay-1"><li><span>08:00</span><div><i class="ti ti-layout-dashboard"></i><strong>O painel organiza as prioridades.</strong><p>Renovações, pendências e compromissos aparecem primeiro.</p></div></li><li><span>10:15</span><div><i class="ti ti-file-upload"></i><strong>Uma nova apólice entra na carteira.</strong><p>O Simpp importa o PDF e deixa os dados prontos para revisão.</p></div></li><li><span>13:40</span><div><i class="ti ti-phone-call"></i><strong>Um atendimento fica registrado.</strong><p>O histórico do cliente permanece organizado para a próxima consulta.</p></div></li><li><span>17:30</span><div><i class="ti ti-chart-dots"></i><strong>O dia termina com visão do todo.</strong><p>Produção, caixa e equipe continuam visíveis para a gestão.</p></div></li></ol>
+      </div>
+    </section>
+
+    <section class="product-map section" id="recursos">
+      <div class="container map-heading reveal"><div><span class="section-kicker">Tudo que existe hoje</span><h2>Uma plataforma completa.<br>Sem virar um sistema complicado.</h2></div><p>O Simpp reúne as ferramentas que uma corretora usa todos os dias em uma experiência simples de navegar.</p></div>
+      <div class="container module-grid">
+        <article class="module highlight reveal"><span><i class="ti ti-home"></i></span><div><h3>Painel</h3><p>Pendências, renovações e o que merece atenção hoje.</p></div></article>
+        <article class="module reveal"><span><i class="ti ti-chart-histogram"></i></span><div><h3>Dashboard</h3><p>Números e gráficos da carteira e da produção.</p></div></article>
+        <article class="module reveal"><span><i class="ti ti-folders"></i></span><div><h3>Carteira</h3><p>Clientes, apólices, parcelas, comissões e endossos.</p></div></article>
+        <article class="module reveal"><span><i class="ti ti-calendar-event"></i></span><div><h3>Agenda</h3><p>Compromissos e lembretes integrados à rotina.</p></div></article>
+        <article class="module reveal"><span><i class="ti ti-headset"></i></span><div><h3>Atendimentos</h3><p>Histórico e sinistros organizados por cliente.</p></div></article>
+        <article class="module reveal"><span><i class="ti ti-lifebuoy"></i></span><div><h3>Assistências</h3><p>Registro de assistências acionadas e acompanhamento.</p></div></article>
+        <article class="module reveal"><span><i class="ti ti-arrows-exchange"></i></span><div><h3>Fluxo de Caixa</h3><p>Lançamentos, categorias e conciliação bancária.</p></div></article>
+        <article class="module reveal"><span><i class="ti ti-scale"></i></span><div><h3>Conciliação</h3><p>Extrato da seguradora conferido com a carteira.</p></div></article>
+        <article class="module reveal"><span><i class="ti ti-bell"></i></span><div><h3>Notificações</h3><p>Avisos para não deixar o importante passar.</p></div></article>
+        <article class="module reveal"><span><i class="ti ti-report-analytics"></i></span><div><h3>Relatórios</h3><p>Informações gerenciais prontas para analisar e exportar.</p></div></article>
+      </div>
+    </section>
+
+    <section class="testimonials section" id="depoimentos">
+      <div class="container testimonial-heading reveal">
+        <div><span class="section-kicker">Experiências reais</span><h2>Corretoras que confiam no Simpp.</h2></div>
+        <p>Quem organiza a operação com o Simpp encontra informação mais rápido, acompanha melhor a carteira e trabalha com mais tranquilidade.</p>
+      </div>
+      <div class="container testimonial-scroll">
+        <article class="testimonial-card reveal">
+          <div class="quote-mark"><i class="ti ti-quote"></i></div>
+          <p>“Antes eu ficava procurando apólice em grupos do WhatsApp enquanto o cliente esperava na linha. Hoje digito o nome e acho em segundos. Não consigo imaginar voltar para a planilha.”</p>
+          <div class="testimonial-person"><span>RS</span><div><strong>Ricardo S.</strong><small>Corretor de seguros · SP</small></div></div>
+        </article>
+        <article class="testimonial-card reveal delay-1">
+          <div class="quote-mark"><i class="ti ti-quote"></i></div>
+          <p>“Finalmente organizei minha carteira sem precisar aprender um sistema complicado. O Simpp é simples do jeito certo. Importei as apólices e já estava funcionando no mesmo dia.”</p>
+          <div class="testimonial-person"><span>MC</span><div><strong>Mariana C.</strong><small>Corretora de seguros · MG</small></div></div>
+        </article>
+        <article class="testimonial-card reveal delay-2">
+          <div class="quote-mark"><i class="ti ti-quote"></i></div>
+          <p>“Só com as renovações que eu não perdi no primeiro mês já paguei o ano inteiro. O Simpp não é um custo, é investimento. Hoje não largo mais.”</p>
+          <div class="testimonial-person"><span>JP</span><div><strong>João P.</strong><small>Corretor de seguros · RJ</small></div></div>
+        </article>
+      </div>
+      <div class="container testimonial-mobile-hint" aria-hidden="true"><i class="ti ti-arrow-left"></i><span>Deslize para ver mais</span><i class="ti ti-arrow-right"></i></div>
+    </section>
+
+    <section class="plans section" id="planos">
+      <div class="container center-heading reveal"><span class="section-kicker">Plano único</span><h2>Toda a sua operação.<br>Um único preço.</h2><p>Hoje, você acessa todos os recursos disponíveis em uma única assinatura anual.</p></div>
+      <div class="container single-plan-wrap">
+        <article class="plan-card featured single-plan reveal">
+          <div class="popular"><i class="ti ti-bolt"></i> Preço promocional</div>
+          <div class="plan-top"><span class="plan-name">Simpp Completo</span><p>Para corretores e corretoras que querem organizar carteira, atendimento e financeiro.</p></div>
+          <div class="annual-price"><sup>R$</sup><strong>297</strong><span>,00<br><small>por ano</small></span></div>
+          <div class="price-equivalent">Equivale a R$ 24,75 por mês, com cobrança anual.</div>
+          <div class="plan-rule"></div>
+          <strong class="plan-for">Todos os recursos disponíveis hoje</strong>
+          <ul class="single-plan-features">
+            <li><i class="ti ti-check"></i> Clientes, apólices, parcelas e endossos</li>
+            <li><i class="ti ti-check"></i> Importação de propostas e apólices</li>
+            <li><i class="ti ti-check"></i> Agenda, notificações e renovações</li>
+            <li><i class="ti ti-check"></i> Atendimentos, sinistros e assistências</li>
+            <li><i class="ti ti-check"></i> Fluxo de caixa e conciliação bancária</li>
+            <li><i class="ti ti-check"></i> Comissões, grades, repasses e conciliação</li>
+            <li><i class="ti ti-check"></i> Equipe com papéis e visão gerencial</li>
+            <li><i class="ti ti-check"></i> Relatórios da operação</li>
+          </ul>
+          <div class="single-plan-actions">
+            <button class="button button-primary button-large" data-open-trial>Testar o Simpp grátis <i class="ti ti-arrow-right"></i></button>
+            <a class="button button-outline button-large" href="https://pay.kiwify.com.br/zISskQ6" data-checkout>Assinar agora por R$ 297,00 <i class="ti ti-arrow-up-right"></i></a>
           </div>
+          <small class="plan-note">Assinatura anual. Preço promocional por tempo limitado.</small>
+        </article>
+      </div>
+    </section>
+
+    <section class="objection section">
+      <div class="container objection-grid">
+        <div class="objection-copy reveal"><span class="section-kicker light">Simples para começar</span><h2>Você não precisa parar a corretora para organizar a corretora.</h2><p>Comece aos poucos. Cadastre ou importe os documentos mais importantes, acompanhe as próximas renovações e traga o restante da operação no seu ritmo.</p></div>
+        <div class="steps-card reveal delay-1"><ol><li><span>1</span><div><strong>Crie sua conta</strong><small>Comece em poucos passos.</small></div></li><li><span>2</span><div><strong>Leve sua carteira</strong><small>Cadastre ou importe suas apólices.</small></div></li><li><span>3</span><div><strong>Trabalhe com visão do todo</strong><small>O Simpp mostra o que precisa acontecer.</small></div></li></ol><button class="button button-primary button-block" data-open-trial>Quero organizar minha corretora <i class="ti ti-arrow-right"></i></button></div>
+      </div>
+    </section>
+
+    <section class="faq section" id="faq">
+      <div class="container faq-grid">
+        <div class="faq-heading reveal"><span class="section-kicker">Dúvidas frequentes</span><h2>Antes de começar, talvez você queira saber.</h2><p>Reunimos as respostas para as principais dúvidas de quem está considerando organizar a corretora com o Simpp.</p><button class="button button-dark" data-open-trial>Testar o Simpp <i class="ti ti-arrow-right"></i></button></div>
+        <div class="faq-list reveal delay-1">
+          <details open><summary>Para quem o Simpp foi feito?<i class="ti ti-plus"></i></summary><p>O Simpp foi criado para corretores e corretoras de seguros que querem organizar carteira, atendimento e financeiro em uma única plataforma. Ele atende desde a operação individual até equipes com processos mais estruturados.</p></details>
+          <details><summary>Preciso abandonar minhas planilhas de uma vez?<i class="ti ti-plus"></i></summary><p>Não. Você pode começar com os clientes e apólices mais importantes e trazer o restante da carteira aos poucos. A ideia é organizar sua rotina sem interromper a operação.</p></details>
+          <details><summary>Como funciona a importação de apólices?<i class="ti ti-plus"></i></summary><p>Você envia o PDF da proposta ou apólice. O Simpp identifica as informações do documento e apresenta os dados organizados para sua revisão antes de concluir o cadastro.</p></details>
+          <details><summary>O Simpp também importa endossos?<i class="ti ti-plus"></i></summary><p>Sim. O Simpp reconhece o endosso e o vincula à apólice correspondente, mantendo o histórico da carteira organizado.</p></details>
+          <details><summary>Consigo controlar comissão de produtores e parceiros?<i class="ti ti-plus"></i></summary><p>Sim. Você pode trabalhar com grades de comissionamento e organizar os repasses para produtores e parceiros conforme a operação da corretora.</p></details>
+          <details><summary>O Simpp ajuda a conferir o extrato da seguradora?<i class="ti ti-plus"></i></summary><p>Sim. A conciliação compara o extrato de comissão da seguradora com as informações da carteira e ajuda a identificar o que confere e o que precisa ser revisado.</p></details>
+          <details><summary>Posso usar o Simpp com minha equipe?<i class="ti ti-plus"></i></summary><p>Sim. No plano voltado a operações em equipe, você pode convidar usuários e definir papéis de administrador ou colaborador para manter todos trabalhando com as mesmas informações.</p></details>
+          <details><summary>O Simpp funciona no celular?<i class="ti ti-plus"></i></summary><p>Sim. O Simpp pode ser acessado pelo navegador do celular, tablet ou computador, sem necessidade de instalar um programa.</p></details>
+          <details><summary>O Simpp tem integração com seguradoras?<i class="ti ti-plus"></i></summary><p>Não. Atualmente o Simpp não possui integração direta com seguradoras. Essa funcionalidade entrará futuramente no Simpp.</p></details>
+          <details><summary>Meus dados ficam misturados com os de outras corretoras?<i class="ti ti-plus"></i></summary><p>Não. Cada corretora acessa sua própria operação e seus próprios registros. Os usuários entram com credenciais individuais.</p></details>
+          <details><summary>Quanto custa o Simpp hoje?<i class="ti ti-plus"></i></summary><p>O Simpp está disponível por R$ 297,00 ao ano em uma oferta promocional por tempo limitado. A cobrança é anual e inclui todos os recursos disponíveis nesta versão.</p></details>
+          <details><summary>Preciso cadastrar cartão para testar?<i class="ti ti-plus"></i></summary><p>Não. Você pode criar sua conta e conhecer o Simpp sem cadastrar cartão de crédito.</p></details>
+          <details><summary>Se eu tiver dúvidas durante o uso, consigo ajuda?<i class="ti ti-plus"></i></summary><p>Sim. O objetivo é ajudar você a colocar a operação em ordem e aproveitar os recursos do Simpp com segurança.</p></details>
         </div>
       </div>
-      <div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;">
-        <div style="color:#FBBF24;font-size:13px;letter-spacing:2px;margin-bottom:14px;">★★★★★</div>
-        <p style="font-size:14px;color:var(--text2);line-height:1.65;font-style:italic;flex:1;margin-bottom:18px;font-weight:300;">"Só com as renovações que eu não perdi no primeiro mês já paguei o ano inteiro. O Simpp não é um custo — é investimento. Hoje não largo mais."</p>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="width:34px;height:34px;border-radius:50%;background:#F59E0B;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">JP</div>
-          <div>
-            <div style="font-size:13px;font-weight:600;color:var(--text);">João P.</div>
-            <div style="font-size:11px;color:var(--text3);">Corretor de seguros · RJ</div>
-          </div>
-        </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="final-orb orb-one"></div><div class="final-orb orb-two"></div>
+      <div class="container final-inner reveal"><span class="section-kicker light">Sua operação pode ser mais simples</span><h2>Menos tempo procurando informação.<br>Mais tempo cuidando da carteira.</h2><p>Coloque apólices, comissões, financeiro, atendimentos e equipe para trabalhar no mesmo lugar.</p><button class="button button-light button-large" data-open-trial>Começar meu teste grátis <i class="ti ti-arrow-right"></i></button></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-top"><div><a class="brand brand-light" href="#top"><img class="brand-logo" src="simpp-logo.svg" alt="Simpp gestão simples"></a><p>Gestão simples para corretoras de seguros.</p></div><div class="footer-links"><div><strong>Produto</strong><a href="#solucoes">Soluções</a><a href="#recursos">Recursos</a><a href="#planos">Preço</a></div><div><strong>Acesso</strong><a href="https://crm.simpp.com.br/login.html">Entrar no Simpp</a><button data-open-trial>Criar conta</button></div><div><strong>Contato</strong><a href="mailto:contato@simpp.com.br">contato@simpp.com.br</a></div></div></div>
+    <div class="container footer-bottom"><span>© 2026 Simpp. Todos os direitos reservados.</span><span>Feito para quem protege o que importa.</span></div>
+  </footer>
+
+  <aside class="promotion-popup" id="promotionPopup" aria-label="Oferta promocional" aria-hidden="true">
+    <button class="promotion-close" type="button" data-close-promotion aria-label="Fechar oferta"><i class="ti ti-x"></i></button>
+    <span class="promotion-icon"><i class="ti ti-bolt"></i></span>
+    <div class="promotion-copy"><small>Preço promocional</small><strong>Aproveite os últimos dias do preço promocional de R$ 297,00.</strong><p>Adquirindo agora, você garante todos os recursos sem custo adicional.</p></div>
+    <div class="promotion-actions"><a href="https://pay.kiwify.com.br/zISskQ6" class="button button-light" data-checkout>Garantir por R$ 297,00 <i class="ti ti-arrow-up-right"></i></a><button class="promotion-secondary" type="button" data-promotion-trial>Testar primeiro</button></div>
+  </aside>
+
+  <div class="modal-overlay" id="trialModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" data-close-modal aria-label="Fechar"><i class="ti ti-x"></i></button>
+      <div id="modalForm">
+        <a class="brand modal-brand" href="#"><img class="brand-logo" src="simpp-logo.svg" alt="Simpp gestão simples"></a>
+        <span class="modal-kicker">Oferta atual</span><h2 id="modalTitle">Conheça o Simpp por 3 dias grátis.</h2><p>Depois, continue com todos os recursos disponíveis por R$ 297,00 ao ano.</p>
+        <div class="modal-price"><span>Plano anual</span><strong>R$ 297,00</strong><small>Preço promocional por tempo limitado</small></div>
+        <div class="form-grid"><label>Nome completo<input type="text" id="inputNome" placeholder="Seu nome" autocomplete="name"></label><label>E-mail<input type="email" id="inputEmail" placeholder="seu@email.com" autocomplete="email"></label><label>WhatsApp<input type="tel" id="inputWhatsapp" placeholder="(00) 00000-0000" autocomplete="tel"></label><label>Senha<input type="password" id="inputSenha" placeholder="Mínimo 6 caracteres" autocomplete="new-password"></label></div>
+        <button class="button button-primary button-block" id="btnSubmit"><span id="btnTxt">Criar conta e testar grátis</span><i class="ti ti-arrow-right"></i></button><a class="modal-checkout" href="https://pay.kiwify.com.br/zISskQ6" data-checkout>Prefiro assinar agora por R$ 297,00 <i class="ti ti-arrow-up-right"></i></a><div class="form-error" id="formErro" role="alert"></div><small class="modal-legal"><i class="ti ti-lock"></i> Seus dados são usados apenas para criar sua conta.</small>
       </div>
+      <div class="modal-success" id="modalSuccess"><span><i class="ti ti-mail-check"></i></span><h2>Confirme seu e-mail</h2><p>Enviamos uma mensagem para <strong id="emailConfirm"></strong>. Clique no link para ativar sua conta e entrar no Simpp.</p><a class="button button-primary button-block" href="https://crm.simpp.com.br/login.html">Ir para o login <i class="ti ti-arrow-right"></i></a></div>
     </div>
   </div>
-</section>
 
-<!-- PREÇO -->
-<section class="preco-section" id="preco">
-  <div class="container">
-    <div class="preco-header reveal">
-      <div class="section-chip" style="justify-content:center;">Plano único</div>
-      <h2 class="section-h2">Menos que uma comissão de moto.</h2>
-      <p class="section-p">Um plano. Um preço. 12 meses sem mensalidade. Tudo incluído.</p>
-    </div>
-    <div class="preco-card-wrap reveal">
-      <div class="preco-card">
-        <div class="preco-tag"><i class="ti ti-bolt" style="font-size:11px;"></i> Plano anual · sem mensalidade</div>
-        <div class="preco-de-wrap">
-          <div class="preco-de">De R$ 497/ano</div>
-          <div class="preco-off">−40%</div>
-        </div>
-        <div class="preco-por"><sup>R$</sup>297<span>/ano</span></div>
-        <div class="preco-dia">= R$ 0,81 por dia. Menos que um café.</div>
-        <div class="preco-div"></div>
-        <ul class="preco-inclui">
-          <li><span class="chk"><i class="ti ti-check"></i></span> Clientes e apólices ilimitados</li>
-          <li><span class="chk"><i class="ti ti-check"></i></span> Até 25 importações de PDF por mês</li>
-          <li><span class="chk"><i class="ti ti-check"></i></span> Alertas de renovação automáticos</li>
-          <li><span class="chk"><i class="ti ti-check"></i></span> Histórico completo (endosso, cancelamento)</li>
-          <li><span class="chk"><i class="ti ti-check"></i></span> Dados isolados com segurança total</li>
-          <li><span class="chk"><i class="ti ti-check"></i></span> Acesso pelo celular, sem instalar nada</li>
-          <li>
-            <span style="color:var(--amber);font-size:13px;flex-shrink:0;margin-top:1px;"><i class="ti ti-clock"></i></span>
-            <span style="color:var(--text3);font-size:13px;font-weight:300;">App nativo para celular <span style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:4px;padding:1px 7px;font-size:10.5px;color:var(--amber);font-weight:500;margin-left:4px;">Em breve</span></span>
-          </li>
-        </ul>
-        <button onclick="abrirModal()" class="btn-trial-preco">
-          Começar teste grátis, 3 dias sem cartão →
-        </button>
-        <a href="https://pay.kiwify.com.br/zISskQ6" class="btn-assinar-preco">
-          Já decidi, assinar por R$297/ano
-        </a>
-        <div class="preco-garantia">Pagamento seguro via Kiwify · Acesso imediato</div>
-      </div>
-    </div>
-
-    <!-- Ancoragem de valor -->
-    <div class="reveal" style="max-width:480px;margin:32px auto 0;text-align:center;">
-      <p style="font-size:13px;color:var(--text3);line-height:1.7;font-weight:300;">
-        Uma renovação de seguro auto vale em média <strong style="color:var(--text2);">R$180 de comissão</strong>.<br>
-        O Simpp custa R$297 por ano e te ajuda a não perder nenhuma.<br>
-        <strong style="color:var(--text2);">Dois clientes renovados já pagam o sistema.</strong>
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="container footer-inner">
-    <a href="#" class="logo footer-logo">
-      <svg width="26" height="26" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
-        <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
-      </svg>
-      <div>
-        <span class="logo-name">simpp</span>
-        <span class="logo-tag-small">gestão simples</span>
-      </div>
-    </a>
-    <div class="footer-txt">© 2025 Simpp · Todos os direitos reservados</div>
-    <div class="footer-txt">contato@simpp.com.br</div>
-  </div>
-</footer>
-
-<!-- MODAL CADASTRO TRIAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="fecharModalFora(event)">
-  <div class="modal" id="modal">
-    <button class="modal-close" onclick="fecharModal()"><i class="ti ti-x"></i></button>
-
-    <!-- Formulário -->
-    <div id="modalForm">
-      <div class="modal-logo">
-        <svg width="24" height="24" viewBox="0 0 36 36" fill="none">
-          <rect x="2" y="2" width="22" height="14" rx="4" fill="#4F6EF7"/>
-          <rect x="12" y="20" width="22" height="14" rx="4" fill="#93A8FF"/>
-        </svg>
-        <span style="font-size:15px;font-weight:600;color:#0F172A;letter-spacing:-.3px;">simpp</span>
-      </div>
-      <h2>Teste grátis por 3 dias</h2>
-      <p class="modal-sub">Sem cartão de crédito. <strong>Acesso imediato</strong> após confirmar seu e-mail.</p>
-
-      <div class="form-group">
-        <label class="form-label">Nome completo</label>
-        <input type="text" id="inputNome" class="form-input" placeholder="Seu nome" autocomplete="name">
-      </div>
-      <div class="form-group">
-        <label class="form-label">E-mail</label>
-        <input type="email" id="inputEmail" class="form-input" placeholder="seu@email.com" autocomplete="email">
-      </div>
-      <div class="form-group">
-        <label class="form-label">WhatsApp</label>
-        <input type="tel" id="inputWhatsapp" class="form-input" placeholder="(00) 00000-0000" autocomplete="tel">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Senha</label>
-        <input type="password" id="inputSenha" class="form-input" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
-      </div>
-
-      <button class="btn-submit" id="btnSubmit" onclick="cadastrarTrial()">
-        <span id="btnTxt">Criar minha conta grátis</span>
-      </button>
-      <div class="form-erro" id="formErro"></div>
-    </div>
-
-    <!-- Sucesso -->
-    <div class="modal-sucesso" id="modalSucesso">
-      <div class="sucesso-ico"><i class="ti ti-mail-check"></i></div>
-      <div class="sucesso-title">Confirme seu e-mail!</div>
-      <p class="sucesso-txt">
-        Enviamos um e-mail para <strong id="emailConfirm"></strong>.<br><br>
-        Clique no link do e-mail para confirmar sua conta. Depois acesse <strong>crm.simpp.com.br</strong> e faça login com seu e-mail e senha.
-      </p>
-      <a class="btn-login-crm" id="btnLoginCrm" href="https://crm.simpp.com.br/login.html">
-        Ir para o login <i class="ti ti-arrow-right"></i>
-      </a>
-    </div>
-  </div>
-</div>
-
-<script>
-// Supabase
-const { createClient } = supabase;
-const sb = createClient(
-  'https://qqmfvpubrrdxakowpldv.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxbWZ2cHVicnJkeGFrb3dwbGR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NTczMjEsImV4cCI6MjA5NjMzMzMyMX0.XLh29w5Jsq-u27hYfiy_7dOMzm9Ifs9_glvWOoQP6G0'
-);
-
-// Modal
-function abrirModal() {
-  document.getElementById('modalOverlay').classList.add('open');
-  setTimeout(() => document.getElementById('inputNome').focus(), 300);
-}
-function fecharModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-}
-function fecharModalFora(e) {
-  if (e.target === document.getElementById('modalOverlay')) fecharModal();
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') fecharModal();
-});
-
-// Cadastro trial
-async function dispararBoasVindas(userData) {
-  try {
-    await fetch('https://qoptwkmnyrjatcamrfxd.supabase.co/functions/v1/pipeline-webhook/cd802cba469deea8123985ae35be0ad86867baa37ce1286b', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        event:      'novo_cadastro',
-        email:      userData.email    || '',
-        nome:       userData.nome     || userData.full_name || '',
-        whatsapp:   userData.whatsapp || userData.phone     || '',
-        created_at: new Date().toISOString()
-      })
-    });
-  } catch(e) {
-    console.warn('Webhook boas-vindas falhou:', e.message);
-  }
-}
-
-async function cadastrarTrial() {
-  const nome     = document.getElementById('inputNome').value.trim();
-  const email    = document.getElementById('inputEmail').value.trim();
-  const whatsapp = document.getElementById('inputWhatsapp').value.trim();
-  const senha    = document.getElementById('inputSenha').value;
-  const btn      = document.getElementById('btnSubmit');
-  const txt      = document.getElementById('btnTxt');
-
-  document.getElementById('formErro').classList.remove('show');
-
-  if (!nome)                          { mostrarErro('Informe seu nome.'); return; }
-  if (!email || !email.includes('@')) { mostrarErro('Informe um e-mail válido.'); return; }
-  if (!whatsapp)                      { mostrarErro('Informe seu WhatsApp.'); return; }
-  if (senha.length < 6)               { mostrarErro('A senha precisa ter pelo menos 6 caracteres.'); return; }
-
-  btn.disabled = true;
-  txt.textContent = 'Criando conta...';
-
-  const { error } = await sb.auth.signUp({
-    email,
-    password: senha,
-    options: {
-      emailRedirectTo: 'https://crm.simpp.com.br/login.html',
-      data: { full_name: nome, whatsapp }
-    }
-  });
-
-  if (error) {
-    btn.disabled = false;
-    txt.textContent = 'Criar minha conta grátis';
-    if (error.message.includes('already registered')) {
-      mostrarErro('Este e-mail já está cadastrado. Acesse em crm.simpp.com.br.');
-    } else {
-      mostrarErro('Erro ao criar conta. Tente novamente.');
-    }
-    return;
-  }
-
-  // Desloga imediatamente — usuário precisa confirmar o e-mail antes de entrar
-  await sb.auth.signOut();
-
-  // Webhook boas-vindas WhatsApp (falha silenciosa — não impede o cadastro)
-  await dispararBoasVindas({ email, nome, whatsapp });
-
-  // Eventos Facebook Pixel
-  if (typeof fbq !== 'undefined') {
-    fbq('track', 'Lead');
-    fbq('track', 'StartTrial', {
-      currency: 'BRL',
-      value: 0,
-      content_name: 'Trial Simpp 3 dias',
-    });
-  }
-
-  // Mostra tela de sucesso
-  document.getElementById('emailConfirm').textContent = email;
-  document.getElementById('modalForm').style.display = 'none';
-  document.getElementById('modalSucesso').classList.add('show');
-  document.getElementById('btnLoginCrm').focus();
-}
-
-function mostrarErro(msg) {
-  const el = document.getElementById('formErro');
-  el.textContent = msg;
-  el.classList.add('show');
-}
-
-// Reveal
-var observer = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.08 });
-document.querySelectorAll('.reveal').forEach(function(r) { observer.observe(r); });
-
-// Header shadow
-window.addEventListener('scroll', function() {
-  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
-}, { passive: true });
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
-
