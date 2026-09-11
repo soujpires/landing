@@ -124,10 +124,13 @@ async function sendWelcome(userData) {
   }
 }
 
-document.getElementById('btnSubmit').addEventListener('click', async () => {
+modalForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
   const nome = document.getElementById('inputNome').value.trim();
   const email = document.getElementById('inputEmail').value.trim();
   const whatsapp = document.getElementById('inputWhatsapp').value.trim();
+  const whatsappDigits = whatsapp.replace(/\D/g, '');
   const senha = document.getElementById('inputSenha').value;
   const button = document.getElementById('btnSubmit');
   const buttonText = document.getElementById('btnTxt');
@@ -135,7 +138,7 @@ document.getElementById('btnSubmit').addEventListener('click', async () => {
 
   if (!nome) return showError('Informe seu nome.');
   if (!email || !email.includes('@')) return showError('Informe um e-mail válido.');
-  if (!whatsapp) return showError('Informe seu WhatsApp.');
+  if (whatsappDigits.length < 10 || whatsappDigits.length > 11) return showError('Informe um WhatsApp válido, com DDD.');
   if (senha.length < 6) return showError('A senha precisa ter pelo menos 6 caracteres.');
   if (!sb) return showError('Não foi possível conectar. Atualize a página e tente novamente.');
 
