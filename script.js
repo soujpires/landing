@@ -116,6 +116,8 @@ async function sendWelcome(userData) {
         email: userData.email || '',
         nome: userData.nome || '',
         whatsapp: userData.whatsapp || '',
+        colaboradores: userData.colaboradores || '',
+        apolices: userData.apolices || '',
         created_at: new Date().toISOString()
       })
     });
@@ -132,6 +134,8 @@ modalForm.addEventListener('submit', async (event) => {
   const whatsapp = document.getElementById('inputWhatsapp').value.trim();
   const whatsappDigits = whatsapp.replace(/\D/g, '');
   const senha = document.getElementById('inputSenha').value;
+  const colaboradores = document.getElementById('inputColaboradores').value;
+  const apolices = document.getElementById('inputApolices').value;
   const button = document.getElementById('btnSubmit');
   const buttonText = document.getElementById('btnTxt');
   showError('');
@@ -140,6 +144,8 @@ modalForm.addEventListener('submit', async (event) => {
   if (!email || !email.includes('@')) return showError('Informe um e-mail válido.');
   if (whatsappDigits.length < 10 || whatsappDigits.length > 11) return showError('Informe um WhatsApp válido, com DDD.');
   if (senha.length < 6) return showError('A senha precisa ter pelo menos 6 caracteres.');
+  if (!colaboradores) return showError('Informe o número de colaboradores.');
+  if (!apolices) return showError('Informe o número de apólices na carteira.');
   if (!sb) return showError('Não foi possível conectar. Atualize a página e tente novamente.');
 
   button.disabled = true;
@@ -150,7 +156,7 @@ modalForm.addEventListener('submit', async (event) => {
     password: senha,
     options: {
       emailRedirectTo: 'https://crm.simpp.com.br/login.html',
-      data: { full_name: nome, whatsapp }
+      data: { full_name: nome, whatsapp, colaboradores, apolices }
     }
   });
 
@@ -162,7 +168,7 @@ modalForm.addEventListener('submit', async (event) => {
   }
 
   await sb.auth.signOut();
-  await sendWelcome({ email, nome, whatsapp });
+  await sendWelcome({ email, nome, whatsapp, colaboradores, apolices });
 
   if (typeof window.fbq !== 'undefined') {
     window.fbq('track', 'Lead');
