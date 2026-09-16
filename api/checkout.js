@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         description: 'Acesso anual ao Simpp com importação de documentos, alertas de renovação e carteira organizada.',
         quantity: 1,
         currency_id: 'BRL',
-        unit_price: 297.00,
+        unit_price: 497.00,
       },
     ],
     payment_methods: {
