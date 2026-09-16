@@ -79,7 +79,7 @@ if (promotionPopup) {
 document.querySelectorAll('[data-checkout]').forEach((link) => {
   link.addEventListener('click', () => {
     if (typeof window.fbq !== 'undefined') {
-      window.fbq('track', 'InitiateCheckout', { currency: 'BRL', value: 297, content_name: 'Simpp Anual' });
+      window.fbq('track', 'InitiateCheckout', { currency: 'BRL', value: 497, content_name: 'Simpp Anual' });
     }
   });
 });
