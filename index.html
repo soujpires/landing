@@ -219,7 +219,7 @@
           </ul>
           <div class="single-plan-actions">
             <button class="button button-primary button-large" data-open-trial>Testar o Simpp grátis <i class="ti ti-arrow-right"></i></button>
-            <a class="button button-outline button-large" href="https://pay.kiwify.com.br/zISskQ6" data-checkout>Assinar agora por R$ 497,00 <i class="ti ti-arrow-up-right"></i></a>
+            <button class="button button-outline button-large" type="button" data-open-payment>Assinar agora por R$ 497,00 <i class="ti ti-arrow-up-right"></i></button>
           </div>
           <small class="plan-note">Assinatura anual com 800 importações incluídas por ano (por corretora, não por usuário). Anexar documentos ao cliente não entra nessa conta — apenas apólice ou proposta importada. Pacote adicional de 100 importações: R$ 39,90. Preço promocional por tempo limitado.</small>
         </article>
@@ -271,7 +271,7 @@
     <button class="promotion-close" type="button" data-close-promotion aria-label="Fechar oferta"><i class="ti ti-x"></i></button>
     <span class="promotion-icon"><i class="ti ti-bolt"></i></span>
     <div class="promotion-copy"><small>Preço promocional</small><strong>Aproveite os últimos dias do preço promocional de R$ 497,00.</strong><p>Adquirindo agora, você garante todos os recursos sem custo adicional.</p></div>
-    <div class="promotion-actions"><a href="https://pay.kiwify.com.br/zISskQ6" class="button button-light" data-checkout>Garantir por R$ 497,00 <i class="ti ti-arrow-up-right"></i></a><button class="promotion-secondary" type="button" data-promotion-trial>Testar primeiro</button></div>
+    <div class="promotion-actions"><button class="button button-light" type="button" data-open-payment>Garantir por R$ 497,00 <i class="ti ti-arrow-up-right"></i></button><button class="promotion-secondary" type="button" data-promotion-trial>Testar primeiro</button></div>
   </aside>
 
   <div class="modal-overlay" id="trialModal" aria-hidden="true">
@@ -282,9 +282,35 @@
         <span class="modal-kicker">Oferta atual</span><h2 id="modalTitle">Conheça o Simpp por 7 dias grátis.</h2><p>Depois, continue com todos os recursos disponíveis por R$ 497,00 ao ano (ou em até 6x de R$ 99,00).</p>
         <div class="modal-price"><span>Plano anual</span><strong>R$ 497,00</strong><small>Preço promocional por tempo limitado</small></div>
         <div class="form-grid"><label>Nome completo<input type="text" id="inputNome" placeholder="Seu nome" autocomplete="name" required></label><label>E-mail<input type="email" id="inputEmail" placeholder="seu@email.com" autocomplete="email" required></label><label>WhatsApp<input type="tel" id="inputWhatsapp" placeholder="(00) 00000-0000" autocomplete="tel" inputmode="tel" required><small class="field-hint">Pode ser usado para confirmar sua conta — informe DDD e número corretos.</small></label><label>Senha<input type="password" id="inputSenha" placeholder="Mínimo 6 caracteres" autocomplete="new-password" minlength="6" required></label><label>Nº de colaboradores<select id="inputColaboradores" required><option value="" disabled selected>Selecione</option><option value="1 a 3">1 a 3</option><option value="3 a 5">3 a 5</option><option value="5 a 10">5 a 10</option></select></label><label>Nº de apólices na carteira<select id="inputApolices" required><option value="" disabled selected>Selecione</option><option value="Até 600">Até 600</option><option value="De 600 a 1200">De 600 a 1200</option><option value="Acima de 1200">Acima de 1200</option></select></label></div>
-        <button class="button button-primary button-block" type="submit" id="btnSubmit"><span id="btnTxt">Criar conta e testar grátis</span><i class="ti ti-arrow-right"></i></button><a class="modal-checkout" href="https://pay.kiwify.com.br/zISskQ6" data-checkout>Prefiro assinar agora por R$ 497,00 <i class="ti ti-arrow-up-right"></i></a><div class="form-error" id="formErro" role="alert"></div><small class="modal-legal"><i class="ti ti-lock"></i> Seus dados são usados apenas para criar sua conta.</small>
+        <button class="button button-primary button-block" type="submit" id="btnSubmit"><span id="btnTxt">Criar conta e testar grátis</span><i class="ti ti-arrow-right"></i></button><button class="modal-checkout" type="button" data-open-payment>Prefiro assinar agora por R$ 497,00 <i class="ti ti-arrow-up-right"></i></button><div class="form-error" id="formErro" role="alert"></div><small class="modal-legal"><i class="ti ti-lock"></i> Seus dados são usados apenas para criar sua conta.</small>
       </form>
       <div class="modal-success" id="modalSuccess"><span><i class="ti ti-mail-check"></i></span><h2>Confirme seu e-mail</h2><p>Enviamos uma mensagem para <strong id="emailConfirm"></strong>. Clique no link para ativar sua conta e entrar no Simpp.</p><a class="button button-primary button-block" href="https://crm.simpp.com.br/login.html">Ir para o login <i class="ti ti-arrow-right"></i></a></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="paymentModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="paymentModalTitle">
+      <button class="modal-close" data-close-payment aria-label="Fechar"><i class="ti ti-x"></i></button>
+      <a class="brand modal-brand" href="#"><img class="brand-logo" src="simpp-logo.svg" alt="Simpp gestão simples"></a>
+      <span class="modal-kicker">Assinatura anual</span><h2 id="paymentModalTitle">Como você quer pagar?</h2><p>Escolha a forma de pagamento do Simpp.</p>
+      <div class="payment-options">
+        <a class="payment-option" href="https://pay.kiwify.com.br/zISskQ6" target="_blank" rel="noopener" data-checkout>
+          <span class="payment-option-icon"><i class="ti ti-credit-card"></i></span>
+          <span class="payment-option-info"><strong>Pagar à vista</strong><small>Direto no checkout, sem sair daqui</small></span>
+          <span class="payment-option-price">R$ 497,00</span>
+        </a>
+        <a class="payment-option" href="https://wa.me/5511942688776?text=Ol%C3%A1!%20Quero%20assinar%20o%20Simpp%20parcelado%20em%203x%20de%20R%24%20179%2C90%20no%20boleto." target="_blank" rel="noopener" data-checkout>
+          <span class="payment-option-icon"><i class="ti ti-brand-whatsapp"></i></span>
+          <span class="payment-option-info"><strong>Parcelar no boleto</strong><small>Fala com um consultor no WhatsApp</small></span>
+          <span class="payment-option-price">3x de R$ 179,90</span>
+        </a>
+        <a class="payment-option" href="https://wa.me/5511942688776?text=Ol%C3%A1!%20Quero%20assinar%20o%20Simpp%20parcelado%20em%206x%20de%20R%24%2099%2C00%20no%20cart%C3%A3o." target="_blank" rel="noopener" data-checkout>
+          <span class="payment-option-icon"><i class="ti ti-brand-whatsapp"></i></span>
+          <span class="payment-option-info"><strong>Parcelar no cartão</strong><small>Fala com um consultor no WhatsApp</small></span>
+          <span class="payment-option-price">6x de R$ 99,00</span>
+        </a>
+      </div>
+      <small class="modal-legal"><i class="ti ti-lock"></i> Pagamento à vista processado com segurança pelo Kiwify.</small>
     </div>
   </div>
 
