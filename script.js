@@ -50,27 +50,7 @@ document.querySelectorAll('[data-open-trial]').forEach((button) => button.addEve
 document.querySelector('[data-close-modal]').addEventListener('click', closeModal);
 modal.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
 document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
-
-const paymentModal = document.getElementById('paymentModal');
-
-function openPayment() {
-  closeModal();
-  closePromotion(false);
-  paymentModal.classList.add('open');
-  paymentModal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-}
-
-function closePayment() {
-  paymentModal.classList.remove('open');
-  paymentModal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-}
-
-document.querySelectorAll('[data-open-payment]').forEach((button) => button.addEventListener('click', openPayment));
-document.querySelector('[data-close-payment]').addEventListener('click', closePayment);
-paymentModal.addEventListener('click', (event) => { if (event.target === paymentModal) closePayment(); });
-document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && paymentModal.classList.contains('open')) closePayment(); });
+document.querySelectorAll('[data-close-modal-link]').forEach((link) => link.addEventListener('click', closeModal));
 
 function closePromotion(persist = true) {
   if (!promotionPopup) return;
@@ -100,7 +80,7 @@ if (promotionPopup) {
 document.querySelectorAll('[data-checkout]').forEach((link) => {
   link.addEventListener('click', () => {
     if (typeof window.fbq !== 'undefined') {
-      window.fbq('track', 'InitiateCheckout', { currency: 'BRL', value: Number(link.dataset.checkoutValue) || 497, content_name: 'Simpp Anual' });
+      window.fbq('track', 'InitiateCheckout', { currency: 'BRL', value: Number(link.dataset.checkoutValue) || 699.90, content_name: 'Simpp' });
     }
   });
 });
